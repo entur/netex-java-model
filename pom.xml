@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>no.rutebanken</groupId>
+  <artifactId>netex-java-model</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-xjc-plugin</artifactId>
+        <version>2.3.0</version>
+        <configuration>
+            <extensions>
+                <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:2.3.0</extension>
+            </extensions>
+        </configuration>
+        <executions>
+            <execution>
+                <id>generate-sources</id>
+                <phase>generate-sources</phase>
+                <goals>
+                    <goal>xsdtojava</goal>
+                </goals>
+                <configuration>
+                    <sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
+                    <xsdOptions>
+                        <xsdOption>
+                            <xsd>https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/NeTEx_publication.xsd</xsd>
+                            <extension />
+                            <bindingFile>bindings.xjb</bindingFile>
+                        </xsdOption>
+                    </xsdOptions>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
