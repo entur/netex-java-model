@@ -9,7 +9,7 @@
       <jxb:globalBindings underscoreBinding="asCharInWord" localScoping="toplevel" />
     -->
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_grouping_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_grouping_support-v1.0.xsd">
         <jxb:bindings node="//xs:complexType[@name='GroupOfEntitiesRefStructure_']">
           <jxb:class name="GroupOfEntitiesRefStructureBase"/>
         </jxb:bindings>
@@ -19,7 +19,7 @@
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_pointAndLink_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_pointAndLink_support-v1.0.xsd">
         <jxb:bindings node="//xs:complexType[@name='PointOnLinkRefStructure_']">
           <jxb:class name="PointOnLinkRefStructureBase"/>
         </jxb:bindings>
@@ -28,31 +28,31 @@
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_fareSeries_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_fareSeries_support-v1.0.xsd">
         <jxb:bindings node="//xs:complexType[@name='SeriesConstraintRefStructure_']">
           <jxb:class name="SeriesConstraintRefStructureBase"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_assignment_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_assignment_version-v1.0.xsd">
         <jxb:bindings node="//xs:complexType[@name='Assignment_VersionStructure_']">
           <jxb:class name="AssignmentVersionStructureBase"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_networkDescription/netex_networkInfrastructure_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_networkDescription/netex_networkInfrastructure_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='InfrastructureLink_']">
           <jxb:class name="SubtitutionalInfrastructureLink"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_fareProduct_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_fareProduct_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='ServiceAccessRight_']">
           <jxb:class name="SubtitutionalServiceAccessRight"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_networkDescription/netex_vehicleAndCrewPoint_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_networkDescription/netex_vehicleAndCrewPoint_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='ParkingPoint_']">
           <jxb:class name="SubtitutionalParkingPoint"/>
         </jxb:bindings>
@@ -61,43 +61,43 @@
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_qualityStructureFactor_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_qualityStructureFactor_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='QualityStructureFactor_']">
           <jxb:class name="SubtitutionalQualityStructureFactor"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_fareProduct_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_fareProduct_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='FareProduct_']">
           <jxb:class name="SubtitutionalFareProduct"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_salesTransactions/netex_salesContract_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_salesTransactions/netex_salesContract_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='PassengerContractEvent_']">
           <jxb:class name="SubtitutionalPassengerContractEvent"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_responsibility/netex_validityCondition_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_responsibility/netex_validityCondition_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='ValidityCondition_']">
           <jxb:class name="SubtitutionalValidityCondition"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_tacticalPlanning/netex_journeyPattern_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_tacticalPlanning/netex_journeyPattern_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='JourneyPattern_']">
           <jxb:class name="SubtitutionalJourneyPattern"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_calculationParameters_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_calculationParameters_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='PricingRule_']">
           <jxb:class name="SubtitutionalPricingRule"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_farePrice_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_farePrice_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='PriceGroup_']">
           <jxb:class name="SubtitutionalPriceGroup"/>
         </jxb:bindings>
@@ -112,115 +112,115 @@
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_fareTable_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_fareTable_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='Cell_']">
           <jxb:class name="CellBase"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_farePrice_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_farePrice_support-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='CellRef_']">
           <jxb:class name="SubtitutionalCellRef"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_2/part2_journeyTimes/netex_vehicleJourney_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_2/part2_journeyTimes/netex_vehicleJourney_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='VehicleJourney_']">
           <jxb:class name="SubtitutionalVehicleJourney"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_2/part2_journeyTimes/netex_interchange_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_2/part2_journeyTimes/netex_interchange_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='Interchange_']">
           <jxb:class name="SubtitutionalInterchange"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_organisation_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_organisation_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='Organisation_']">
           <jxb:class name="SubtitutionalOrganisation"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_assignment_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_assignment_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='Assignment_']">
           <jxb:class name="SubtitutionalAssignment"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_networkDescription/netex_route_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_networkDescription/netex_route_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='Route_']">
           <jxb:class name="SubtitutionalRoute"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_ifopt/netex_ifopt_parking_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_ifopt/netex_ifopt_parking_support-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='ParkingTariffRef_']">
           <jxb:class name="SubtitutionalParkingTariffRef"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_2/part2_journeyTimes/netex_serviceJourney_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_2/part2_journeyTimes/netex_serviceJourney_version-v1.0.xsd">
         <jxb:bindings node="//xs:element[@name='ServiceJourney_']">
           <jxb:class name="SubtitutionalServiceJourney"/>
         </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_2/part2_journeyTimes/netex_journey_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_2/part2_journeyTimes/netex_journey_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='Journey_']">
         <jxb:class name="SubtitutionalJourney"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_reusableComponents/netex_dayType_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_reusableComponents/netex_dayType_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='DayType_']">
         <jxb:class name="SubtitutionalDayType"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_place_support-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_place_support-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='PlaceRef_']">
         <jxb:class name="SubtitutionalPlaceRef"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_accessRightParameter_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_accessRightParameter_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='AccessRightParameterAssignment_']">
         <jxb:class name="SubtitutionalAccessRightParameterAssignment"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_genericFramework/netex_organisation_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_genericFramework/netex_organisation_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='OrganisationPart_']">
         <jxb:class name="SubtitutionalOrganisationPart"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_networkDescription/netex_line_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_networkDescription/netex_line_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='Line_']">
         <jxb:class name="SubtitutionalLine"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_3/part3_fares/netex_usageParameter_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_3/part3_fares/netex_usageParameter_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='UsageParameter_']">
         <jxb:class name="SubtitutionalUsageParameter"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_tacticalPlanning/netex_timingPattern_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_tacticalPlanning/netex_timingPattern_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='TimingPoint_']">
         <jxb:class name="SubtitutionalTimingPoint"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_part_1/part1_networkDescription/netex_activation_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_part_1/part1_networkDescription/netex_activation_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='ActivationPoint_']">
         <jxb:class name="SubtitutionalActivationPoint"/>
       </jxb:bindings>
     </jxb:bindings>
 
-    <jxb:bindings node="/xs:schema" schemaLocation="./netex_framework/netex_reusableComponents/netex_noticeAssignment_version-v1.0.xsd">
+    <jxb:bindings node="/xs:schema" schemaLocation="https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/netex_framework/netex_reusableComponents/netex_noticeAssignment_version-v1.0.xsd">
       <jxb:bindings node="//xs:element[@name='NoticeAssignment_']">
         <jxb:class name="SubtitutionalNoticeAssignment"/>
       </jxb:bindings>
