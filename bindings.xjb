@@ -5,9 +5,9 @@
               jxb:extensionBindingPrefixes="xjc">
     <jxb:bindings>
         <jxb:globalBindings underscoreBinding="asCharInWord" >
-            <jxb:javaType name="java.time.Instant" xmlType="xs:dateTime"
+            <jxb:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime"
                            printMethod="java.time.format.DateTimeFormatter.ISO_INSTANT.format"
-                           parseMethod="java.time.Instant.parse"/>
+                           parseMethod="java.time.ZonedDateTime.parse"/>
         </jxb:globalBindings>
     </jxb:bindings>
 </jxb:bindings>
