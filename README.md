@@ -1,4 +1,5 @@
 # netex-java-model
 
+Downloads the NeTEx-XML XSD files from https://github.com/rutebanken/NeTEx-XML and generates java model using jaxb.
 
-```xjc https://raw.githubusercontent.com/rutebanken/NeTEx-XML/master/schema/1.03/xsd/NeTEx_publication.xsd -b bindings.xjb -d generated```
+```mvn clean install```
