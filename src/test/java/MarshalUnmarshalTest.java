@@ -15,10 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MarshalUnmarshalTest {
 
     @Test
-    public void marshalPublicationDelivery() throws JAXBException {
-
-
-
+    public void marshalUnmarshalPublicationDelivery() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
@@ -41,26 +38,18 @@ public class MarshalUnmarshalTest {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         marshaller.marshal(new ObjectFactory().createPublicationDelivery(publicationDeliveryStructure), byteArrayOutputStream);
 
-
         String xml = byteArrayOutputStream.toString();
         System.out.println(xml);
 
-
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
 
         JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
         PublicationDeliveryStructure actual = jaxbElement.getValue();
 
-
+        System.out.println(actual.getPublicationTimestamp());
         assertThat(actual.getPublicationTimestamp()).isEqualTo(publicationDeliveryStructure.getPublicationTimestamp());
         assertThat(actual.getDescription()).isNotNull();
         assertThat(actual.getDescription().getValue()).isEqualTo(description.getValue());
         assertThat(actual.getParticipantRef()).isEqualTo(publicationDeliveryStructure.getParticipantRef());
-
-
-
-
-
     }
 }
