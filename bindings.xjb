@@ -8,6 +8,15 @@
             <jxb:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime"
                            printMethod="java.time.format.DateTimeFormatter.ISO_INSTANT.format"
                            parseMethod="java.time.ZonedDateTime.parse"/>
+            <jxb:javaType name="java.time.LocalTime" xmlType="xs:time"
+                          printMethod="java.time.format.DateTimeFormatter.ISO_INSTANT.format"
+                          parseMethod="java.time.LocalTime.parse"/>
         </jxb:globalBindings>
+    </jxb:bindings>
+
+    <jxb:bindings schemaLocation="./profile/NeTEx-XML-master/schema/1.03/xsd/NeTEx_publication.xsd">
+        <jxb:schemaBindings >
+            <jxb:package name="no.rutebanken.netex.model" />
+        </jxb:schemaBindings>
     </jxb:bindings>
 </jxb:bindings>
