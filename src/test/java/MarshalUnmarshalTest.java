@@ -1,8 +1,6 @@
 import org.junit.Test;
 import org.xml.sax.InputSource;
-import uk.org.netex.netex.MultilingualString;
-import uk.org.netex.netex.ObjectFactory;
-import uk.org.netex.netex.PublicationDeliveryStructure;
+import uk.org.netex.netex.*;
 import uk.org.siri.siri.ParticipantRefStructure;
 
 
@@ -19,24 +17,14 @@ public class MarshalUnmarshalTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
-        PublicationDeliveryStructure publicationDeliveryStructure = new PublicationDeliveryStructure();
-
-        MultilingualString description = new MultilingualString();
-
-        description.setValue("value");
-        description.setLang("no");
-        description.setTextIdType("");
-
-        publicationDeliveryStructure.setDescription(description);
-
-        ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        publicationDeliveryStructure.setPublicationTimestamp(zonedDateTime);
-
-        publicationDeliveryStructure.setParticipantRef("participantRef");
+        PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
+                .withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType(""))
+                .withPublicationTimestamp(ZonedDateTime.now())
+                .withParticipantRef("participantRef");
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        marshaller.marshal(new ObjectFactory().createPublicationDelivery(publicationDeliveryStructure), byteArrayOutputStream);
+        marshaller.marshal(new ObjectFactory().createPublicationDelivery(publicationDelivery), byteArrayOutputStream);
 
         String xml = byteArrayOutputStream.toString();
         System.out.println(xml);
@@ -47,9 +35,10 @@ public class MarshalUnmarshalTest {
         PublicationDeliveryStructure actual = jaxbElement.getValue();
 
         System.out.println(actual.getPublicationTimestamp());
-        assertThat(actual.getPublicationTimestamp()).isEqualTo(publicationDeliveryStructure.getPublicationTimestamp());
+        assertThat(actual.getPublicationTimestamp()).isEqualTo(publicationDelivery.getPublicationTimestamp());
         assertThat(actual.getDescription()).isNotNull();
-        assertThat(actual.getDescription().getValue()).isEqualTo(description.getValue());
-        assertThat(actual.getParticipantRef()).isEqualTo(publicationDeliveryStructure.getParticipantRef());
+        assertThat(actual.getDescription().getValue()).isEqualTo(publicationDelivery.getDescription().getValue());
+        assertThat(actual.getParticipantRef()).isEqualTo(publicationDelivery.getParticipantRef());
     }
+
 }
