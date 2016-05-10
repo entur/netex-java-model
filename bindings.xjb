@@ -4,8 +4,8 @@
               jxb:version="2.0"
               jxb:extensionBindingPrefixes="xjc">
     <jxb:bindings>
-        <jxb:globalBindings underscoreBinding="asCharInWord" localScoping="toplevel">
-            <jxb:javaType name="java.time.Instant" xmlType="xs:dateTime"/>
+        <jxb:globalBindings underscoreBinding="asCharInWord" >
+            <!-- <jxb:javaType name="java.time.Instant" xmlType="xs:dateTime"/> -->
         </jxb:globalBindings>
     </jxb:bindings>
 </jxb:bindings>

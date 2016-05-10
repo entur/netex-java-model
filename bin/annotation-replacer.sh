@@ -8,4 +8,6 @@ if ! type xmlstarlet > /dev/null;
     exit 1;
 fi
 
-find profile -name "*.xsd" -exec xmlstarlet  ed --inplace  -d "//xsd:annotation" {} \;
+XSD_FOLDER=../profile/NeTEx-XML-master/schema/1.03/xsd
+
+find $XSD_FOLDER -name "*.xsd" -exec xmlstarlet  ed --inplace  -d "//xsd:annotation" {} \;

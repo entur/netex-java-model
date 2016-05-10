@@ -26,7 +26,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>netex-download-extract.sh</executable>
+                            <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
@@ -36,7 +36,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>annotation-replacer.sh</executable>
+                            <executable>./bin/annotation-replacer.sh</executable>
                         </configuration>
                     </execution>
                 </executions>
@@ -62,7 +62,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
-                                        ${basedir}/profile/NeTEx_publication.xsd
+                                        ${basedir}/profile/NeTEx-XML-master/schema/1.03/xsd/NeTEx_publication.xsd
                                     </xsd>
                                     <extension/>
                                     <bindingFile>bindings.xjb</bindingFile>
