@@ -2,14 +2,17 @@
 
 # Downloads and extracts NetTex
 
+PROFILE_PATH="./profile"
+
 if [ -f master.zip ]; then
   rm master.zip
 fi
 
-wget "https://github.com/rutebanken/NeTEx-XML/archive/master.zip"
+wget -q "https://github.com/rutebanken/NeTEx-XML/archive/master.zip"
 
-rm -rf profile/*
+echo "Removing contents in $PROFILE_PATH"
+rm -rf $PROFILE_PATH/*
 
-unzip master.zip "NeTEx-XML-master/schema/1.03/xsd/*" -d ../profile
+unzip master.zip "NeTEx-XML-master/schema/1.03/xsd/*" -d $PROFILE_PATH
 
 rm master.zip

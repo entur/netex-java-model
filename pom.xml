@@ -4,14 +4,13 @@
 
     <groupId>no.rutebanken</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <!--<dependencies>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.xml</groupId>-->
-            <!--<artifactId>jaxb-xjc</artifactId>-->
-            <!--<version>2.0EA3</version>-->
-        <!--</dependency>-->
-    <!--</dependencies>-->
+    <version>0.0.1-SNAPSHOT</version>
+
+    <parent>
+      <groupId>org.rutebanken.superpom</groupId>
+      <artifactId>superpom</artifactId>
+      <version>0.0.2</version>
+    </parent>
 
     <build>
         <plugins>
