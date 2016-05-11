@@ -14,6 +14,11 @@
         <cxf.xjc.plugin.version>3.0.5</cxf.xjc.plugin.version>
     </properties>
 
+    <scm>
+        <connection>scm:git:ssh://git@github.com:rutebanken/netex-java-model.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:rutebanken/netex-java-model.git</developerConnection>
+        <tag>netex-java-model-0.0.1</tag>
+    </scm>
 
     <groupId>no.rutebanken</groupId>
     <artifactId>netex-java-model</artifactId>
