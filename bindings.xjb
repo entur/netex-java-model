@@ -5,12 +5,9 @@
               jxb:extensionBindingPrefixes="xjc">
     <jxb:bindings>
         <jxb:globalBindings underscoreBinding="asCharInWord" >
-            <jxb:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime"
-                           printMethod="java.time.format.DateTimeFormatter.ISO_INSTANT.format"
-                           parseMethod="java.time.ZonedDateTime.parse"/>
-            <jxb:javaType name="java.time.LocalTime" xmlType="xs:time"
-                          printMethod="java.time.format.DateTimeFormatter.ISO_INSTANT.format"
-                          parseMethod="java.time.LocalTime.parse"/>
+            <xjc:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.ZonedDateTimeXmlAdapter" />
+            <xjc:javaType name="java.time.LocalTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.LocalTimeXmlAdapter" />
+            <xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
         </jxb:globalBindings>
     </jxb:bindings>
 

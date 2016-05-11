@@ -1,13 +1,14 @@
-import no.rutebanken.netex.model.*;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.xml.sax.InputSource;
+package no.rutebanken.netex.model;
 
+import no.rutebanken.netex.model.*;
+import org.junit.Test;
 
 import javax.xml.bind.*;
-import javax.xml.namespace.QName;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MarshalUnmarshalTest {
 
     @Test
-    public void marshalUnmarshalPublicationDelivery() throws JAXBException {
+    public void publicationDeliveryWithZonedDateTime() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
@@ -43,38 +44,50 @@ public class MarshalUnmarshalTest {
         assertThat(actual.getParticipantRef()).isEqualTo(publicationDelivery.getParticipantRef());
     }
 
-    @Ignore
     @Test
-    public void localTime() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
+    public void datedCallWithLocalDate() throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(DatedCall.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
-        ArrivalStructure arrival = new ArrivalStructure()
-                .withTime(LocalTime.NOON);
+        DatedCall datedCall = new DatedCall()
+                .withArrivalDate(LocalDate.now());
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        marshaller.marshal(new JAXBElement<>(new QName("http://www.netex.org.uk/netex", "Arrival"), ArrivalStructure.class, null, arrival), byteArrayOutputStream);
+
+        marshaller.marshal(datedCall, byteArrayOutputStream);
 
         String xml = byteArrayOutputStream.toString();
         System.out.println(xml);
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        JAXBElement<ArrivalStructure> jaxbElement = (JAXBElement<ArrivalStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
-        ArrivalStructure actual = jaxbElement.getValue();
+        DatedCall actual = (DatedCall) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-        assertThat(actual.getTime()).hasSameHourAs(arrival.getTime());
+        assertThat(actual.getArrivalDate()).isEqualTo(datedCall.getArrivalDate());
+
     }
 
     @Test
-    public void toStringMethod() {
+    public void datedCallWithLocalTime() throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(DatedCall.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
 
-        StopPlace stopPlace = new StopPlace()
-                .withName(new MultilingualString().withValue("berger"));
+        DatedCall datedCall = new DatedCall()
+                .withLatestBookingTime(LocalTime.NOON);
 
-        assertThat(stopPlace.toString()).contains("berger");
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        marshaller.marshal(datedCall, byteArrayOutputStream);
 
+        String xml = byteArrayOutputStream.toString();
+        System.out.println(xml);
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        DatedCall actual = (DatedCall) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+        assertThat(actual.getLatestBookingTime()).hasSameHourAs(datedCall.getLatestBookingTime());
+        assertThat(actual.getLatestBookingTime()).isEqualToIgnoringNanos(datedCall.getLatestBookingTime());
     }
-
 }
