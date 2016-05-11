@@ -21,7 +21,7 @@
 
     <groupId>no.rutebanken</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
