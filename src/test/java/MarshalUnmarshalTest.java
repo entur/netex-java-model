@@ -1,7 +1,4 @@
-import no.rutebanken.netex.model.ArrivalStructure;
-import no.rutebanken.netex.model.MultilingualString;
-import no.rutebanken.netex.model.ObjectFactory;
-import no.rutebanken.netex.model.PublicationDeliveryStructure;
+import no.rutebanken.netex.model.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
@@ -68,6 +65,16 @@ public class MarshalUnmarshalTest {
         ArrivalStructure actual = jaxbElement.getValue();
 
         assertThat(actual.getTime()).hasSameHourAs(arrival.getTime());
+    }
+
+    @Test
+    public void toStringMethod() {
+
+        StopPlace stopPlace = new StopPlace()
+                .withName(new MultilingualString().withValue("berger"));
+
+        assertThat(stopPlace.toString()).contains("berger");
+
     }
 
 }

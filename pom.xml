@@ -11,6 +11,9 @@
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <cxf.xjc.plugin.version>3.0.5</cxf.xjc.plugin.version>
+        <!-- Guava version set in relation to xjc-guava-plugin -->
+        <guava.version>13.0</guava.version>
+        <xjc.guava.plugin.version>0.3.1</xjc.guava.plugin.version>
     </properties>
 
     <scm>
@@ -34,6 +37,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.core.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 
@@ -72,6 +80,7 @@
                 <configuration>
                     <extensions>
                         <extension>net.java.dev.jaxb2-commons:jaxb-fluent-api:${jaxb.fluent.api.version}</extension>
+                        <extension>com.github.danielwegener.xjc:xjc-guava-plugin:${xjc.guava.plugin.version}</extension>
                     </extensions>
                 </configuration>
                 <executions>
@@ -92,12 +101,20 @@
                                     <bindingFile>bindings.xjb</bindingFile>
                                     <extensionArgs>
                                         <extensionArg>-Xfluent-api</extensionArg>
+                                        <extensionArg>-Xguava</extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
                         </configuration>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.danielwegener.xjc</groupId>
+                        <artifactId>xjc-guava-plugin</artifactId>
+                        <version>0.3.1</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
