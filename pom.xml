@@ -21,12 +21,12 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/rutebanken/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/rutebanken/netex-java-model.git</developerConnection>
-        <tag>netex-java-model-0.0.3</tag>
+        <tag>netex-java-model-0.0.1</tag>
     </scm>
 
     <groupId>no.rutebanken</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
