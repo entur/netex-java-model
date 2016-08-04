@@ -10,4 +10,6 @@ buildNumber.properties
 profile
 .idea
 *.iml
-src/main/java/
+src/main/java/no/rutebanken/netex/model
+src/main/java/uk
+src/main/java/net
