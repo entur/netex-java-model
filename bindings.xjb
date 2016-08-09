@@ -11,7 +11,7 @@
         </jxb:globalBindings>
     </jxb:bindings>
 
-    <jxb:bindings schemaLocation="./profile/NeTEx-XML-master/schema/1.03/xsd/NeTEx_publication.xsd">
+    <jxb:bindings schemaLocation="./profile/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd">
         <jxb:schemaBindings >
             <jxb:package name="no.rutebanken.netex.model" />
         </jxb:schemaBindings>

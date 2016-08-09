@@ -4,15 +4,18 @@
 
 PROFILE_PATH="./profile"
 
-if [ -f master.zip ]; then
-  rm master.zip
+BRANCH="1.04beta"
+ZIPFILE="$BRANCH.zip"
+
+if [ -f $ZIPFILE ]; then
+  rm $ZIPFILE
 fi
 
-wget -q "https://github.com/rutebanken/NeTEx-XML/archive/master.zip"
+wget -q "https://github.com/rutebanken/NeTEx-XML/archive/$ZIPFILE"
 
 echo "Removing contents in $PROFILE_PATH"
 rm -rf $PROFILE_PATH/*
 
-unzip master.zip "NeTEx-XML-master/schema/1.03/xsd/*" -d $PROFILE_PATH
+unzip $ZIPFILE "NeTEx-XML-$BRANCH/schema/xsd/*" -d $PROFILE_PATH
 
-rm master.zip
+rm $ZIPFILE
