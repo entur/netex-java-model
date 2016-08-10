@@ -112,6 +112,7 @@
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>
                                     <extensionArgs>
+                                        <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
                                         <extensionArg>-Xguava</extensionArg>
                                     </extensionArgs>
@@ -125,6 +126,11 @@
                         <groupId>com.github.danielwegener.xjc</groupId>
                         <artifactId>xjc-guava-plugin</artifactId>
                         <version>${xjc.guava.plugin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf.xjcplugins</groupId>
+                        <artifactId>cxf-xjc-bug986</artifactId>
+                        <version>${cxf.xjc.plugin.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
