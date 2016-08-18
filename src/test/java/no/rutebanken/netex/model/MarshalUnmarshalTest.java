@@ -5,6 +5,8 @@ import org.junit.Test;
 import javax.xml.bind.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MarshalUnmarshalTest {
 
     @Test
-    public void publicationDeliveryWithZonedDateTime() throws JAXBException {
+    public void publicationDeliveryWithOffsetDateTime() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
@@ -41,6 +43,55 @@ public class MarshalUnmarshalTest {
         assertThat(actual.getDescription()).isNotNull();
         assertThat(actual.getDescription().getValue()).isEqualTo(publicationDelivery.getDescription().getValue());
         assertThat(actual.getParticipantRef()).isEqualTo(publicationDelivery.getParticipantRef());
+    }
+
+    @Test
+    public void unmarshalPublicationDeliveryAndVerifyDatTimeWithTimeZone() throws JAXBException {
+
+        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">" +
+                " <PublicationTimestamp>2016-05-18T15:00:00.0+01:00</PublicationTimestamp>" +
+                " <ParticipantRef>NHR</ParticipantRef>" +
+                " <dataObjects>" +
+                "  <SiteFrame version=\"01\" id=\"nhr:sf:1\">" +
+                "   <stopPlaces>" +
+                "    <StopPlace version=\"01\" created=\"2016-04-21T09:00:00.0Z\" id=\"nhr:sp:1\">" +
+                "     <Centroid>" +
+                "      <Location srsName=\"WGS84\">" +
+                "       <Longitude>10.8577903</Longitude>" +
+                "       <Latitude>59.910579</Latitude>" +
+                "      </Location>" +
+                "     </Centroid>" +
+                "     <Name lang=\"no-NO\">Krokstien</Name>    " +
+                "     <TransportMode>bus</TransportMode>" +
+                "     <StopPlaceType>onstreetBus</StopPlaceType>" +
+                "     <quays>" +
+                "      <Quay version=\"01\" created=\"2016-04-21T09:01:00.0Z\" id=\"nhr:sp:1:q:1\">" +
+                "       <Centroid>" +
+                "        <Location srsName=\"WGS84\">" +
+                "         <Longitude>10.8577903</Longitude>" +
+                "         <Latitude>59.910579</Latitude>" +
+                "        </Location>" +
+                "       </Centroid>" +
+                "       <Covered>outdoors</Covered>" +
+                "       <Lighting>wellLit</Lighting>" +
+                "       <QuayType>busStop</QuayType>" +
+                "      </Quay>" +
+                "     </quays>" +
+                "    </StopPlace>" +
+                "   </stopPlaces>" +
+                "  </SiteFrame>" +
+                " </dataObjects>" +
+                "</PublicationDelivery>";
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+        PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+        System.out.println(actual.getPublicationTimestamp());
+        assertThat(actual.getPublicationTimestamp().getOffset().toString()).isEqualTo("+01:00");
     }
 
     @Test
