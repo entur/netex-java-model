@@ -24,7 +24,7 @@ public class MarshalUnmarshalTest {
         PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
                 .withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType(""))
                 //.withPublicationTimestamp(ZonedDateTime.now())
-                .withPublicationTimestamp(Instant.now())
+                .withPublicationTimestamp(ZonedDateTime.now())
                 .withParticipantRef("participantRef");
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

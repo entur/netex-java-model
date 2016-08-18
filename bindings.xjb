@@ -4,10 +4,8 @@
               jxb:version="2.0"
               jxb:extensionBindingPrefixes="xjc">
     <jxb:bindings>
-        <jxb:globalBindings underscoreBinding="asCharInWord" >
-            <!-- Switched to another adapter due to problems with formatting of ZonedDateTime when marshalling to XML -->
-            <!--<xjc:javaType name="java.time.ZonedDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.ZonedDateTimeXmlAdapter" />-->
-            <xjc:javaType name="java.time.Instant" xmlType="xs:dateTime" adapter="no.rutebanken.netex.adapter.InstantXmlAdapter" />
+        <jxb:globalBindings underscoreBinding="asCharInWord">
+            <xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime" adapter="no.rutebanken.netex.adapter.OffsetDateTimeXmlAdapter" />
             <xjc:javaType name="java.time.LocalTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.LocalTimeXmlAdapter" />
             <xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
         </jxb:globalBindings>
