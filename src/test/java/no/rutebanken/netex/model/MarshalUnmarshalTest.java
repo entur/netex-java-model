@@ -5,10 +5,7 @@ import org.junit.Test;
 import javax.xml.bind.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class MarshalUnmarshalTest {
         PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
                 .withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType(""))
                 //.withPublicationTimestamp(ZonedDateTime.now())
-                .withPublicationTimestamp(ZonedDateTime.now())
+                .withPublicationTimestamp(OffsetDateTime.now())
                 .withParticipantRef("participantRef");
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
