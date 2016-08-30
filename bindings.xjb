@@ -5,8 +5,8 @@
               jxb:extensionBindingPrefixes="xjc">
     <jxb:bindings>
         <jxb:globalBindings underscoreBinding="asCharInWord">
-            <xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime" adapter="no.rutebanken.netex.adapter.OffsetDateTimeXmlAdapter" />
-            <xjc:javaType name="java.time.LocalTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.LocalTimeXmlAdapter" />
+            <xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.OffsetDateTimeXmlAdapter" />
+            <xjc:javaType name="java.time.OffsetTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.OffsetTimeXmlAdapter" />
             <xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
         </jxb:globalBindings>
     </jxb:bindings>

@@ -5,9 +5,9 @@ import org.junit.Test;
 import javax.xml.bind.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +22,6 @@ public class MarshalUnmarshalTest {
 
         PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
                 .withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType(""))
-                //.withPublicationTimestamp(ZonedDateTime.now())
                 .withPublicationTimestamp(OffsetDateTime.now())
                 .withParticipantRef("participantRef");
 
@@ -35,7 +34,9 @@ public class MarshalUnmarshalTest {
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement =
+                (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
         PublicationDeliveryStructure actual = jaxbElement.getValue();
 
         System.out.println(actual.getPublicationTimestamp());
@@ -87,6 +88,7 @@ public class MarshalUnmarshalTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
+        @SuppressWarnings("unchecked")
         JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
         PublicationDeliveryStructure actual = jaxbElement.getValue();
 
@@ -225,12 +227,12 @@ public class MarshalUnmarshalTest {
     }
 
     @Test
-    public void datedCallWithLocalTime() throws JAXBException {
+    public void datedCallWithOffsetTime() throws JAXBException {
         JAXBContext jaxbContext = JAXBContext.newInstance(DatedCall.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         DatedCall datedCall = new DatedCall()
-                .withLatestBookingTime(LocalTime.NOON);
+                .withLatestBookingTime(OffsetTime.now());
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
