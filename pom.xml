@@ -58,6 +58,11 @@
     </dependencies>
 
     <build>
+		<resources>
+			<resource>
+				<directory>profile</directory>
+			</resource>
+		</resources>
         <plugins>
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
