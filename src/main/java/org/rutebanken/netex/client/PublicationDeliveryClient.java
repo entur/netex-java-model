@@ -1,7 +1,7 @@
-package no.rutebanken.netex.client;
+package org.rutebanken.netex.client;
 
-import no.rutebanken.netex.model.ObjectFactory;
-import no.rutebanken.netex.model.PublicationDeliveryStructure;
+import org.rutebanken.netex.model.ObjectFactory;
+import org.rutebanken.netex.model.PublicationDeliveryStructure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

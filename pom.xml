@@ -24,7 +24,7 @@
         <tag>netex-java-model-0.0.1</tag>
     </scm>
 
-    <groupId>no.rutebanken</groupId>
+    <groupId>org.rutebanken</groupId>
     <artifactId>netex-java-model</artifactId>
     <version>0.0.8-SNAPSHOT</version>
     <dependencies>

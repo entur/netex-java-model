@@ -1,4 +1,4 @@
-package no.rutebanken.netex.model;
+package org.rutebanken.netex.model;
 
 import org.junit.Test;
 

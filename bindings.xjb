@@ -13,7 +13,7 @@
 
     <jxb:bindings schemaLocation="./profile/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd">
         <jxb:schemaBindings >
-            <jxb:package name="no.rutebanken.netex.model" />
+            <jxb:package name="org.rutebanken.netex.model" />
         </jxb:schemaBindings>
     </jxb:bindings>
 </jxb:bindings>
