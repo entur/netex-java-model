@@ -31,10 +31,9 @@ public class PublicationDeliveryClient {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-        try {
-            URL url = new URL(publicationDeliveryUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
+        URL url = new URL(publicationDeliveryUrl);
+        try (HttpURLConnection connection = (HttpURLConnection) url.openConnection()) {
+            
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-type", "application/xml");
             connection.setDoOutput(true);
