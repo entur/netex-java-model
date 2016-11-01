@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -32,8 +33,9 @@ public class PublicationDeliveryClient {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         URL url = new URL(publicationDeliveryUrl);
-        try (HttpURLConnection connection = (HttpURLConnection) url.openConnection()) {
-            
+        HttpURLConnection connection = null;
+        try  {
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-type", "application/xml");
             connection.setDoOutput(true);
@@ -43,12 +45,18 @@ public class PublicationDeliveryClient {
             int responseCode = connection.getResponseCode();
             logger.info("Got response code {} after posting publication delivery to URL : {}", responseCode, url);
 
-            JAXBElement<PublicationDeliveryStructure> element = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(connection.getInputStream());
+            InputStream inputStream = connection.getInputStream();
+            JAXBElement<PublicationDeliveryStructure> element = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(inputStream);
 
             return element.getValue();
         } catch (IOException e) {
             throw new IOException("Error posting XML to " + publicationDeliveryUrl, e);
+        } finally {
+            if(connection != null) {
+                connection.disconnect();
+            }
         }
+
 
     }
 }
