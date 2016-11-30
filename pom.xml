@@ -111,7 +111,6 @@
                             <goal>xsdtojava</goal>
                         </goals>
                         <configuration>
-                            <sourceRoot>${basedir}/src/main/java</sourceRoot>
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
