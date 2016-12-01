@@ -25,8 +25,8 @@ public class NeTExValidator {
         return neTExSchema;
     }
 
-    public void validate(StreamSource streamSource) throws IOException, SAXException {
+    public void validate(Source source) throws IOException, SAXException {
         Validator validator = neTExSchema.newValidator();
-        validator.validate(streamSource);
+        validator.validate(source);
     }
 }
