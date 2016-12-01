@@ -2,8 +2,10 @@ package org.rutebanken.netex.client;
 
 import org.rutebanken.netex.model.ObjectFactory;
 import org.rutebanken.netex.model.PublicationDeliveryStructure;
+import org.rutebanken.netex.validation.NeTExValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.*;
 import java.io.IOException;
@@ -20,17 +22,40 @@ public class PublicationDeliveryClient {
     private final String publicationDeliveryUrl;
 
     private final JAXBContext jaxbContext;
+    private final boolean validateAgainstSchema;
 
-    public PublicationDeliveryClient(String publicationDeliveryUrl) throws JAXBException {
+    private NeTExValidator neTExValidator = null;
+
+    /**
+     *
+     * @param publicationDeliveryUrl Url to where to POST the publication delivery XML
+     * @param validateAgainstSchema If serialized XML should be validated against the NeTEx schema.
+     * @throws JAXBException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public PublicationDeliveryClient(String publicationDeliveryUrl, boolean validateAgainstSchema) throws JAXBException, IOException, SAXException {
         this.publicationDeliveryUrl = publicationDeliveryUrl;
         this.jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
+        this.validateAgainstSchema = validateAgainstSchema;
+        if(validateAgainstSchema) {
+            neTExValidator = new NeTExValidator();
+        }
     }
 
-    public PublicationDeliveryStructure sendPublicationDelivery(PublicationDeliveryStructure publicationDelivery) throws JAXBException, IOException {
+    public PublicationDeliveryClient(String publicationDeliveryUrl) throws JAXBException, IOException, SAXException {
+        this(publicationDeliveryUrl, false);
+    }
+
+    public PublicationDeliveryStructure sendPublicationDelivery(PublicationDeliveryStructure publicationDelivery) throws JAXBException, IOException, SAXException {
 
         Marshaller marshaller = jaxbContext.createMarshaller();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+        if(validateAgainstSchema) {
+            marshaller.setSchema(neTExValidator.getSchema());
+        }
 
         URL url = new URL(publicationDeliveryUrl);
         HttpURLConnection connection = null;
