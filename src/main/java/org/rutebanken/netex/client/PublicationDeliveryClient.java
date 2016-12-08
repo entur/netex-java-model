@@ -74,7 +74,7 @@ public class PublicationDeliveryClient {
             JAXBElement<PublicationDeliveryStructure> element = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(inputStream);
 
             return element.getValue();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IOException("Error posting XML to " + publicationDeliveryUrl, e);
         } finally {
             if(connection != null) {
