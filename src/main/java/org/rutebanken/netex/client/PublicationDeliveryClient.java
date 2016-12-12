@@ -65,7 +65,9 @@ public class PublicationDeliveryClient {
             connection.setRequestProperty("Content-type", "application/xml");
             connection.setDoOutput(true);
 
+            logger.info("About to start marshalling publication delivery to output stream {}", publicationDelivery);
             marshaller.marshal(objectFactory.createPublicationDelivery(publicationDelivery), connection.getOutputStream());
+            logger.info("Done marshalling publication delivery to output stream. (Schema validation was set to {}) {}", validateAgainstSchema, publicationDelivery);
 
             int responseCode = connection.getResponseCode();
             logger.info("Got response code {} after posting publication delivery to URL : {}", responseCode, url);
