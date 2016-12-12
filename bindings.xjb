@@ -1,19 +1,28 @@
-<jxb:bindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
-              xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
-              jxb:version="2.0"
-              jxb:extensionBindingPrefixes="xjc">
-    <jxb:bindings>
-        <jxb:globalBindings underscoreBinding="asCharInWord">
-            <xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.OffsetDateTimeXmlAdapter" />
-            <xjc:javaType name="java.time.OffsetTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.OffsetTimeXmlAdapter" />
-            <xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
-        </jxb:globalBindings>
-    </jxb:bindings>
+<jxb:bindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jxb:version="2.0" jxb:extensionBindingPrefixes="xjc"
+	xmlns:n="http://www.netex.org.uk/netex">
+	<jxb:bindings>
+		<jxb:globalBindings underscoreBinding="asCharInWord">
+			<xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime"
+				adapter="com.migesok.jaxb.adapter.javatime.OffsetDateTimeXmlAdapter" />
+			<xjc:javaType name="java.time.OffsetTime" xmlType="xs:time"
+				adapter="com.migesok.jaxb.adapter.javatime.OffsetTimeXmlAdapter" />
+			<xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
+		</jxb:globalBindings>
+	</jxb:bindings>
 
-    <jxb:bindings schemaLocation="./profile/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd">
-        <jxb:schemaBindings >
-            <jxb:package name="org.rutebanken.netex.model" />
-        </jxb:schemaBindings>
-    </jxb:bindings>
+	<jxb:bindings schemaLocation="./profile/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd">
+		<jxb:schemaBindings>
+			<jxb:package name="org.rutebanken.netex.model" />
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="./profile/NeTEx-XML-1.04beta/schema/xsd/netex_framework/netex_genericFramework/netex_organisation_version-v1.0.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'Status']">
+			<jxb:property name="OrganisationStatus" />
+		</jxb:bindings>
+	</jxb:bindings>
 </jxb:bindings>
