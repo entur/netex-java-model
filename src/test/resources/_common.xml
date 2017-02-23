@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PublicationDelivery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.netex.org.uk/netex" xmlns:gml="http://www.opengis.net/gml/3.2" version="1.04:NO-NeTEx-networktimetable:1.0" xsi:schemaLocation="http://www.netex.org.uk/netex file:///C:/Git/NeTEx-XML/schema/xsd/NeTEx_publication.xsd">
+	<PublicationTimestamp>2017-02-22T09:20:00</PublicationTimestamp>
+	<ParticipantRef>RUT</ParticipantRef>
+	<dataObjects>
+		<CompositeFrame id="RUT:CompositeFrame:1" version="20170222" modification="new">
+			<validityConditions>
+				<ValidBetween>
+					<FromDate>2017-01-01T10:00:00Z</FromDate>
+					<ToDate>2017-01-01T11:00:00.0Z</ToDate>
+				</ValidBetween>
+				<ValidBetween>
+					<FromDate>2017-01-01T11:00:00</FromDate>
+					<ToDate>2017-01-01T12:00:00</ToDate>
+				</ValidBetween>
+			</validityConditions>
+			<frames>
+				<ResourceFrame id="RUT:ResourceFrame:1" version="20170222">
+					<organisations>
+						<Authority id="RUT:Authority:RUT" version="20170222">
+							<Name>RUT</Name>
+							<ContactDetails>
+								<Email>support@ruter.no</Email>
+							</ContactDetails>
+						</Authority>
+					</organisations>
+				</ResourceFrame>
+			</frames>
+		</CompositeFrame>
+	</dataObjects>
+</PublicationDelivery>

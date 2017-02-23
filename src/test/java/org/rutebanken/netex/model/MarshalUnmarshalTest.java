@@ -1,23 +1,41 @@
 package org.rutebanken.netex.model;
 
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import javax.xml.bind.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.time.LocalDate;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 public class MarshalUnmarshalTest {
 
+	private static JAXBContext jaxbContext;
+	
+	
+	
+	@BeforeClass
+	public static void initContext() throws JAXBException {
+        jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
+		
+	}
+	
     @Test
     public void publicationDeliveryWithOffsetDateTime() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
@@ -85,7 +103,6 @@ public class MarshalUnmarshalTest {
                 " </dataObjects>" +
                 "</PublicationDelivery>";
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
         @SuppressWarnings("unchecked")
@@ -99,7 +116,6 @@ public class MarshalUnmarshalTest {
     @Test
     public void timetableWithVehicleModes() throws JAXBException {
         ObjectFactory objectFactory = new ObjectFactory();
-        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         TimetableFrame timetableFrame = objectFactory.createTimetableFrame()
@@ -146,7 +162,6 @@ public class MarshalUnmarshalTest {
     @Test
     public void dayTypeWithPropertiesOfDay() throws JAXBException {
         ObjectFactory objectFactory = new ObjectFactory();
-        JAXBContext jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(
@@ -204,11 +219,10 @@ public class MarshalUnmarshalTest {
 
     @Test
     public void datedCallWithLocalDate() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(DatedCall.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         DatedCall datedCall = new DatedCall()
-                .withArrivalDate(LocalDate.now());
+                .withArrivalDate(OffsetDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
 
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -228,7 +242,6 @@ public class MarshalUnmarshalTest {
 
     @Test
     public void datedCallWithOffsetTime() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(DatedCall.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
 
         DatedCall datedCall = new DatedCall()
@@ -248,4 +261,25 @@ public class MarshalUnmarshalTest {
         assertThat(actual.getLatestBookingTime()).hasSameHourAs(datedCall.getLatestBookingTime());
         assertThat(actual.getLatestBookingTime()).isEqualToIgnoringNanos(datedCall.getLatestBookingTime());
     }
+
+    @Test
+    public void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, FileNotFoundException {
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(new FileInputStream(new File("src/test/resources/_common.xml")));
+        PublicationDeliveryStructure actual = jaxbElement.getValue();
+        ValidityConditions_RelStructure validityConditions =((JAXBElement<? extends Common_VersionFrameStructure>) actual.dataObjects.compositeFrameOrCommonFrame.get(0)).getValue().getValidityConditions();
+        ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
+        assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
+        assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
+        assertThat(validBetweenWithTimezone.getToDate().toString()).isEqualTo("2017-01-01T11:00Z");
+        
+        
+        ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
+        assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
+        assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
+        assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00+01:00");
+}
 }

@@ -5,11 +5,11 @@
 	xmlns:n="http://www.netex.org.uk/netex">
 	<jxb:bindings>
 		<jxb:globalBindings underscoreBinding="asCharInWord">
-			<xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime"
-				adapter="com.migesok.jaxb.adapter.javatime.OffsetDateTimeXmlAdapter" />
-			<xjc:javaType name="java.time.OffsetTime" xmlType="xs:time"
-				adapter="com.migesok.jaxb.adapter.javatime.OffsetTimeXmlAdapter" />
-			<xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="com.migesok.jaxb.adapter.javatime.LocalDateXmlAdapter" />
+			<xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:dateTime" adapter="org.rutebanken.util.OffsetDateTimeISO8601XmlAdapter" />
+<!--			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.LocalDateTimeXmlAdapter" />-->
+			<xjc:javaType name="java.time.OffsetTime" xmlType="xs:time" adapter="com.migesok.jaxb.adapter.javatime.OffsetTimeXmlAdapter" />
+			<xjc:javaType name="java.time.OffsetDateTime" xmlType="xs:date" adapter="org.rutebanken.util.OffsetDateXmlAdapter" />
+			<xjc:javaType name="java.time.Duration" xmlType="xs:duration" adapter="com.migesok.jaxb.adapter.javatime.DurationXmlAdapter" />
 		</jxb:globalBindings>
 	</jxb:bindings>
 
