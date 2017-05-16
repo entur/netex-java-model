@@ -1,30 +1,25 @@
 package org.rutebanken.netex.model;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javax.xml.bind.*;
+import java.io.*;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
+
+	private static final String CURRENT_OFFSET = ZoneOffset.systemDefault().getRules().getOffset(Instant.now()).getId();
 
 	@BeforeClass
 	public static void initContext() throws JAXBException {
@@ -235,14 +230,16 @@ public class MarshalUnmarshalTest {
 		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
-		assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00+01:00");
+
+		System.out.println("Current offset local time is: " + CURRENT_OFFSET);
+		assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00" + CURRENT_OFFSET);
 
 		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
 		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
 				.getDatedServiceJourneyOrDeadRunOrServiceJourney().get(0);
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
-		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55+01:00");
+		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55" + CURRENT_OFFSET);
 
 		OffsetTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
 		assertThat(departureTimeZulu).isNotNull();
