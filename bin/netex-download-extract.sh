@@ -4,7 +4,7 @@
 
 PROFILE_PATH="./profile"
 
-BRANCH="1.04beta"
+BRANCH="1.07"
 ZIPFILE="$BRANCH.zip"
 
 if [ -f $ZIPFILE ]; then

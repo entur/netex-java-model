@@ -124,7 +124,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
-                                        ${basedir}/profile/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd
+                                        ${basedir}/profile/NeTEx-XML-1.07/schema/xsd/NeTEx_publication.xsd
                                     </xsd>
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>

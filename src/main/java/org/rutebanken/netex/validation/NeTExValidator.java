@@ -17,7 +17,7 @@ public class NeTExValidator {
     public NeTExValidator() throws IOException, SAXException {
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         factory.setResourceResolver(new PredefinedSchemaListClasspathResourceResolver("/netex_schema_list.txt"));
-        Source schemaFile = new StreamSource(getClass().getResourceAsStream("/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd"));
+        Source schemaFile = new StreamSource(getClass().getResourceAsStream("/NeTEx-XML-1.07/schema/xsd/NeTEx_publication.xsd"));
         neTExSchema = factory.newSchema(schemaFile);
     }
 

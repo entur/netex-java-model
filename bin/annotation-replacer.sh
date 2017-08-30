@@ -8,7 +8,7 @@ if ! type xmlstarlet > /dev/null;
     exit 1;
 fi
 
-BRANCH="1.04beta"
+BRANCH="1.07"
 
 XSD_FOLDER="./profile/NeTEx-XML-$BRANCH/schema/xsd"
 
