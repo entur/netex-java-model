@@ -18,6 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
+	
+	private static ObjectFactory factory = new ObjectFactory();
 
 	private static final String CURRENT_OFFSET = ZoneOffset.systemDefault().getRules().getOffset(Instant.now()).getId();
 
@@ -37,7 +39,7 @@ public class MarshalUnmarshalTest {
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		marshaller.marshal(new ObjectFactory().createPublicationDelivery(publicationDelivery), byteArrayOutputStream);
+		marshaller.marshal(factory.createPublicationDelivery(publicationDelivery), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
@@ -108,15 +110,14 @@ public class MarshalUnmarshalTest {
 
 	@Test
 	public void timetableWithVehicleModes() throws JAXBException {
-		ObjectFactory objectFactory = new ObjectFactory();
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		TimetableFrame timetableFrame = objectFactory.createTimetableFrame().withVersion("any").withId("TimetableFrame")
-				.withName(objectFactory.createMultilingualString().withValue("TimetableFrame")).withVehicleModes(VehicleModeEnumeration.AIR);
+		TimetableFrame timetableFrame = factory.createTimetableFrame().withVersion("any").withId("TimetableFrame")
+				.withName(factory.createMultilingualString().withValue("TimetableFrame")).withVehicleModes(VehicleModeEnumeration.AIR);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		marshaller.marshal(objectFactory.createTimetableFrame(timetableFrame), byteArrayOutputStream);
+		marshaller.marshal(factory.createTimetableFrame(timetableFrame), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
@@ -136,20 +137,19 @@ public class MarshalUnmarshalTest {
 
 	@Test
 	public void dayTypeWithPropertiesOfDay() throws JAXBException {
-		ObjectFactory objectFactory = new ObjectFactory();
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
 				DayOfWeekEnumeration.THURSDAY, DayOfWeekEnumeration.FRIDAY);
-		PropertyOfDay propertyOfDay = objectFactory.createPropertyOfDay().withDescription(objectFactory.createMultilingualString().withValue("PropertyOfDay"))
-				.withName(objectFactory.createMultilingualString().withValue("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
-		PropertiesOfDay_RelStructure propertiesOfDay = objectFactory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
-		DayType dayType = objectFactory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
-				.withName(objectFactory.createMultilingualString().withValue("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
+		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
+				.withName(factory.createMultilingualString().withValue("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
+		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
+		DayType dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
+				.withName(factory.createMultilingualString().withValue("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		marshaller.marshal(objectFactory.createDayType(dayType), byteArrayOutputStream);
+		marshaller.marshal(factory.createDayType(dayType), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
@@ -176,16 +176,16 @@ public class MarshalUnmarshalTest {
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 
-		marshaller.marshal(datedCall, byteArrayOutputStream);
+		marshaller.marshal(factory.createDatedCall(datedCall), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		DatedCall actual = (DatedCall) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-		assertThat(actual.getArrivalDate()).isEqualTo(datedCall.getArrivalDate());
+		assertThat(actual.getValue().getArrivalDate()).isEqualTo(datedCall.getArrivalDate());
 
 	}
 
@@ -197,17 +197,17 @@ public class MarshalUnmarshalTest {
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		marshaller.marshal(datedCall, byteArrayOutputStream);
+		marshaller.marshal(factory.createDatedCall(datedCall), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		DatedCall actual = (DatedCall) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-		assertThat(actual.getLatestBookingTime()).hasSameHourAs(datedCall.getLatestBookingTime());
-		assertThat(actual.getLatestBookingTime()).isEqualToIgnoringNanos(datedCall.getLatestBookingTime());
+		assertThat(actual.getValue().getLatestBookingTime()).hasSameHourAs(datedCall.getLatestBookingTime());
+		assertThat(actual.getValue().getLatestBookingTime()).isEqualToIgnoringNanos(datedCall.getLatestBookingTime());
 	}
 
 	@Test

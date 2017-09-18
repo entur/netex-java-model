@@ -4,6 +4,10 @@
 
 PROFILE_PATH="./profile"
 
+echo "Removing contents in $PROFILE_PATH"
+rm -rf $PROFILE_PATH/*
+
+# Download and extract 1.0.7
 BRANCH="1.07"
 ZIPFILE="$BRANCH.zip"
 
@@ -13,8 +17,24 @@ fi
 
 wget -q "https://github.com/rutebanken/NeTEx-XML/archive/$ZIPFILE"
 
-echo "Removing contents in $PROFILE_PATH"
-rm -rf $PROFILE_PATH/*
+
+unzip $ZIPFILE "NeTEx-XML-$BRANCH/schema/xsd/*" -d $PROFILE_PATH
+
+rm $ZIPFILE
+
+
+# Download and extract 1.0.4beta
+
+
+BRANCH="1.04beta"
+ZIPFILE="$BRANCH.zip"
+
+if [ -f $ZIPFILE ]; then
+  rm $ZIPFILE
+fi
+
+wget -q "https://github.com/rutebanken/NeTEx-XML/archive/$ZIPFILE"
+
 
 unzip $ZIPFILE "NeTEx-XML-$BRANCH/schema/xsd/*" -d $PROFILE_PATH
 

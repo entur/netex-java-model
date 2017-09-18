@@ -14,6 +14,9 @@ public class PredefinedSchemaListClasspathResourceResolver implements LSResource
     public PredefinedSchemaListClasspathResourceResolver(String schemaList) throws IOException {
 
         InputStream resourceAsStream = getClass().getResourceAsStream(schemaList);
+        if(resourceAsStream == null) {
+        	throw new IOException("Unable to load "+schemaList+" as resource stream");
+        }
         BufferedReader r = new BufferedReader(new InputStreamReader(resourceAsStream));
         String resource;
         while ((resource = r.readLine()) != null) {
