@@ -16,10 +16,13 @@ public class NeTExValidator {
 		V1_0_4beta, V1_0_7
 	};
 
+	// Keep this attribute updated
+	public static final NetexVersion LATEST = NetexVersion.V1_0_7;
+	
 	private final Schema neTExSchema;
 
 	public NeTExValidator() throws IOException, SAXException {
-		this(NetexVersion.V1_0_7); // Default to latest
+		this(LATEST); // Default to latest
 	}
 
 	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
