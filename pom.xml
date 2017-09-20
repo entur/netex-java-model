@@ -1,3 +1,18 @@
+<!--
+  ~ Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
+  ~ the European Commission - subsequent versions of the EUPL (the "Licence");
+  ~ You may not use this work except in compliance with the Licence.
+  ~ You may obtain a copy of the Licence at:
+  ~
+  ~   https://joinup.ec.europa.eu/software/page/eupl
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the Licence is distributed on an "AS IS" basis,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the Licence for the specific language governing permissions and
+  ~ limitations under the Licence.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
@@ -33,11 +48,6 @@
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
     </scm>
-
-
-    <prerequisites>
-        <maven>3.2.3</maven>
-    </prerequisites>
 
     <organization>
         <name>Entur AS</name>
@@ -114,6 +124,7 @@
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
+                <version>1.1-beta-1</version>
                 <executions>
                     <execution>
                         <id>download-extract</id>
