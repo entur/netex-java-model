@@ -30,6 +30,14 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Erlend Nossum</name>
+            <email>erlend.nossum@entur.org</email>
+            <organization>Entur</organization>
+            <organizationUrl>http://www.entur.org</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <assertj.core.version>3.4.1</assertj.core.version>
