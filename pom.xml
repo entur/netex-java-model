@@ -55,6 +55,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
+        <url>https://github.com/entur/netex-java-model/tree/master</url>
     </scm>
 
     <organization>
