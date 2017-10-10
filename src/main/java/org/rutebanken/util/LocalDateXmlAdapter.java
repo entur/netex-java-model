@@ -14,14 +14,15 @@
  */
 
 package org.rutebanken.util;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
-public class OffsetDateXmlAdapter extends XmlAdapter<String, OffsetDateTime> {
+public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDateTime> {
 	private final static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd")
 			.optionalStart().appendPattern("XXXXX").optionalEnd()
             .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
@@ -31,13 +32,12 @@ public class OffsetDateXmlAdapter extends XmlAdapter<String, OffsetDateTime> {
             .toFormatter();
 
 	@Override
-	public OffsetDateTime unmarshal(String inputDate) throws Exception {
-		return OffsetDateTime.parse(inputDate, formatter);
-
+	public LocalDateTime unmarshal(String inputDate) throws Exception {
+		return LocalDateTime.parse(inputDate, formatter);
 	}
 
 	@Override
-	public String marshal(OffsetDateTime inputDate) throws Exception {
+	public String marshal(LocalDateTime inputDate) throws Exception {
 		if(inputDate != null) {
 			return formatter.format(inputDate);
 		} else {

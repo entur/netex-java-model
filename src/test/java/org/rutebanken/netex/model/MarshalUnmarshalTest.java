@@ -21,6 +21,8 @@ import org.junit.Test;
 import javax.xml.bind.*;
 import java.io.*;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -36,8 +38,6 @@ public class MarshalUnmarshalTest {
 	
 	private static ObjectFactory factory = new ObjectFactory();
 
-	private static final String CURRENT_OFFSET = ZoneOffset.systemDefault().getRules().getOffset(Instant.now()).getId();
-
 	@BeforeClass
 	public static void initContext() throws JAXBException {
 		jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
@@ -49,7 +49,7 @@ public class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
-				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(OffsetDateTime.now())
+				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now())
 				.withParticipantRef("participantRef");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -74,7 +74,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void unmarshalPublicationDeliveryAndVerifyDatTimeWithTimeZone() throws JAXBException {
+	public void unmarshalPublicationDeliveryAndVerifyDateTime() throws JAXBException {
 
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
@@ -120,7 +120,7 @@ public class MarshalUnmarshalTest {
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
 
 		System.out.println(actual.getPublicationTimestamp());
-		assertThat(actual.getPublicationTimestamp().getOffset().toString()).isEqualTo("+01:00");
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
 	}
 
 	@Test
@@ -186,7 +186,7 @@ public class MarshalUnmarshalTest {
 	public void datedCallWithLocalDate() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		DatedCall datedCall = new DatedCall().withArrivalDate(OffsetDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
+		DatedCall datedCall = new DatedCall().withArrivalDate(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -208,7 +208,7 @@ public class MarshalUnmarshalTest {
 	public void datedCallWithOffsetTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		DatedCall datedCall = new DatedCall().withLatestBookingTime(OffsetTime.now());
+		DatedCall datedCall = new DatedCall().withLatestBookingTime(LocalTime.now());
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -240,28 +240,27 @@ public class MarshalUnmarshalTest {
 		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
-		assertThat(validBetweenWithTimezone.getToDate().toString()).isEqualTo("2017-01-01T11:00Z");
+		assertThat(validBetweenWithTimezone.getToDate().toString()).isEqualTo("2017-01-01T11:00");
 
 		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
 
-		System.out.println("Current offset local time is: " + CURRENT_OFFSET);
-		assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00" + CURRENT_OFFSET);
+		assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00");
 
 		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
 		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
 				.getDatedServiceJourneyOrDeadRunOrServiceJourney().get(0);
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
-		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55" + CURRENT_OFFSET);
+		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55");
 
-		OffsetTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
+		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
 		assertThat(departureTimeZulu).isNotNull();
-		assertThat(departureTimeZulu.toString()).isEqualTo("07:55Z");
+		assertThat(departureTimeZulu.toString()).isEqualTo("07:55");
 
-		OffsetTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
+		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
 		assertThat(departureTimeOffset).isNotNull();
-		assertThat(departureTimeOffset.toString()).isEqualTo("08:40+01:00");
+		assertThat(departureTimeOffset.toString()).isEqualTo("08:40");
 	}
 }
