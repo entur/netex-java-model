@@ -27,34 +27,14 @@ import java.io.IOException;
 
 public class NeTExValidator {
 
-	public enum NetexVersion {
-		V1_0_4beta, V1_0_7
-	};
-
-	// Keep this attribute updated
-	public static final NetexVersion LATEST = NetexVersion.V1_0_7;
 	
 	private final Schema neTExSchema;
 
+
 	public NeTExValidator() throws IOException, SAXException {
-		this(LATEST); // Default to latest
-	}
-
-	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Source schemaFile;
-		switch (version) {
-		case V1_0_4beta:
-			factory.setResourceResolver(new PredefinedSchemaListClasspathResourceResolver("/netex_schema_list_1_0_4beta.txt"));
-			schemaFile = new StreamSource(getClass().getResourceAsStream("/NeTEx-XML-1.04beta/schema/xsd/NeTEx_publication.xsd"));
-			break;
-		case V1_0_7:
-		default:
-			factory.setResourceResolver(new PredefinedSchemaListClasspathResourceResolver("/netex_schema_list_1_0_7.txt"));
-			schemaFile = new StreamSource(getClass().getResourceAsStream("/NeTEx-XML-1.07/schema/xsd/NeTEx_publication.xsd"));
-
-		}
-
+		Source schemaFile = new StreamSource(getClass().getResourceAsStream("/xsd/NeTEx_publication.xsd"));
+		factory.setResourceResolver(new PredefinedSchemaListClasspathResourceResolver("/netex_schema_list.txt"));
 		neTExSchema = factory.newSchema(schemaFile);
 	}
 

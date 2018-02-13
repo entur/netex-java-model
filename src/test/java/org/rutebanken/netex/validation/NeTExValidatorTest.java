@@ -16,7 +16,6 @@
 package org.rutebanken.netex.validation;
 
 import org.junit.Test;
-import org.rutebanken.netex.validation.NeTExValidator.NetexVersion;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -52,12 +51,6 @@ public class NeTExValidatorTest {
     @Test
     public void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
         neTExValidator.validate(new StreamSource(new StringReader(xml)));
-
-    }
-
-    @Test
-    public void validatePublicationDeliveryWithVersion104beta() throws IOException, SAXException {
-        new NeTExValidator(NetexVersion.V1_0_4beta).validate(new StreamSource(new StringReader(xml)));
 
     }
 

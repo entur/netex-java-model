@@ -40,6 +40,9 @@
     </developers>
 
     <properties>
+        <netexRepo>NeTEx</netexRepo>
+        <netexBranch>master</netexBranch>
+        <netexGithubUrl>https://github.com/entur/${netexRepo}</netexGithubUrl>
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
@@ -134,7 +137,7 @@
             <plugin>
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
-                <version>1.1-beta-1</version>
+                <version>1.6.0</version>
                 <executions>
                     <execution>
                         <id>download-extract</id>
@@ -143,6 +146,11 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <environmentVariables>
+                                <NETEX_REPO>${netexRepo}</NETEX_REPO>
+                                <GIT_BRANCH>${netexBranch}</GIT_BRANCH>
+                                <GITHUB_URL>${netexGithubUrl}</GITHUB_URL>
+                            </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
@@ -179,7 +187,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
-                                        ${basedir}/profile/NeTEx-XML-1.07/schema/xsd/NeTEx_publication.xsd
+                                        ${basedir}/profile/xsd/NeTEx_publication.xsd
                                     </xsd>
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>
