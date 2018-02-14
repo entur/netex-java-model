@@ -117,14 +117,6 @@
     </dependencies>
 
     <build>
-		<!--<resources>-->
-			<!--<resource>-->
-				<!--<directory>profile</directory>-->
-			<!--</resource>-->
-            <!--<resource>-->
-                <!--<directory>src/main/resources</directory>-->
-            <!--</resource>-->
-		<!--</resources>-->
         <extensions>
             <!-- maven3 will need wagon-ssh extension in order to be able to release,
             Using external variant in order to retain keys, etc -->
