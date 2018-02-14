@@ -201,7 +201,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void datedCallWithOffsetTime() throws JAXBException {
+	public void datedCallWithLocalDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		DatedCall datedCall = new DatedCall().withChanged(LocalDateTime.now());
