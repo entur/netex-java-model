@@ -20,12 +20,8 @@ import org.junit.Test;
 
 import javax.xml.bind.*;
 import java.io.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
@@ -208,7 +204,7 @@ public class MarshalUnmarshalTest {
 	public void datedCallWithOffsetTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		DatedCall datedCall = new DatedCall().withLatestBookingTime(LocalTime.now());
+		DatedCall datedCall = new DatedCall().withChanged(LocalDateTime.now());
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -221,8 +217,8 @@ public class MarshalUnmarshalTest {
 
 		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-		assertThat(actual.getValue().getLatestBookingTime()).hasSameHourAs(datedCall.getLatestBookingTime());
-		assertThat(actual.getValue().getLatestBookingTime()).isEqualToIgnoringNanos(datedCall.getLatestBookingTime());
+		assertThat(actual.getValue().getChanged().getHour()).isEqualTo(datedCall.getChanged().getHour());
+		assertThat(actual.getValue().getChanged()).isEqualToIgnoringNanos(datedCall.getChanged());
 	}
 
 	@Test
