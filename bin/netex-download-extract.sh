@@ -6,10 +6,10 @@
 : ${NETEX_REPO:="NeTEx"}
 : ${GITHUB_URL:="https://github.com/entur/$NETEX_REPO"}
 : ${GIT_BRANCH:="master"}
+: ${GIT_BRANCH:="master"}
+: ${PROFILE_PATH:="./profile"}
 
 echo "NETEX full github URL: $GITHUB_URL"
-
-PROFILE_PATH="./profile"
 
 echo "Removing any existing contents in $PROFILE_PATH"
 rm -rf ${PROFILE_PATH}/*
@@ -25,6 +25,7 @@ WGET_URL="${GITHUB_URL}/archive/${ZIPFILE}"
 wget -q ${WGET_URL}
 
 if [ -f ${ZIPFILE} ]; then
+    echo "Unzip to ${PROFILE_PATH}"
     unzip ${ZIPFILE} "${NETEX_REPO}-${GIT_BRANCH}/xsd/*" -d ${PROFILE_PATH}
     rm ${ZIPFILE}
     REMOVE_FOLDER="${NETEX_REPO}-${GIT_BRANCH}"
