@@ -10,3 +10,4 @@ buildNumber.properties
 profile
 .idea
 *.iml
+src/main/resources/xsd/
