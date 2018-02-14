@@ -40,9 +40,10 @@
     </developers>
 
     <properties>
-        <netexRepo>NeTEx</netexRepo>
+        <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepo}</netexGithubUrl>
+        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
+        <netexVersion>1.08</netexVersion>
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
@@ -116,14 +117,14 @@
     </dependencies>
 
     <build>
-		<resources>
-			<resource>
-				<directory>profile</directory>
-			</resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-		</resources>
+		<!--<resources>-->
+			<!--<resource>-->
+				<!--<directory>profile</directory>-->
+			<!--</resource>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+            <!--</resource>-->
+		<!--</resources>-->
         <extensions>
             <!-- maven3 will need wagon-ssh extension in order to be able to release,
             Using external variant in order to retain keys, etc -->
@@ -140,16 +141,69 @@
                 <version>1.6.0</version>
                 <executions>
                     <execution>
-                        <id>download-extract</id>
+                        <!-- This is the current version which the model is built from. -->
+                        <id>download-extract-current-version</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <NETEX_REPO>${netexRepo}</NETEX_REPO>
+                                <NETEX_REPO>${netexRepoName}</NETEX_REPO>
                                 <GIT_BRANCH>${netexBranch}</GIT_BRANCH>
                                 <GITHUB_URL>${netexGithubUrl}</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>replace-hard-coded-id-in-bindings-file</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>${netexVersion}</argument>
+                            </arguments>
+                            <executable>
+                                ./bin/version_updater.sh
+                            </executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- This downloads 1.07 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.07</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <NETEX_REPO>NeTEx-XML</NETEX_REPO>
+                                <GIT_BRANCH>1.07</GIT_BRANCH>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- This downloads 1.04beta for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.04beta</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <NETEX_REPO>NeTEx-XML</NETEX_REPO>
+                                <GIT_BRANCH>1.04beta</GIT_BRANCH>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
@@ -161,6 +215,9 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <arguments>
+                                <argument>${netexVersion}</argument>
+                            </arguments>
                             <executable>./bin/annotation-replacer.sh</executable>
                         </configuration>
                     </execution>
@@ -178,7 +235,7 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>generate-sources</id>
+                        <id>generate-sources-for-netex-${netexVersion}</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>xsdtojava</goal>
@@ -187,7 +244,7 @@
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
-                                        ${basedir}/profile/xsd/NeTEx_publication.xsd
+                                        ${basedir}/src/main/resources/xsd/${netexVersion}/NeTEx_publication.xsd
                                     </xsd>
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>
