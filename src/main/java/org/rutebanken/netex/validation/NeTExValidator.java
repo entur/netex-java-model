@@ -31,12 +31,21 @@ import java.net.URL;
 public class NeTExValidator {
 
 	private static final Logger logger = LoggerFactory.getLogger(NeTExValidator.class);
-
+	
 	public enum NetexVersion {
-		V1_0_4beta,
-		V1_0_7,
-		v1_0_8
+		V1_0_4beta ("1.04beta"),
+		V1_0_7 ("1.07"),
+		v1_0_8 ("1.08");
 
+		private final String folderName;
+
+		NetexVersion(String folderName) {
+			this.folderName = folderName;
+		}
+
+		public String toString() {
+			return folderName;
+		}
 	}
 	private final Schema neTExSchema;
 
