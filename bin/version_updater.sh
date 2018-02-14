@@ -12,4 +12,4 @@ fi
 
 echo "Updating bindings file with version ${NETEX_VERSION}"
 
-sed -i -E 's/resources\/xsd\/[0-9]\.[0-9]{2}\//resources\/xsd\/${NETEX_VERSION}\//' ${BINDINGS_FILE}
+sed -i -E "s/resources\/xsd\/[0-9]\.[0-9]+(\.[0-9])*\//resources\/xsd\/${NETEX_VERSION}\//" ${BINDINGS_FILE}
