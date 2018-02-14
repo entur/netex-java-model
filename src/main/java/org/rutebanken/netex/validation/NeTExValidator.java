@@ -15,7 +15,8 @@
 
 package org.rutebanken.netex.validation;
 
-import org.w3c.dom.ls.LSResourceResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -25,14 +26,38 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.IOException;
+import java.net.URL;
 
 public class NeTExValidator {
 
+	private static final Logger logger = LoggerFactory.getLogger(NeTExValidator.class);
+
+	public enum NetexVersion {
+		V1_0_4beta,
+		V1_0_7,
+		v1_0_8
+
+	}
 	private final Schema neTExSchema;
 
+
+	public static final NetexVersion LATEST = NetexVersion.V1_0_7;
+
+
 	public NeTExValidator() throws IOException, SAXException {
+		this(LATEST);
+	}
+
+	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		neTExSchema = factory.newSchema(getClass().getClassLoader().getResource("xsd/NeTEx_publication.xsd"));
+
+		String resourceName = "xsd/"+ version +"/NeTEx_publication.xsd";
+		logger.info("Loading resource: {}", resourceName);
+		URL resource = getClass().getClassLoader().getResource(resourceName);
+		if(resource == null) {
+			throw new IOException("Cannot load resource " + resourceName);
+		}
+		neTExSchema = factory.newSchema(resource);
 	}
 
 	public Schema getSchema() throws SAXException, IOException {
