@@ -15,6 +15,7 @@
 
 package org.rutebanken.netex.validation;
 
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
@@ -27,15 +28,11 @@ import java.io.IOException;
 
 public class NeTExValidator {
 
-	
 	private final Schema neTExSchema;
-
 
 	public NeTExValidator() throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Source schemaFile = new StreamSource(getClass().getResourceAsStream("/xsd/NeTEx_publication.xsd"));
-		factory.setResourceResolver(new PredefinedSchemaListClasspathResourceResolver("/netex_schema_list.txt"));
-		neTExSchema = factory.newSchema(schemaFile);
+		neTExSchema = factory.newSchema(getClass().getClassLoader().getResource("xsd/NeTEx_publication.xsd"));
 	}
 
 	public Schema getSchema() throws SAXException, IOException {
