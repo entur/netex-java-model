@@ -50,7 +50,7 @@ public class NeTExValidator {
 	private final Schema neTExSchema;
 
 
-	public static final NetexVersion LATEST = NetexVersion.V1_0_7;
+	public static final NetexVersion LATEST = NetexVersion.v1_0_8;
 
 
 	public NeTExValidator() throws IOException, SAXException {
