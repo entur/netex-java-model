@@ -18,8 +18,16 @@ package org.rutebanken.netex.model;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import javax.xml.bind.*;
-import java.io.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
@@ -259,4 +267,30 @@ public class MarshalUnmarshalTest {
 		assertThat(departureTimeOffset).isNotNull();
 		assertThat(departureTimeOffset.toString()).isEqualTo("08:40");
 	}
+
+//	@Test
+//	public void fragmentShouldNotContainNetexNamespace() throws Exception {
+//		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
+//		Marshaller marshaller = netexJaxBContext.createMarshaller();
+//
+//		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());
+//		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+//		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+//
+//		StringWriter stringWriter = new StringWriter();
+//		AvailabilityCondition availabilityCondition = new AvailabilityCondition().withFromDate(LocalDateTime.now()).withToDate(LocalDateTime.now()).withId("NSR:AvailabilityCondition:2").withVersion("v1");
+//
+//
+//		String netexNamespace="http://www.netex.org.uk/netex";
+//
+//		XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
+//		XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(stringWriter);
+//		xmlStreamWriter.setDefaultNamespace(netexNamespace);
+//
+//		marshaller.marshal(new ObjectFactory().createAvailabilityCondition(availabilityCondition), xmlStreamWriter);
+//		String xml = stringWriter.toString();
+//		System.out.println(xml);
+//		assertFalse(xml.contains(netexNamespace));
+//	}
+
 }
