@@ -175,9 +175,9 @@
                             <environmentVariables>
                                 <NETEX_REPO>NeTEx-XML</NETEX_REPO>
                                 <GIT_BRANCH>1.07</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML</GITHUB_URL>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
@@ -193,9 +193,9 @@
                             <environmentVariables>
                                 <NETEX_REPO>NeTEx-XML</NETEX_REPO>
                                 <GIT_BRANCH>1.04beta</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML</GITHUB_URL>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
