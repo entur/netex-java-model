@@ -1,6 +1,5 @@
 <jxb:bindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
-              xmlns:namespace="http://jaxb2-commons.dev.java.net/namespace-prefix"
               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jxb:version="2.0" jxb:extensionBindingPrefixes="xjc">
     
@@ -20,11 +19,6 @@
 		<jxb:schemaBindings>
 			<jxb:package name="org.rutebanken.netex.model" />
 		</jxb:schemaBindings>
-        <jxb:bindings>
-            <namespace:prefix name="" namespaceURI="http://www.netex.org.uk/netex" />
-            <namespace:prefix name="siri" namespaceURI="http://www.siri.org.uk/siri" />
-            <namespace:prefix name="gml" namespaceURI="http://www.opengis.net/gml/3.2" />
-        </jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
