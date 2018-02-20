@@ -208,6 +208,31 @@ public class MarshalUnmarshalTest {
 
 	}
 
+
+	@Test
+	public void marshalledNameSpacePrefixes() throws JAXBException {
+		Marshaller marshaller = jaxbContext.createMarshaller();
+
+		PublicationDeliveryStructure publicationDeliveryStructure = new PublicationDeliveryStructure();
+
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+		marshaller.marshal(factory.createPublicationDelivery(publicationDeliveryStructure), byteArrayOutputStream);
+
+		String xml = byteArrayOutputStream.toString();
+		System.out.println(xml);
+
+		assertThat(xml).as("Namespace declaration without prefix for netex").contains("xmlns=\"http://www.netex.org.uk/netex\"");
+		assertThat(xml).as("<PublicationDelivery without namespace prefix").contains("<PublicationDelivery");
+
+		assertThat(xml).as("Namespace declaration for siri with prefix").contains("xmlns:siri=\"http://www.siri.org.uk/siri\"");
+		assertThat(xml).as("Namespace declaration for gml with prefix").contains("xmlns:gml=\"http://www.opengis.net/gml/3.2\"");
+
+
+	}
+
 	@Test
 	public void datedCallWithLocalDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
