@@ -39,7 +39,7 @@ import static org.junit.Assert.assertFalse;
 public class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
-	
+
 	private static ObjectFactory factory = new ObjectFactory();
 
 	@BeforeClass
@@ -250,6 +250,11 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
+	public void printJaxbProvider() throws JAXBException, FileNotFoundException {
+        System.out.println(JAXBContext.newInstance(StopPlace.class).getClass());
+	}
+
+		@Test
 	public void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, FileNotFoundException {
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
