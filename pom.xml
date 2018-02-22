@@ -225,7 +225,7 @@
                 <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-jaxb-properties-netex</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -249,7 +249,7 @@
                 <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-jaxb-properties-siri</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -273,7 +273,7 @@
                 <version>3.0.2</version>
                 <executions>
                     <execution>
-                        <id>copy-resources</id>
+                        <id>copy-jaxb-properties-gml</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
