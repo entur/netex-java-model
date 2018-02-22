@@ -251,7 +251,9 @@ public class MarshalUnmarshalTest {
 
 	@Test
 	public void printJaxbProvider() throws JAXBException, FileNotFoundException {
-        System.out.println(JAXBContext.newInstance(StopPlace.class).getClass());
+        System.out.println(jaxbContext.getClass());
+
+        assertThat(jaxbContext.getClass().getName()).isEqualTo("org.eclipse.persistence.jaxb.JAXBContext");
 	}
 
 		@Test
