@@ -37,6 +37,12 @@
             <organization>Entur</organization>
             <organizationUrl>http://www.entur.org</organizationUrl>
         </developer>
+        <developer>
+            <name>Cristoffer Solem</name>
+            <email>cristoffer.solem@entur.org</email>
+            <organization>Entur</organization>
+            <organizationUrl>http://www.entur.org</organizationUrl>
+        </developer>
     </developers>
 
     <properties>
