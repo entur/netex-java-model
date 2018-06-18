@@ -35,7 +35,8 @@ public class NeTExValidator {
 	public enum NetexVersion {
 		V1_0_4beta ("1.04beta"),
 		V1_0_7 ("1.07"),
-		v1_0_8 ("1.08");
+		v1_0_8 ("1.08"),
+		v1_0_9 ("1.09");
 
 		private final String folderName;
 
@@ -49,9 +50,7 @@ public class NeTExValidator {
 	}
 	private final Schema neTExSchema;
 
-
-	public static final NetexVersion LATEST = NetexVersion.v1_0_8;
-
+	public static final NetexVersion LATEST = NetexVersion.v1_0_9;
 
 	public NeTExValidator() throws IOException, SAXException {
 		this(LATEST);
