@@ -49,7 +49,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.08</netexVersion>
+        <netexVersion>1.09</netexVersion>
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
@@ -149,7 +149,7 @@
                             <environmentVariables>
                                 <NETEX_REPO>${netexRepoName}</NETEX_REPO>
                                 <GIT_BRANCH>${netexBranch}</GIT_BRANCH>
-                                <GITHUB_URL>${netexGithubUrl}</GITHUB_URL>
+                                <GITHUB_URL>${netexGithubUrl}/archive/master.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
@@ -171,6 +171,25 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <!-- This downloads 1.08 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.08</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <NETEX_REPO>${netexRepoName}</NETEX_REPO>
+                                <GIT_BRANCH>tags/v1.0.8</GIT_BRANCH>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.08</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.8/xsd/*</ZIP_PATH_TO_EXTRACT>
+                                <ZIPFILE>v1.0.8.zip</ZIPFILE>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <!-- This downloads 1.07 for validation needs. This is not used to generate the model -->
                         <id>download-extract-legacy-1.07</id>
                         <phase>generate-resources</phase>
@@ -181,7 +200,7 @@
                             <environmentVariables>
                                 <NETEX_REPO>NeTEx-XML</NETEX_REPO>
                                 <GIT_BRANCH>1.07</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated/archive/1.07.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -199,7 +218,7 @@
                             <environmentVariables>
                                 <NETEX_REPO>NeTEx-XML</NETEX_REPO>
                                 <GIT_BRANCH>1.04beta</GIT_BRANCH>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated</GITHUB_URL>
+                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated/archive/1.04beta.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
