@@ -1,44 +1,51 @@
 #!/bin/bash
 
-# Downloads and extracts NetTex
-
-# Note. These are only default values. Change properties in pom file for overrides
-: ${NETEX_REPO:="NeTEx"}
-: ${GITHUB_URL:="https://github.com/entur/$NETEX_REPO/archive/master.zip"}
-: ${GIT_BRANCH:="master"}
-: ${DESTINATION_PATH:="./profile"}
+# Download and extract NetTex
 : ${ZIP_PATH_TO_EXTRACT:="${NETEX_REPO}-${GIT_BRANCH}/xsd/*"}
 
-ZIPFILE=downloaded.zip
+validate () {
+    NAME=$1
+    VALUE=$2
 
-echo "NETEX repo github URL: $GITHUB_URL Github branch: $GIT_BRANCH"
+    if [ -z ${VALUE} ];
+    then
+        echo "$NAME not set"
+        exit 1
+    fi
+}
 
+validate "ZIP_PATH_TO_EXTRACT" ${ZIP_PATH_TO_EXTRACT}
+validate "GITHUB_URL" ${GITHUB_URL}
+validate "DESTINATION_PATH" ${DESTINATION_PATH}
+
+ZIP_FILE=downloaded.zip
+
+echo "NETEX repo github URL: $GITHUB_URL"
 
 echo "Removing any existing contents in $DESTINATION_PATH"
 rm -rf ${DESTINATION_PATH}/*
 mkdir -p ${DESTINATION_PATH}
 
-
-if [ -f ${ZIPFILE} ]; then
-  echo "Removing existing file $ZIPFILE"
-  rm ${ZIPFILE}
+if [ -f ${ZIP_FILE} ]; then
+  echo "Removing existing file $ZIP_FILE"
+  rm ${ZIP_FILE}
 fi
 
 WGET_URL="${GITHUB_URL}"
 echo "About to download from $WGET_URL"
-wget -q ${WGET_URL} -O ${ZIPFILE}
+wget -q ${WGET_URL} -O ${ZIP_FILE}
 
-if [ -f ${ZIPFILE} ]; then
+if [ -f ${ZIP_FILE} ]; then
     echo "Done"
     {
     echo "Create ${DESTINATION_PATH}" &&
     mkdir -p ${DESTINATION_PATH} &&
 
-    echo "Unzip path ${ZIP_PATH_TO_EXTRACT} from zip file ${ZIPFILE} to ${DESTINATION_PATH}" &&
-    unzip -q ${ZIPFILE} ${ZIP_PATH_TO_EXTRACT} -d ${DESTINATION_PATH} &&
+    echo "Unzip path ${ZIP_PATH_TO_EXTRACT} from zip file ${ZIP_FILE} to ${DESTINATION_PATH}" &&
+    unzip -q ${ZIP_FILE} ${ZIP_PATH_TO_EXTRACT} -d ${DESTINATION_PATH} &&
 
-    echo "Remove zipfile ${ZIPFILE}" &&
-    rm ${ZIPFILE} &&
+    echo "Remove zipfile ${ZIP_FILE}" &&
+    rm ${ZIP_FILE} &&
 
     REMOVE_FOLDER=${ZIP_PATH_TO_EXTRACT} &&
 
@@ -50,7 +57,7 @@ if [ -f ${ZIPFILE} ]; then
     echo "XSD extracted to $DESTINATION_PATH"
     } ||
     {
-        (>&2 echo "Error extracting zip file $ZIPFILE from $WGET_URL. See my previous output for details")
+        (>&2 echo "Error extracting zip file $ZIP_FILE from $WGET_URL. See my previous output for details")
         exit 1
     }
 else
