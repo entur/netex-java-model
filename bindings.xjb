@@ -31,7 +31,7 @@
 		</jxb:bindings>
 	</jxb:bindings>
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.09/netex_part_3/part3_fares/netex_salesPackage_version.xsd">
+		schemaLocation="./src/main/resources/xsd/1.09/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
 		<jxb:bindings node="//xsd:element[@ref = 'ResponsibilitySetRef']">
 			<jxb:property name="ResponsibilitySetRefDistributionByGroup" />
 		</jxb:bindings>
