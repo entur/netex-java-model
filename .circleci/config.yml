@@ -32,26 +32,16 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - pom.xml
-            - target
-            - src
-            - .circleci
-            - bin
-            - bindings.xjb
   deploy:
     docker:
       - image: maven:3.5.4-jdk-8
     environment:
       DEBIAN_FRONTEND: "noninteractive"
     steps:
-      - attach_workspace:
-          at: ~/project
+      - checkout
+      - run: *install-xmlstarlet
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
-      - run: *install-xmlstarlet
       - run:
           name: Maven deploy
           command: mvn deploy -s .circleci/settings.xml
