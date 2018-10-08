@@ -53,9 +53,7 @@ jobs:
       - run:
           name: "Trigger dependant jobs"
           command: |
-            curl -u ${TIAMAT_API_TOKEN}: \
-                -d build_parameters[CIRCLE_JOB]=deploy-docker \
-                https://circleci.com/api/v1.1/project/github/entur/tiamat/tree/master
+            curl -X POST --header "Content-Type: application/json" -d '{"branch":"master"}' https://circleci.com/api/v1.1/project/github/entur/tiamat/build?circle-token=${TIAMAT_API_TOKEN}
 workflows:
   version: 2
   build_test_deploy:
