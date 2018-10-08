@@ -36,6 +36,7 @@ jobs:
             - target
             - pom.xml
             - .circleci
+            - bin
   deploy:
     docker:
       - image: maven:3.5.4-jdk-8
