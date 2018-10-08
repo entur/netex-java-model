@@ -35,8 +35,9 @@ jobs:
       - persist_to_workspace:
           root: ~/project
           paths:
-            - target
             - pom.xml
+            - target
+            - src
             - .circleci
             - bin
             - bindings.xjb
