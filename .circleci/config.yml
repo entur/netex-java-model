@@ -8,6 +8,9 @@ jobs:
       MAVEN_OPTS: -Xmx3G
     steps:
       - checkout
+      - run:
+          name: Install xmlstarlet from apt
+          command: apt-get -y update && apt-get -y install xmlstarlet
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s .circleci/settings.xml
