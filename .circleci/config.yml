@@ -69,3 +69,7 @@ workflows:
           filters:
             branches:
               only: master
+      - trigger-dependants:
+          context: org-carbon
+          requires:
+            - deploy
