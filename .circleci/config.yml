@@ -1,4 +1,8 @@
 version: 2
+aliases:
+  - &install-xmlstarlet
+    name: Install xmlstarlet from apt
+    command: apt-get -y update && apt-get -y install xmlstarlet
 jobs:
   build:
     docker:
@@ -8,9 +12,7 @@ jobs:
       MAVEN_OPTS: -Xmx3G
     steps:
       - checkout
-      - run:
-          name: Install xmlstarlet from apt
-          command: apt-get -y update && apt-get -y install xmlstarlet
+      - run: *install-xmlstarlet
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s .circleci/settings.xml
@@ -48,6 +50,7 @@ jobs:
           at: ~/project
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
+      - run: *install-xmlstarlet
       - run:
           name: Maven deploy
           command: mvn deploy -s .circleci/settings.xml
