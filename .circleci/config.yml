@@ -37,6 +37,7 @@ jobs:
             - pom.xml
             - .circleci
             - bin
+            - bindings.xjb
   deploy:
     docker:
       - image: maven:3.5.4-jdk-8
