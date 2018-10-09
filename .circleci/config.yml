@@ -55,7 +55,7 @@ jobs:
           command: |
             for github_project in tiamat
             do
-              curl -X POST --header "Content-Type: application/json" -d '{"branch":"master"}' https://circleci.com/api/v1.1/${github_project}/github/entur/tiamat/build?circle-token=${CIRCLE_API_TOKEN}
+              curl -X POST --header "Content-Type: application/json" -d '{"branch":"master"}' https://circleci.com/api/v1.1/project/github/entur/${github_project}/build?circle-token=${TIAMAT_API_TOKEN}
             done
 workflows:
   version: 2
