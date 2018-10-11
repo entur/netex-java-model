@@ -31,7 +31,10 @@ jobs:
           path: ~/junit
   deploy:
     docker:
-      - image: maven:3.5.4-jdk-8
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+        auth:
+          username: _json_key
+          password: $GCLOUD_SERVICE_KEY
     environment:
       DEBIAN_FRONTEND: "noninteractive"
     steps:
