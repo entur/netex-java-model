@@ -12,13 +12,13 @@ jobs:
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
-      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s .circleci/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s /tools/m2/settings.xml
       - save_cache:
           paths:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn install -s .circleci/settings.xml
+      - run: mvn install -s /tools/m2/settings.xml
       - run:
           name: Save test results
           command: |
@@ -43,7 +43,7 @@ jobs:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run:
           name: Maven deploy
-          command: mvn deploy -s .circleci/settings.xml
+          command: mvn deploy -s /tools/m2/settings.xml
   trigger-dependants:
     docker:
       - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
