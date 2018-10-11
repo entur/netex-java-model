@@ -46,13 +46,16 @@ jobs:
           command: mvn deploy -s .circleci/settings.xml
   trigger-dependants:
     docker:
-      - image: ellerbrock/alpine-bash-curl-ssl
-        cmd: ["/bin/bash"]
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+        auth:
+          username: _json_key
+          password: $GCLOUD_SERVICE_KEY
     steps:
       - run:
           name: "Trigger dependant jobs"
           command: |
             echo 'export CIRCLE_API_TOKEN="$CIRCLE_API_TOKEN"' >> $BASH_ENV
+            /tools/downstream_trigger.sh
           environment:
             GITHUB_PROJECTS: "tiamat baba"
 workflows:
