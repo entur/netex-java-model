@@ -1,18 +1,15 @@
 version: 2
-aliases:
-  - &install-xmlstarlet
-    name: Install xmlstarlet from apt
-    command: apt-get -y update && apt-get -y install xmlstarlet
 jobs:
   build:
     docker:
-      - image: maven:3.5.4-jdk-8
-        cmd: ["/bin/bash"]
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+        auth:
+          username: _json_key
+          password: $GCLOUD_SERVICE_KEY
     environment:
       MAVEN_OPTS: -Xmx3G
     steps:
       - checkout
-      - run: *install-xmlstarlet
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s .circleci/settings.xml
@@ -53,10 +50,9 @@ jobs:
       - run:
           name: "Trigger dependant jobs"
           command: |
-            for github_project in tiamat
-            do
-              curl -X POST --header "Content-Type: application/json" -d '{"branch":"master"}' https://circleci.com/api/v1.1/project/github/entur/${github_project}/build?circle-token=${CIRCLE_API_TOKEN}
-            done
+            echo 'export CIRCLE_API_TOKEN="$CIRCLE_API_TOKEN"' >> $BASH_ENV
+          environment:
+            GITHUB_PROJECTS: "tiamat baba"
 workflows:
   version: 2
   build_test_deploy:
