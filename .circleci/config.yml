@@ -36,7 +36,6 @@ jobs:
       DEBIAN_FRONTEND: "noninteractive"
     steps:
       - checkout
-      - run: *install-xmlstarlet
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run:
