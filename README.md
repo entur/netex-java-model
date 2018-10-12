@@ -1,4 +1,4 @@
-# netex-java-model
+# netex-java-model [![CircleCI](https://circleci.com/gh/entur/netex-java-model/tree/master.svg?style=svg)](https://circleci.com/gh/entur/netex-java-model/tree/master)
 
 Downloads the NeTEx-XML XSD files from https://github.com/entur/NeTEx and generates java model using jaxb.
 
