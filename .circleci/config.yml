@@ -52,12 +52,21 @@ jobs:
           password: $GCLOUD_SERVICE_KEY
     steps:
       - run:
-          name: "Trigger dependant jobs"
+          name: Trigger dependant builds
           command: |
             echo 'export CIRCLE_API_TOKEN="$CIRCLE_API_TOKEN"' >> $BASH_ENV
-            /tools/downstream_trigger.sh
-          environment:
-            GITHUB_PROJECTS: "tiamat baba"
+            /tools/downstream_single_trigger.sh "github/entur/tiamat" "master"
+            /tools/downstream_single_trigger.sh "github/entur/anshar" "master"
+            /tools/downstream_single_trigger.sh "github/entur/baba" "master"
+            /tools/downstream_single_trigger.sh "github/entur/asag" "master"
+            /tools/downstream_single_trigger.sh "github/entur/chouette" "master"
+            /tools/downstream_single_trigger.sh "github/entur/extime" "master"
+            /tools/downstream_single_trigger.sh "github/entur/kakka" "master"
+            /tools/downstream_single_trigger.sh "github/entur/marduk" "master"
+            /tools/downstream_single_trigger.sh "github/entur/namtar" "master"
+            /tools/downstream_single_trigger.sh "github/entur/uttu" "master"
+            /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "rutebanken_develop"
+            /tools/downstream_single_trigger.sh "github/entur/profile-norway-validation" "master"
 workflows:
   version: 2
   build_test_deploy:
