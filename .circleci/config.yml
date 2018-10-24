@@ -62,7 +62,6 @@ jobs:
             /tools/downstream_single_trigger.sh "github/entur/chouette" "rutebanken_develop"
             /tools/downstream_single_trigger.sh "github/entur/extime" "master"
             /tools/downstream_single_trigger.sh "github/entur/kakka" "master"
-            /tools/downstream_single_trigger.sh "github/entur/marduk" "master"
             /tools/downstream_single_trigger.sh "github/entur/namtar" "master"
             /tools/downstream_single_trigger.sh "github/entur/uttu" "master"
             /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "rutebanken_develop"
