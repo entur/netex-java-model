@@ -59,7 +59,7 @@ jobs:
             /tools/downstream_single_trigger.sh "github/entur/anshar" "master"
             /tools/downstream_single_trigger.sh "github/entur/baba" "master"
             /tools/downstream_single_trigger.sh "github/entur/asag" "master"
-            /tools/downstream_single_trigger.sh "github/entur/chouette" "master"
+            /tools/downstream_single_trigger.sh "github/entur/chouette" "rutebanken_develop"
             /tools/downstream_single_trigger.sh "github/entur/extime" "master"
             /tools/downstream_single_trigger.sh "github/entur/kakka" "master"
             /tools/downstream_single_trigger.sh "github/entur/marduk" "master"
