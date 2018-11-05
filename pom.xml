@@ -396,6 +396,7 @@
                         <version>2.18.1</version>
                         <inherited>true</inherited>
                         <configuration>
+                            <forkCount>0</forkCount>
                             <argLine>-Xmx1024m</argLine>
                         </configuration>
                     </plugin>
