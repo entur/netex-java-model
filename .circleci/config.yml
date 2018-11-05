@@ -9,7 +9,7 @@ aliases:
     /tools/trigger_build.sh "entur/opentripplanner.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
 
 jobs:
-  build:
+  test:
     docker:
       - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
         auth:
@@ -27,7 +27,7 @@ jobs:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn install -s /tools/m2/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -s /tools/m2/settings.xml
       - run:
           name: Save test results
           command: |
@@ -38,6 +38,35 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit
+  build:
+    docker:
+    - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+      auth:
+        username: _json_key
+        password: $GCLOUD_SERVICE_KEY
+    environment:
+      MAVEN_OPTS: -Xmx3G
+    steps:
+    - checkout
+    - restore_cache:
+        key: dep-cache-{{ checksum "pom.xml" }}
+    - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s /tools/m2/settings.xml
+    - save_cache:
+        paths:
+        - ~/.m2
+        key: dep-cache-{{ checksum "pom.xml" }}
+    # Cannot use -o because of snapshot dependencies.
+    - run: mvn install -s /tools/m2/settings.xml -DskipTests
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/junit/
+          find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
+        when: always
+    - store_test_results:
+        path: ~/junit
+    - store_artifacts:
+        path: ~/junit
   deploy:
     docker:
       - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
@@ -52,7 +81,7 @@ jobs:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run:
           name: Maven deploy
-          command: mvn deploy -s /tools/m2/settings.xml
+          command: mvn deploy -s /tools/m2/settings.xml -DskipTests
       - run: *post_build
   trigger-dependants:
     docker:
@@ -84,8 +113,12 @@ workflows:
   version: 2
   build_test_deploy:
     jobs:
+      - test:
+          context: org-carbon
       - build:
           context: org-carbon
+          requires:
+          - test
       - deploy:
           context: org-carbon
           requires:
