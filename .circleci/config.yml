@@ -1,8 +1,17 @@
 version: 2
+aliases:
+- &post_build
+  name: Trigger downstream builds
+  command: |
+    echo 'export CIRCLE_SHA1="$CIRCLE_SHA1"' >> $BASH_ENV
+    echo 'export CIRCLE_PROJECT_REPONAME="$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
+    echo 'export GITHUB_TOKEN="$GITHUB_TOKEN"' >> $BASH_ENV
+    /tools/trigger_build.sh "entur/opentripplanner.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
+
 jobs:
   build:
     docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image:4baa4cd348a216bbb894cbbf123876600da21b25
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
@@ -31,7 +40,7 @@ jobs:
           path: ~/junit
   deploy:
     docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image:4baa4cd348a216bbb894cbbf123876600da21b25
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
@@ -44,9 +53,10 @@ jobs:
       - run:
           name: Maven deploy
           command: mvn deploy -s /tools/m2/settings.xml
+      - run: *post_build
   trigger-dependants:
     docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image:4baa4cd348a216bbb894cbbf123876600da21b25
+      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
         auth:
           username: _json_key
           password: $GCLOUD_SERVICE_KEY
@@ -64,7 +74,7 @@ jobs:
             /tools/downstream_single_trigger.sh "github/entur/kakka" "master"
             /tools/downstream_single_trigger.sh "github/entur/namtar" "master"
             /tools/downstream_single_trigger.sh "github/entur/uttu" "master"
-            /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "rutebanken_develop"
+            # /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "rutebanken_develop"
             /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "entur_raptor"
             /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "entur_nordic"
             # Marduk should be triggered from otp
