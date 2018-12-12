@@ -21,12 +21,13 @@ import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NeTExValidator {
 
@@ -52,10 +53,44 @@ public class NeTExValidator {
 
 	public static final NetexVersion LATEST = NetexVersion.v1_0_9;
 
+	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new HashMap<>();
+
+	private static synchronized NeTExValidator createValidator(NeTExValidator.NetexVersion version) throws IOException, SAXException {
+		NeTExValidator validator = VALIDATORS_PER_VERSION.get(version);
+		if (validator == null) {
+			validator = new NeTExValidator(version);
+			VALIDATORS_PER_VERSION.put(version, validator);
+		}
+		return validator;
+	}
+
+	public static NeTExValidator getNeTExValidator(NeTExValidator.NetexVersion version) throws IOException, SAXException {
+		if (version == null) {
+			version = NeTExValidator.LATEST;
+		}
+		NeTExValidator validator = VALIDATORS_PER_VERSION.get(version);
+		if (validator == null) {
+			validator = createValidator(version);
+
+		}
+		return validator;
+	}
+
+	public static NeTExValidator getNeTExValidator() throws IOException, SAXException {
+		return getNeTExValidator(null);
+	}
+
+
+	/**
+	 * "Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 */
 	public NeTExValidator() throws IOException, SAXException {
 		this(LATEST);
 	}
 
+	/**
+	 * "Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 */
 	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
@@ -76,4 +111,6 @@ public class NeTExValidator {
 		Validator validator = neTExSchema.newValidator();
 		validator.validate(source);
 	}
+
+
 }

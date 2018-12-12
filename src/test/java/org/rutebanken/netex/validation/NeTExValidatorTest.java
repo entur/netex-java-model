@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class NeTExValidatorTest {
 
-    private NeTExValidator neTExValidator = new NeTExValidator();
+    private NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
     
     public NeTExValidatorTest() throws IOException, SAXException {    }
 
