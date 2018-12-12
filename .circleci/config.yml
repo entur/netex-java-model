@@ -1,6 +1,28 @@
 version: 2
+aliases:
+- &post_build
+  name: Trigger downstream builds
+  command: |
+    echo 'export CIRCLE_SHA1="$CIRCLE_SHA1"' >> $BASH_ENV
+    echo 'export CIRCLE_PROJECT_REPONAME="$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
+    echo 'export GITHUB_TOKEN="$GITHUB_TOKEN"' >> $BASH_ENV
+
+    /tools/trigger_build.sh "entur/tiamat.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/anshar.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/baba.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/asag.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/chouette.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/extime.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/kakka.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/namtar.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/uttu.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/opentripplanner.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/opentripplanner.git" "entur_raptor" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/opentripplanner.git" "entur_nordic" "$(git log -1 --pretty=%B)"
+    # Marduk should be triggered from otp
+    /tools/trigger_build.sh "entur/profile-norway-validation.git" "master" "$(git log -1 --pretty=%B)"
 jobs:
-  build:
+  test:
     docker:
       - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
         auth:
@@ -12,13 +34,13 @@ jobs:
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
-      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s /tools/m2/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s ./.circleci/settings.xml
       - save_cache:
           paths:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn install -s /tools/m2/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -s ./.circleci/settings.xml
       - run:
           name: Save test results
           command: |
@@ -29,6 +51,35 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit
+  build:
+    docker:
+    - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+      auth:
+        username: _json_key
+        password: $GCLOUD_SERVICE_KEY
+    environment:
+      MAVEN_OPTS: -Xmx3G
+    steps:
+    - checkout
+    - restore_cache:
+        key: dep-cache-{{ checksum "pom.xml" }}
+    - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s ./.circleci/settings.xml
+    - save_cache:
+        paths:
+        - ~/.m2
+        key: dep-cache-{{ checksum "pom.xml" }}
+    # Cannot use -o because of snapshot dependencies.
+    - run: mvn install -s ./.circleci/settings.xml -DskipTests
+    - run:
+        name: Save test results
+        command: |
+          mkdir -p ~/junit/
+          find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
+        when: always
+    - store_test_results:
+        path: ~/junit
+    - store_artifacts:
+        path: ~/junit
   deploy:
     docker:
       - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
@@ -43,36 +94,18 @@ jobs:
           key: dep-cache-{{ checksum "pom.xml" }}
       - run:
           name: Maven deploy
-          command: mvn deploy -s /tools/m2/settings.xml
-  trigger-dependants:
-    docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
-        auth:
-          username: _json_key
-          password: $GCLOUD_SERVICE_KEY
-    steps:
-      - run:
-          name: Trigger dependant builds
-          command: |
-            echo 'export CIRCLE_API_TOKEN="$CIRCLE_API_TOKEN"' >> $BASH_ENV
-            /tools/downstream_single_trigger.sh "github/entur/tiamat" "master"
-            /tools/downstream_single_trigger.sh "github/entur/anshar" "master"
-            /tools/downstream_single_trigger.sh "github/entur/baba" "master"
-            /tools/downstream_single_trigger.sh "github/entur/asag" "master"
-            /tools/downstream_single_trigger.sh "github/entur/chouette" "rutebanken_develop"
-            /tools/downstream_single_trigger.sh "github/entur/extime" "master"
-            /tools/downstream_single_trigger.sh "github/entur/kakka" "master"
-            /tools/downstream_single_trigger.sh "github/entur/namtar" "master"
-            /tools/downstream_single_trigger.sh "github/entur/uttu" "master"
-            # Marduk should be triggered from otp
-            /tools/downstream_single_trigger.sh "github/entur/opentripplanner" "rutebanken_develop"
-            /tools/downstream_single_trigger.sh "github/entur/profile-norway-validation" "master"
+          command: mvn deploy -s ./.circleci/settings.xml -DskipTests
+      - run: *post_build
 workflows:
   version: 2
   build_test_deploy:
     jobs:
+      - test:
+          context: org-carbon
       - build:
           context: org-carbon
+          requires:
+          - test
       - deploy:
           context: org-carbon
           requires:
@@ -80,7 +113,3 @@ workflows:
           filters:
             branches:
               only: master
-      - trigger-dependants:
-          context: org-carbon
-          requires:
-            - deploy
