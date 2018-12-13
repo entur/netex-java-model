@@ -7,7 +7,7 @@ aliases:
     echo 'export CIRCLE_PROJECT_REPONAME="$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
     echo 'export GITHUB_TOKEN="$GITHUB_TOKEN"' >> $BASH_ENV
 
-    # TODO: tmp commented out. Tiamat requires special permissions? [remote rejected]   master -> master (protected branch hook declined)  /tools/trigger_build.sh "entur/tiamat.git" "master" "$(git log -1 --pretty=%B)"
+    /tools/trigger_build.sh "entur/tiamat.git" "master" "$(git log -1 --pretty=%B)"
     /tools/trigger_build.sh "entur/anshar.git" "master" "$(git log -1 --pretty=%B)"
     /tools/trigger_build.sh "entur/baba.git" "master" "$(git log -1 --pretty=%B)"
     /tools/trigger_build.sh "entur/asag.git" "master" "$(git log -1 --pretty=%B)"
