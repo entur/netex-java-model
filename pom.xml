@@ -46,6 +46,7 @@
     </developers>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
@@ -53,13 +54,14 @@
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
-        <cxf.xjc.plugin.version>3.0.5</cxf.xjc.plugin.version>
+        <cxf.xjc.plugin.version>3.3.0</cxf.xjc.plugin.version>
         <xjc.guava.plugin.version>0.3.1</xjc.guava.plugin.version>
         <jaxb.java.time.adapters.version>1.1.3</jaxb.java.time.adapters.version>
         <slf4j.version>1.7.21</slf4j.version>
         <jaxb2-commons-lang.version>2.4</jaxb2-commons-lang.version>
         <commons-lang3.version>3.5</commons-lang3.version>
-        <cxf-xjc.version>3.1.0</cxf-xjc.version>
+        <cxf-xjc.version>3.3.0</cxf-xjc.version>
+        <jaxb-version>2.3.0.1</jaxb-version>
     </properties>
 
     <scm>
@@ -83,6 +85,21 @@
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>${jaxb-version}</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -278,10 +295,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>UTF-8</encoding>
                     <compilerArgs>
                         <!--arg>-Werror</arg-->
