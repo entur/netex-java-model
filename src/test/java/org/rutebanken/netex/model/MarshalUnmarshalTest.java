@@ -27,10 +27,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +39,7 @@ import static org.junit.Assert.assertFalse;
 public class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
-
+	
 	private static ObjectFactory factory = new ObjectFactory();
 
 	@BeforeClass
@@ -54,10 +52,8 @@ public class MarshalUnmarshalTest {
 	public void publicationDeliveryWithOffsetDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		final LocalDateTime refTime = LocalDateTime.of(2019, 02, 23, 10, 10,10);
-
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
-				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(refTime)
+				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now())
 				.withParticipantRef("participantRef");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -162,25 +158,25 @@ public class MarshalUnmarshalTest {
 	public void dayTypeWithPropertiesOfDay() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		var daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
+		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
 				DayOfWeekEnumeration.THURSDAY, DayOfWeekEnumeration.FRIDAY);
-		var propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
+		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
 				.withName(factory.createMultilingualString().withValue("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
-		var propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
-		var dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
+		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
+		DayType dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
 				.withName(factory.createMultilingualString().withValue("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		var byteArrayOutputStream = new ByteArrayOutputStream();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		marshaller.marshal(factory.createDayType(dayType), byteArrayOutputStream);
 
-		var xmlString = byteArrayOutputStream.toString();
-		System.out.println(xmlString);
+		String xml = byteArrayOutputStream.toString();
+		System.out.println(xml);
 
-		var unmarshaller = jaxbContext.createUnmarshaller();
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		@SuppressWarnings("unchecked")
-		JAXBElement<DayType> jaxbElement = (JAXBElement<DayType>) unmarshaller.unmarshal(new ByteArrayInputStream(xmlString.getBytes()));
+		JAXBElement<DayType> jaxbElement = (JAXBElement<DayType>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 		DayType actual = jaxbElement.getValue();
 
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(dayType.getVersion());
