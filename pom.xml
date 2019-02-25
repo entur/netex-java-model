@@ -62,6 +62,7 @@
         <commons-lang3.version>3.5</commons-lang3.version>
         <cxf-xjc.version>3.3.0</cxf-xjc.version>
         <jaxb-version>2.3.0.1</jaxb-version>
+        <jaxb2-basics.version>0.12.0</jaxb2-basics.version>
     </properties>
 
     <scm>
@@ -136,6 +137,11 @@
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf-xjc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>${jaxb2-basics.version}</version>
         </dependency>
     </dependencies>
 
@@ -278,6 +284,10 @@
                                         <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
                                         <extensionArg>-Xts:style:org.rutebanken.netex.OmitNullsToStringStyle.INSTANCE</extensionArg>
+                                        <extensionArg>-Xequals</extensionArg>
+                                        <extensionArg>-XhashCode</extensionArg>
+                                        <extensionArg>-Xcopyable</extensionArg>
+                                        <extensionArg>-Xmergeable</extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
@@ -289,6 +299,11 @@
                         <groupId>org.apache.cxf.xjcplugins</groupId>
                         <artifactId>cxf-xjc-bug986</artifactId>
                         <version>${cxf.xjc.plugin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2-basics.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
