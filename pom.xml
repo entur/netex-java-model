@@ -61,7 +61,6 @@
         <jaxb2-commons-lang.version>2.4</jaxb2-commons-lang.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <cxf-xjc.version>3.3.0</cxf-xjc.version>
-        <jaxb-version>2.3.0.1</jaxb-version>
         <jaxb2-basics.version>0.12.0</jaxb2-basics.version>
     </properties>
 
@@ -86,21 +85,6 @@
     </distributionManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>${jaxb-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-xjc</artifactId>
-            <version>${jaxb-version}</version>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
