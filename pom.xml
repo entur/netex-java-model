@@ -60,7 +60,6 @@
         <jaxb2-commons-lang.version>2.4</jaxb2-commons-lang.version>
         <commons-lang3.version>3.5</commons-lang3.version>
         <cxf-xjc.version>3.1.0</cxf-xjc.version>
-        <jaxb2-basics.version>0.12.0</jaxb2-basics.version>
     </properties>
 
     <scm>
@@ -120,11 +119,6 @@
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf-xjc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jvnet.jaxb2_commons</groupId>
-            <artifactId>jaxb2-basics-runtime</artifactId>
-            <version>${jaxb2-basics.version}</version>
         </dependency>
     </dependencies>
 
@@ -267,10 +261,6 @@
                                         <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
                                         <extensionArg>-Xts:style:org.rutebanken.netex.OmitNullsToStringStyle.INSTANCE</extensionArg>
-                                        <extensionArg>-Xequals</extensionArg>
-                                        <extensionArg>-XhashCode</extensionArg>
-                                        <extensionArg>-Xcopyable</extensionArg>
-                                        <extensionArg>-Xmergeable</extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
@@ -282,11 +272,6 @@
                         <groupId>org.apache.cxf.xjcplugins</groupId>
                         <artifactId>cxf-xjc-bug986</artifactId>
                         <version>${cxf.xjc.plugin.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>${jaxb2-basics.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -359,7 +344,6 @@
                             <version>2.22.1</version>
                             <configuration>
                                 <useSystemClassLoader>false</useSystemClassLoader>
-                                <argLine>-Xmx1024m</argLine>
                             </configuration>
                         </plugin>
                     </plugins>
