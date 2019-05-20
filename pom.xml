@@ -84,18 +84,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.migesok</groupId>
             <artifactId>jaxb-java-time-adapters</artifactId>
             <version>${jaxb.java.time.adapters.version}</version>
@@ -119,6 +107,20 @@
             <groupId>org.apache.cxf.xjc-utils</groupId>
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf-xjc.version}</version>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.core.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -250,6 +252,13 @@
                             <goal>xsdtojava</goal>
                         </goals>
                         <configuration>
+                            <!--
+                            The cxf-xjc-plugin default source root is not following the standard Maven convention:
+                            "target/generated-sources/<tool-name>". So we override the default to follow the Maven
+                            convention. This makes it easier for other tools like Intellij and Eclipse to auto
+                            detect the generated source.
+                             -->
+                            <sourceRoot>${build.directory}/generated-sources/xjc</sourceRoot>
                             <xsdOptions>
                                 <xsdOption>
                                     <xsd>
