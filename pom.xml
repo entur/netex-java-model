@@ -196,7 +196,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated/archive/1.07.zip</GITHUB_URL>
+                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.07.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -212,7 +212,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>https://github.com/entur/NeTEx-XML-deprecated/archive/1.04beta.zip</GITHUB_URL>
+                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.04beta.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
