@@ -24,10 +24,10 @@ aliases:
 jobs:
   test:
     docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+      - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
         auth:
           username: _json_key
-          password: $GCLOUD_SERVICE_KEY
+          password: $DOCKER_PASSWORD
     environment:
       MAVEN_OPTS: -Xmx3G
     steps:
@@ -53,10 +53,10 @@ jobs:
           path: ~/junit
   build:
     docker:
-    - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+    - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
       auth:
         username: _json_key
-        password: $GCLOUD_SERVICE_KEY
+        password: $DOCKER_PASSWORD
     environment:
       MAVEN_OPTS: -Xmx3G
     steps:
@@ -82,10 +82,10 @@ jobs:
         path: ~/junit
   deploy:
     docker:
-      - image: eu.gcr.io/carbon-1287/circleci-toolbox-image
+      - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
         auth:
           username: _json_key
-          password: $GCLOUD_SERVICE_KEY
+          password: $DOCKER_PASSWORD
     environment:
       DEBIAN_FRONTEND: "noninteractive"
     steps:
