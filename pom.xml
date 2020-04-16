@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>1.0.10-SNAPSHOT</version>
+    <version>1.10-SNAPSHOT</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx xsds using jaxb.</description>
@@ -53,7 +53,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.09</netexVersion>
+        <netexVersion>1.10</netexVersion>
         <assertj.core.version>3.4.1</assertj.core.version>
         <junit.version>4.12</junit.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
@@ -222,6 +222,22 @@
                             <executable>
                                 ./bin/version_updater.sh
                             </executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- This downloads 1.09 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.09</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.09</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.9/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
