@@ -10,3 +10,7 @@ You need xmlstarlet installed.
 ## Maven central
 This project is available in the central maven repository.
 See https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.entur%22
+
+# Related project
+
+See https://github.com/entur/netex-protobuf for a conversion of NeTEx xsd files to protobuf descriptors.
