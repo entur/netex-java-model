@@ -53,7 +53,7 @@ public class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
-				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now())
+				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now().withNano(0))
 				.withParticipantRef("participantRef");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
