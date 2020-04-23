@@ -133,6 +133,16 @@
             <artifactId>cxf-xjc-runtime</artifactId>
             <version>${cxf-xjc.version}</version>
         </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -350,6 +360,11 @@
                         <groupId>org.apache.cxf.xjcplugins</groupId>
                         <artifactId>cxf-xjc-bug986</artifactId>
                         <version>${cxf.xjc.plugin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.activation</groupId>
+                        <artifactId>javax.activation-api</artifactId>
+                        <version>1.2.0</version>
                     </dependency>
                 </dependencies>
             </plugin>
