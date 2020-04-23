@@ -68,6 +68,12 @@
 		</jxb:bindings>
 	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/1.10/netex_framework/netex_genericFramework/netex_zone_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'tariffZonesInFrame_RelStructure']/xsd:complexContent/xsd:extension[@base = 'containmentAggregationStructure']/xsd:sequence/xsd:element[@ref = 'TariffZone_']">
+			<jxb:property name="tariffZone" />
+		</jxb:bindings>
+	</jxb:bindings>
 
 
 
