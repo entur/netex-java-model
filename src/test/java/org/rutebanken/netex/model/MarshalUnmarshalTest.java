@@ -274,7 +274,7 @@ public class MarshalUnmarshalTest {
 
 		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
 		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
-				.getDatedServiceJourneyOrDeadRunOrServiceJourney().get(0);
+				.getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
 		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55");
