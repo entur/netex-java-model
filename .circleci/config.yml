@@ -1,26 +1,4 @@
 version: 2
-aliases:
-- &post_build
-  name: Trigger downstream builds
-  command: |
-    echo 'export CIRCLE_SHA1="$CIRCLE_SHA1"' >> $BASH_ENV
-    echo 'export CIRCLE_PROJECT_REPONAME="$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
-    echo 'export GITHUB_TOKEN="$GITHUB_TOKEN"' >> $BASH_ENV
-
-    /tools/trigger_build.sh "entur/tiamat.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/anshar.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/baba.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/asag.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/chouette.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/extime.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/kakka.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/namtar.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/uttu.git" "master" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/opentripplanner.git" "rutebanken_develop" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/opentripplanner.git" "entur_raptor" "$(git log -1 --pretty=%B)"
-    /tools/trigger_build.sh "entur/opentripplanner.git" "entur_nordic" "$(git log -1 --pretty=%B)"
-    # Marduk should be triggered from otp
-    /tools/trigger_build.sh "entur/profile-norway-validation.git" "master" "$(git log -1 --pretty=%B)"
 jobs:
   test:
     docker:
@@ -95,7 +73,6 @@ jobs:
       - run:
           name: Maven deploy
           command: mvn deploy -s /tools/m2/settings.xml -DskipTests
-      - run: *post_build
 workflows:
   version: 2
   build_test_deploy:
