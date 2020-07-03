@@ -51,7 +51,7 @@
         <jdk.version>1.8</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>datedServiceJourney_alignment_and_extending_reference_cardinality</netexBranch>
+        <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.11</netexVersion>
         <assertj.core.version>3.4.1</assertj.core.version>
