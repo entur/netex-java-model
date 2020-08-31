@@ -86,7 +86,7 @@
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.17.1</assertj.core.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>5.6.2</junit.version>
 
         <!-- Maven plugin versions  -->
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
@@ -112,8 +112,6 @@
         <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
 
     </properties>
-
-
 
     <dependencies>
 
@@ -155,8 +153,14 @@
 
         <!-- Test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -462,7 +466,6 @@
         </plugins>
     </build>
 
-
     <profiles>
 
         <profile>
@@ -563,6 +566,5 @@
             </distributionManagement>
         </profile>
     </profiles>
-
 
 </project>
