@@ -15,7 +15,7 @@
 
 package org.rutebanken.netex.validation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
