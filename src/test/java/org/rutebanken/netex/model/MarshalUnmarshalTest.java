@@ -15,8 +15,8 @@
 
 package org.rutebanken.netex.model;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -25,7 +25,12 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,7 +39,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class MarshalUnmarshalTest {
 
@@ -42,7 +47,7 @@ public class MarshalUnmarshalTest {
 	
 	private static ObjectFactory factory = new ObjectFactory();
 
-	@BeforeClass
+	@BeforeAll
 	public static void initContext() throws JAXBException {
 		jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
 
