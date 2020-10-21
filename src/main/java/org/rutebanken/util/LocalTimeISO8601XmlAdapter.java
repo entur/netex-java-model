@@ -24,7 +24,7 @@ import java.time.temporal.ChronoField;
 
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
-	private final static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
+	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
 			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
 			.optionalStart().appendPattern("XXXXX")
             .optionalEnd()
@@ -33,13 +33,13 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
 
 	@Override
-	public LocalTime unmarshal(String inputDate) throws Exception {
+	public LocalTime unmarshal(String inputDate) {
 		return LocalTime.parse(inputDate, formatter);
 
 	}
 
 	@Override
-	public String marshal(LocalTime inputDate) throws Exception {
+	public String marshal(LocalTime inputDate) {
 		if(inputDate != null) {
 			return formatter.format(inputDate);
 		} else {

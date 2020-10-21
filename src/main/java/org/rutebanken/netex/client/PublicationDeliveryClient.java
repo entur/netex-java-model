@@ -30,7 +30,7 @@ import java.net.URL;
 
 public class PublicationDeliveryClient {
 
-    private static final Logger logger = LoggerFactory.getLogger(PublicationDeliveryClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicationDeliveryClient.class);
 
     private final ObjectFactory objectFactory = new ObjectFactory();
 
@@ -39,7 +39,7 @@ public class PublicationDeliveryClient {
     private final JAXBContext jaxbContext;
     private final boolean validateAgainstSchema;
 
-    private NeTExValidator neTExValidator = null;
+    private NeTExValidator neTExValidator;
 
     /**
      *
@@ -62,7 +62,7 @@ public class PublicationDeliveryClient {
         this(publicationDeliveryUrl, false);
     }
 
-    public PublicationDeliveryStructure sendPublicationDelivery(PublicationDeliveryStructure publicationDelivery) throws JAXBException, IOException, SAXException {
+    public PublicationDeliveryStructure sendPublicationDelivery(PublicationDeliveryStructure publicationDelivery) throws JAXBException, IOException {
 
         Marshaller marshaller = jaxbContext.createMarshaller();
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -80,12 +80,12 @@ public class PublicationDeliveryClient {
             connection.setRequestProperty("Content-type", "application/xml");
             connection.setDoOutput(true);
 
-            logger.info("About to start marshalling publication delivery to output stream {}", publicationDelivery);
+            LOGGER.info("About to start marshalling publication delivery to output stream {}", publicationDelivery);
             marshaller.marshal(objectFactory.createPublicationDelivery(publicationDelivery), connection.getOutputStream());
-            logger.info("Done marshalling publication delivery to output stream. (Schema validation was set to {}) {}", validateAgainstSchema, publicationDelivery);
+            LOGGER.info("Done marshalling publication delivery to output stream. (Schema validation was set to {}) {}", validateAgainstSchema, publicationDelivery);
 
             int responseCode = connection.getResponseCode();
-            logger.info("Got response code {} after posting publication delivery to URL : {}", responseCode, url);
+            LOGGER.info("Got response code {} after posting publication delivery to URL : {}", responseCode, url);
 
             InputStream inputStream = connection.getInputStream();
             JAXBElement<PublicationDeliveryStructure> element = (JAXBElement<PublicationDeliveryStructure>) unmarshaller.unmarshal(inputStream);

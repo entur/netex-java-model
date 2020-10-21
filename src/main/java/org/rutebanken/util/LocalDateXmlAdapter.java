@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
 public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDateTime> {
-	private final static DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd")
+	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd")
 			.optionalStart().appendPattern("XXXXX").optionalEnd()
             .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
             .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
@@ -32,12 +32,12 @@ public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDateTime> {
             .toFormatter();
 
 	@Override
-	public LocalDateTime unmarshal(String inputDate) throws Exception {
+	public LocalDateTime unmarshal(String inputDate) {
 		return LocalDateTime.parse(inputDate, formatter);
 	}
 
 	@Override
-	public String marshal(LocalDateTime inputDate) throws Exception {
+	public String marshal(LocalDateTime inputDate) {
 		if(inputDate != null) {
 			return formatter.format(inputDate);
 		} else {
