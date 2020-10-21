@@ -1,4 +1,17 @@
 version: 2
+
+aliases:
+  - &sonar-scan
+    name: Sonar scan
+    command: |
+      mvn -Psonar -s /tools/m2/settings.xml \
+        sonar:sonar \
+        -Dsonar.projectKey=entur_${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.organization=${SONAR_ORG} \
+        -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${ENTUR_SONAR_PASSWORD}
+
 jobs:
   test:
     docker:
@@ -18,7 +31,7 @@ jobs:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -s /tools/m2/settings.xml
+      - run: mvn verify -s /tools/m2/settings.xml
       - run:
           name: Save test results
           command: |
@@ -29,6 +42,27 @@ jobs:
           path: ~/junit
       - store_artifacts:
           path: ~/junit
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - target
+
+  sonar:
+    docker:
+      - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image-java11
+        auth:
+          username: _json_key
+          password: $DOCKER_PASSWORD
+    environment:
+      MAVEN_OPTS: -Xmx3G
+    steps:
+      - checkout
+      - restore_cache:
+          key: dep-cache-{{ checksum "pom.xml" }}
+      - attach_workspace:
+          at: ~/project
+      - run: *sonar-scan
+
   build:
     docker:
     - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
@@ -48,16 +82,6 @@ jobs:
         key: dep-cache-{{ checksum "pom.xml" }}
     # Cannot use -o because of snapshot dependencies.
     - run: mvn install -s /tools/m2/settings.xml -DskipTests
-    - run:
-        name: Save test results
-        command: |
-          mkdir -p ~/junit/
-          find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
-        when: always
-    - store_test_results:
-        path: ~/junit
-    - store_artifacts:
-        path: ~/junit
   deploy:
     docker:
       - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
@@ -79,10 +103,14 @@ workflows:
     jobs:
       - test:
           context: org-carbon
+      - sonar:
+          context: org-carbon
+          requires:
+            - test
       - build:
           context: org-carbon
           requires:
-          - test
+          - sonar
       - deploy:
           context: org-carbon
           requires:
