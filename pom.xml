@@ -573,6 +573,7 @@
             </activation>
 
             <properties>
+                <jdk.version>11</jdk.version>
                 <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
                 <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
                 <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
