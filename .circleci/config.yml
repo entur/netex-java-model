@@ -1,4 +1,20 @@
 version: 2
+
+aliases:
+  - &sonar-scan
+    name: Sonar scan
+    command: |
+      mvn -Psonar -s /tools/m2/settings.xml \
+        org.jacoco:jacoco-maven-plugin:prepare-agent verify \
+        org.jacoco:jacoco-maven-plugin:report sonar:sonar \
+        -Dmaven.main.skip \
+        -DskipTests \
+        -Dsonar.projectKey=entur_${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.organization=${SONAR_ORG} \
+        -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=${ENTUR_SONAR_PASSWORD}
+
 jobs:
   test:
     docker:
@@ -12,13 +28,14 @@ jobs:
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
-      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s /tools/m2/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -Psonar -s /tools/m2/settings.xml
       - save_cache:
           paths:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -s /tools/m2/settings.xml
+      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -Psonar -s /tools/m2/settings.xml
+      - run: *sonar-scan
       - run:
           name: Save test results
           command: |
@@ -48,16 +65,6 @@ jobs:
         key: dep-cache-{{ checksum "pom.xml" }}
     # Cannot use -o because of snapshot dependencies.
     - run: mvn install -s /tools/m2/settings.xml -DskipTests
-    - run:
-        name: Save test results
-        command: |
-          mkdir -p ~/junit/
-          find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/junit/ \;
-        when: always
-    - store_test_results:
-        path: ~/junit
-    - store_artifacts:
-        path: ~/junit
   deploy:
     docker:
       - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
