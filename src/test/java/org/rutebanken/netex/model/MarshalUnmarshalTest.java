@@ -41,7 +41,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class MarshalUnmarshalTest {
+class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
 	
@@ -54,7 +54,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void publicationDeliveryWithOffsetDateTime() throws JAXBException {
+	void publicationDeliveryWithOffsetDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
@@ -83,7 +83,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void unmarshalPublicationDeliveryAndVerifyDateTime() throws JAXBException {
+	void unmarshalPublicationDeliveryAndVerifyDateTime() throws JAXBException {
 
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
@@ -133,7 +133,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void timetableWithVehicleModes() throws JAXBException {
+	void timetableWithVehicleModes() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		TimetableFrame timetableFrame = factory.createTimetableFrame().withVersion("any").withId("TimetableFrame")
@@ -160,7 +160,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void dayTypeWithPropertiesOfDay() throws JAXBException {
+	void dayTypeWithPropertiesOfDay() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
@@ -192,7 +192,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void datedCallWithLocalDate() throws JAXBException {
+	void datedCallWithLocalDate() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		DatedCall datedCall = new DatedCall().withArrivalDate(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
@@ -215,7 +215,7 @@ public class MarshalUnmarshalTest {
 
 
 	@Test
-	public void marshalledNamespacePrefixes() throws JAXBException {
+	void marshalledNamespacePrefixes() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDeliveryStructure = new PublicationDeliveryStructure();
@@ -229,12 +229,13 @@ public class MarshalUnmarshalTest {
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
 
-		assertThat(xml).as("Namespace declaration without prefix for netex").contains("xmlns=\"http://www.netex.org.uk/netex\"");
-		assertThat(xml).as("<PublicationDelivery without namespace prefix").contains("<PublicationDelivery");
+		assertThat(xml)
+				.as("Namespace declaration without prefix for netex").contains("xmlns=\"http://www.netex.org.uk/netex\"")
+				.as("<PublicationDelivery without namespace prefix").contains("<PublicationDelivery");
 	}
 
 	@Test
-	public void datedCallWithLocalDateTime() throws JAXBException {
+	void datedCallWithLocalDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		DatedCall datedCall = new DatedCall().withChanged(LocalDateTime.now());
@@ -255,7 +256,7 @@ public class MarshalUnmarshalTest {
 	}
 
 	@Test
-	public void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, FileNotFoundException {
+	void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, FileNotFoundException {
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -269,32 +270,30 @@ public class MarshalUnmarshalTest {
 		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
-		assertThat(validBetweenWithTimezone.getToDate().toString()).isEqualTo("2017-01-01T11:00");
+		assertThat(validBetweenWithTimezone.getToDate()).hasToString("2017-01-01T11:00");
 
 		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
 
-		assertThat(validBetweenWithoutTimezone.getToDate().toString()).isEqualTo("2017-01-01T12:00");
+		assertThat(validBetweenWithoutTimezone.getToDate()).hasToString("2017-01-01T12:00");
 
 		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
 		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
 				.getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
-		assertThat(serviceJourney.getDepartureTime().toString()).isEqualTo("07:55");
+		assertThat(serviceJourney.getDepartureTime()).hasToString("07:55");
 
 		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
-		assertThat(departureTimeZulu).isNotNull();
-		assertThat(departureTimeZulu.toString()).isEqualTo("07:55");
+		assertThat(departureTimeZulu).isNotNull().hasToString("07:55");
 
 		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
-		assertThat(departureTimeOffset).isNotNull();
-		assertThat(departureTimeOffset.toString()).isEqualTo("08:40");
+		assertThat(departureTimeOffset).isNotNull().hasToString("08:40");
 	}
 
 	@Test
-	public void fragmentShouldNotContainNetexNamespace() throws Exception {
+	void fragmentShouldNotContainNetexNamespace() throws Exception {
 		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
 		Marshaller marshaller = netexJaxBContext.createMarshaller();
 

@@ -25,7 +25,7 @@ import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class NeTExValidatorTest {
+class NeTExValidatorTest {
 
     private NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
     
@@ -39,7 +39,7 @@ public class NeTExValidatorTest {
 
     
     @Test
-    public void validationFailsForInvalidXml() throws SAXException, IOException {
+    void validationFailsForInvalidXml() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\"></PublicationDelivery>";
 
@@ -49,7 +49,7 @@ public class NeTExValidatorTest {
     }
 
     @Test
-    public void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
+    void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
         neTExValidator.validate(new StreamSource(new StringReader(xml)));
 
     }

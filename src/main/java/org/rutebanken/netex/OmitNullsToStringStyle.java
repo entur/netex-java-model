@@ -23,7 +23,7 @@ public class OmitNullsToStringStyle extends org.apache.commons.lang3.builder.ToS
 	 * 
 	 */
 	private static final long serialVersionUID = 7043613680114711384L;
-	public static ToStringStyle INSTANCE = new OmitNullsToStringStyle();
+	public static final ToStringStyle INSTANCE = new OmitNullsToStringStyle();
 
     public OmitNullsToStringStyle() {
         this.setUseClassName(false);

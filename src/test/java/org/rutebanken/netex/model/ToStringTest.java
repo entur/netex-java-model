@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ToStringTest {
+class ToStringTest {
     @Test
-    public void toStringMethod() {
+    void toStringMethod() {
         StopPlace stopPlace = new StopPlace()
                 .withName(new MultilingualString().withValue("berger"))
                 .withDescription(new MultilingualString().withValue("description"));
