@@ -62,7 +62,7 @@ public class PredefinedSchemaListClasspathResourceResolver implements LSResource
         }
     }
 
-    protected LSInput createInput(final String systemId, final String baseUri) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    protected LSInput createInput(final String systemId, final String baseUri) {
 
         return new LSInput() {
 

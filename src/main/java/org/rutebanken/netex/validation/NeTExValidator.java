@@ -26,12 +26,12 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class NeTExValidator {
 
-	private static final Logger logger = LoggerFactory.getLogger(NeTExValidator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NeTExValidator.class);
 	
 	public enum NetexVersion {
 		V1_0_4beta ("1.04beta"),
@@ -47,6 +47,7 @@ public class NeTExValidator {
 			this.folderName = folderName;
 		}
 
+		@Override
 		public String toString() {
 			return folderName;
 		}
@@ -55,7 +56,7 @@ public class NeTExValidator {
 
 	public static final NetexVersion LATEST = NetexVersion.v1_11;
 
-	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new HashMap<>();
+	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new EnumMap<>(NetexVersion.class);
 
 	private static synchronized NeTExValidator createValidator(NeTExValidator.NetexVersion version) throws IOException, SAXException {
 		NeTExValidator validator = VALIDATORS_PER_VERSION.get(version);
@@ -97,7 +98,7 @@ public class NeTExValidator {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 		String resourceName = "xsd/"+ version +"/NeTEx_publication.xsd";
-		logger.info("Loading resource: {}", resourceName);
+		LOGGER.info("Loading resource: {}", resourceName);
 		URL resource = getClass().getClassLoader().getResource(resourceName);
 		if(resource == null) {
 			throw new IOException("Cannot load resource " + resourceName);
@@ -105,7 +106,7 @@ public class NeTExValidator {
 		neTExSchema = factory.newSchema(resource);
 	}
 
-	public Schema getSchema() throws SAXException, IOException {
+	public Schema getSchema() {
 		return neTExSchema;
 	}
 
