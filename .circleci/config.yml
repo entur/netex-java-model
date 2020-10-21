@@ -31,7 +31,7 @@ jobs:
             - ~/.m2
           key: dep-cache-{{ checksum "pom.xml" }}
       # Cannot use -o because of snapshot dependencies.
-      - run: mvn org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test -s /tools/m2/settings.xml
+      - run: mvn verify -s /tools/m2/settings.xml
       - run: *sonar-scan
       - run:
           name: Save test results
