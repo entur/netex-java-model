@@ -8,7 +8,8 @@ aliases:
         org.jacoco:jacoco-maven-plugin:prepare-agent verify \
         org.jacoco:jacoco-maven-plugin:report sonar:sonar \
         -Dmaven.main.skip \
-        -DskipTests \
+        -Dexec.skip \
+        -Dmaven.test.skip=true \
         -Dsonar.projectKey=entur_${CIRCLE_PROJECT_REPONAME} \
         -Dsonar.organization=${SONAR_ORG} \
         -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
