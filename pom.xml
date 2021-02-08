@@ -69,7 +69,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.11</netexVersion>
+        <netexVersion>1.12</netexVersion>
 
         <!-- JAXB components versions -->
         <jaxb.api.version>2.3.2</jaxb.api.version>
@@ -255,6 +255,22 @@
                             <executable>
                                 ./bin/version_updater.sh
                             </executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- This downloads 1.11 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.11</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.11</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.11/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
