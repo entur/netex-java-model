@@ -67,7 +67,7 @@
         <jdk.version>1.8</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>entity_publication_enumeration</netexBranch>
+        <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.13</netexVersion>
 
