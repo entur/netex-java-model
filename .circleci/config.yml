@@ -19,12 +19,12 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3G
     steps:
-      - run:
-         name: Install xmlstarlet
-         command:sudo apt-get -y update && apt-get -y install xmlstarlet
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
+      - run:
+         name: Install xmlstarlet
+         command:sudo apt-get -y update && apt-get -y install xmlstarlet
       - run:
           name: Download Maven settings
           command: wget https://raw.githubusercontent.com/entur/circleci-toolbox-image-java11/master/tools/m2/settings.xml -O .circleci/settings.xml
