@@ -83,19 +83,19 @@
         <xjc.guava.plugin.version>0.3.1</xjc.guava.plugin.version>
 
         <!-- Other dependencies versions -->
-        <slf4j.version>1.7.30</slf4j.version>
-        <commons-lang3.version>3.11</commons-lang3.version>
+        <slf4j.version>1.7.32</slf4j.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
-        <assertj.core.version>3.17.1</assertj.core.version>
-        <junit.version>5.6.2</junit.version>
+        <assertj.core.version>3.22.0</assertj.core.version>
+        <junit.version>5.8.2</junit.version>
 
         <!-- Maven plugin versions  -->
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-exec-plugin.version>1.6.0</maven-exec-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+        <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
@@ -104,12 +104,13 @@
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-        <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
-        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <maven-site-plugin.version>3.10.0</maven-site-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
 
-        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
         <argLine/>
 
@@ -395,7 +396,6 @@
                 <configuration>
                     <extensions>
                         <extension>net.java.dev.jaxb2-commons:jaxb-fluent-api:${jaxb.fluent.api.version}</extension>
-                                     
                         <extension>org.apache.cxf.xjcplugins:cxf-xjc-ts:${cxf-xjc.version}</extension>
                     </extensions>
                 </configuration>
@@ -655,7 +655,7 @@
 
             <properties>
                 <jdk.version>11</jdk.version>
-                <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+                <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
             </properties>
 
             <build>
