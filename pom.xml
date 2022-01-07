@@ -13,7 +13,8 @@
   ~ limitations under the Licence.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
@@ -110,7 +111,7 @@
 
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
-        <argLine />
+        <argLine/>
 
         <!-- GPG configuration for jar signing-->
         <gpg.executable>gpg</gpg.executable>
@@ -307,7 +308,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                    <!-- This downloads 1.09 for validation needs. This is not used to generate the model -->
+                        <!-- This downloads 1.09 for validation needs. This is not used to generate the model -->
                         <id>download-extract-legacy-1.09</id>
                         <phase>generate-resources</phase>
                         <goals>
@@ -347,7 +348,8 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.07.zip</GITHUB_URL>
+                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.07.zip
+                                </GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -363,7 +365,8 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.04beta.zip</GITHUB_URL>
+                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.04beta.zip
+                                </GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -392,7 +395,8 @@
                 <configuration>
                     <extensions>
                         <extension>net.java.dev.jaxb2-commons:jaxb-fluent-api:${jaxb.fluent.api.version}</extension>
-                        <extension>org.apache.cxf.xjcplugins:cxf-xjc-ts:${cxf-xjc.version}</extension>
+                                     
+                        <extension>org.apache.cxf.xjcplugins:cxf-xjc-ts:${cxf-xjc.version}</extension>
                     </extensions>
                 </configuration>
                 <executions>
@@ -420,7 +424,8 @@
                                     <extensionArgs>
                                         <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
-                                        <extensionArg>-Xts:style:org.rutebanken.netex.OmitNullsToStringStyle.INSTANCE</extensionArg>
+                                        <extensionArg>-Xts:style:org.rutebanken.netex.OmitNullsToStringStyle.INSTANCE
+                                        </extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
@@ -494,7 +499,7 @@
                                 <requireJavaVersion>
                                     <version>${jdk.version}</version>
                                 </requireJavaVersion>
-                                <requirePluginVersions />
+                                <requirePluginVersions/>
                             </rules>
                         </configuration>
                     </execution>
@@ -532,7 +537,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <rules />
+                            <rules/>
                         </configuration>
                     </execution>
                 </executions>
@@ -587,7 +592,9 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
-                                <goals><goal>jar</goal></goals>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
