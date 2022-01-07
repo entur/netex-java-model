@@ -19,6 +19,9 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3G
     steps:
+      - run:
+         name: Install xmlstarlet
+         command:sudo apt-get -y update && apt-get -y install xmlstarlet
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
