@@ -105,6 +105,7 @@ jobs:
           key: dep-cache-{{ checksum "pom.xml" }}
       - attach_workspace:
           at: ~/project
+      - run: *install-xmlstarlet
       - run:
           name: Run Maven deploy
           command: mvn deploy -s .circleci/settings.xml -DskipTests
