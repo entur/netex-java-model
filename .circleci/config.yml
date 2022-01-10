@@ -94,7 +94,6 @@ jobs:
     - run:
         name: Run Maven package
         command: mvn package -s .circleci/settings.xml -DskipTests
-    - run:
   deploy:
     docker:
       - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
