@@ -11,6 +11,12 @@ aliases:
         -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
         -Dsonar.host.url=https://sonarcloud.io \
         -Dsonar.login=${ENTUR_SONAR_PASSWORD}
+  - &install-xmlstarlet
+    name: Install xmlstarlet
+         command:|
+            sudo rm -rf /var/lib/apt/lists/*
+            sudo apt-get update
+            sudo apt-get -y install xmlstarlet
 
 jobs:
   test:
@@ -22,9 +28,7 @@ jobs:
       - checkout
       - restore_cache:
           key: dep-cache-{{ checksum "pom.xml" }}
-      - run:
-         name: Install xmlstarlet
-         command: sudo apt-get -y install xmlstarlet
+      - run: *install-xmlstarlet
       - run:
           name: Download Maven settings
           command: wget https://raw.githubusercontent.com/entur/circleci-toolbox-image-java11/master/tools/m2/settings.xml -O .circleci/settings.xml
@@ -77,9 +81,7 @@ jobs:
     - checkout
     - restore_cache:
         key: dep-cache-{{ checksum "pom.xml" }}
-    - run:
-         name: Install xmlstarlet
-         command: sudo apt-get -y install xmlstarlet
+    - run: *install-xmlstarlet
     - run:
         name: Download Maven settings
         command: wget https://raw.githubusercontent.com/entur/circleci-toolbox-image-java11/master/tools/m2/settings.xml -O .circleci/settings.xml
