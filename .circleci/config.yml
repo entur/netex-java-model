@@ -81,6 +81,7 @@ jobs:
     - checkout
     - restore_cache:
         key: dep-cache-{{ checksum "pom.xml" }}
+    - run: *install-xmlstarlet
     - run:
         name: Download Maven settings
         command: wget https://raw.githubusercontent.com/entur/circleci-toolbox-image-java11/master/tools/m2/settings.xml -O .circleci/settings.xml
