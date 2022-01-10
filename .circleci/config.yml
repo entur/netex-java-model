@@ -98,12 +98,7 @@ jobs:
 
   deploy:
     docker:
-      - image: eu.gcr.io/entur-system-1287/circleci-toolbox-image
-        auth:
-          username: _json_key
-          password: $DOCKER_PASSWORD
-    environment:
-      DEBIAN_FRONTEND: "noninteractive"
+      - image:  cimg/openjdk:8.0
     steps:
       - checkout
       - restore_cache:
