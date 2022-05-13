@@ -11,6 +11,11 @@ aliases:
         -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME} \
         -Dsonar.host.url=https://sonarcloud.io \
         -Dsonar.login=${ENTUR_SONAR_PASSWORD}
+  - &jfrog-login
+    name: Rename jfrog environment variable for maven setting.xml
+    command: |
+      echo "export JFROG_USER=$ARTIFACTORY_USER"  >> $BASH_ENV
+      echo "export JFROG_PASS=$ARTIFACTORY_PASSWORD"  >> $BASH_ENV
   - &install-xmlstarlet
     name: Install xmlstarlet
     command: |
@@ -32,6 +37,7 @@ jobs:
       - run:
           name: Download Maven settings
           command: wget https://raw.githubusercontent.com/entur/circleci-toolbox-image-java11/master/tools/m2/settings.xml -O .circleci/settings.xml
+      - run: *jfrog-login
       - run:
           name: Refresh cache
           command: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.0:go-offline -s .circleci/settings.xml
@@ -115,17 +121,17 @@ workflows:
   build_test_deploy:
     jobs:
       - test:
-          context: org-carbon
+          context: global
       - sonar:
-          context: org-carbon
+          context: global
           requires:
             - test
       - build:
-          context: org-carbon
+          context: global
           requires:
           - sonar
       - deploy:
-          context: org-carbon
+          context: global
           requires:
             - build
           filters:
