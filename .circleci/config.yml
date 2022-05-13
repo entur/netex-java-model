@@ -76,6 +76,7 @@ jobs:
           key: dep-cache-{{ checksum "pom.xml" }}
       - attach_workspace:
           at: ~/project
+      - run: *jfrog-login
       - run: *sonar-scan
 
   build:
