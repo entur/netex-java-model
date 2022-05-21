@@ -13,7 +13,7 @@
  * limitations under the Licence.
  */
 
-package org.rutebanken.netex.model;
+package com.bliksemlabs.netex.model;
 
 import org.junit.jupiter.api.Test;
 

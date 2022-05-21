@@ -13,7 +13,7 @@
  * limitations under the Licence.
  */
 
-package org.rutebanken.netex.model;
+package com.bliksemlabs.netex.model;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -294,7 +294,7 @@ class MarshalUnmarshalTest {
 
 	@Test
 	void fragmentShouldNotContainNetexNamespace() throws Exception {
-		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
+		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:com.bliksemlabs.netex.model:uk.org.siri.siri");
 		Marshaller marshaller = netexJaxBContext.createMarshaller();
 
 		marshaller.setProperty(javax.xml.bind.Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());

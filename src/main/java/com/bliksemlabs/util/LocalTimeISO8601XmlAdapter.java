@@ -13,7 +13,7 @@
  * limitations under the Licence.
  */
 
-package org.rutebanken.util;
+package com.bliksemlabs.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalTime;

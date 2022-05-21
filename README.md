@@ -1,16 +1,11 @@
-# netex-java-model [![CircleCI](https://circleci.com/gh/entur/netex-java-model/tree/master.svg?style=svg)](https://circleci.com/gh/entur/netex-java-model/tree/master)
+# netex-java-model
 
-Downloads the NeTEx-XML XSD files from https://github.com/entur/NeTEx and generates java model using jaxb.
+Downloads the NeTEx-XML XSD files from https://github.com/bliksemlabs/NeTEx and generates java model using jaxb.
 
 You need xmlstarlet installed.
 
 ```mvn clean install```
 
+## Original
 
-## Maven central
-This project is available in the central maven repository.
-See https://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.entur%22
-
-# Related project
-
-See https://github.com/entur/netex-protobuf for a conversion of NeTEx xsd files to protobuf descriptors.
+This repository is forked from https://github.com/entur/NeTEx in order to run the next branch of NeTEx, to read Dutch NeTEx files.

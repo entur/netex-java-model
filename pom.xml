@@ -1,31 +1,15 @@
-<!--
-  ~ Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
-  ~ the European Commission - subsequent versions of the EUPL (the "Licence");
-  ~ You may not use this work except in compliance with the Licence.
-  ~ You may obtain a copy of the Licence at:
-  ~
-  ~   https://joinup.ec.europa.eu/software/page/eupl
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the Licence is distributed on an "AS IS" basis,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the Licence for the specific language governing permissions and
-  ~ limitations under the Licence.
-  -->
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.entur</groupId>
+    <groupId>com.bliksemlabs</groupId>
     <artifactId>netex-java-model</artifactId>
     <version>1.0.14-SNAPSHOT</version>
 
     <name>netex-java-model</name>
-    <description>Generates Java model from NeTEx xsds using jaxb.</description>
-    <url>https://github.com/entur/netex-java-model</url>
+    <description>Generates Java model from NeTEx xsds using jaxb. Forked from Entur</description>
+    <url>https://github.com/bliksemlabs/netex-java-model</url>
     <organization>
-        <name>Entur AS</name>
-        <url>http://www.entur.org/</url>
+        <name>Bliksem Labs B.V.</name>
+        <url>http://www.bliksemlabs.nl/</url>
     </organization>
     <licenses>
         <license>
@@ -36,30 +20,30 @@
     </licenses>
     <developers>
         <developer>
-            <name>Erlend Nossum</name>
-            <email>erlend.nossum@entur.org</email>
-            <organization>Entur</organization>
-            <organizationUrl>http://www.entur.org</organizationUrl>
+            <name>Stefan de Konink</name>
+            <email>stefan@konink.de</email>
+            <organization>Bliksem Labs B.V.</organization>
+            <organizationUrl>http://www.bliksemlabs.nl</organizationUrl>
         </developer>
         <developer>
-            <name>Cristoffer Solem</name>
-            <email>cristoffer.solem@entur.org</email>
-            <organization>Entur</organization>
-            <organizationUrl>http://www.entur.org</organizationUrl>
+            <name>Thomas Koch</name>
+            <email>ovinfo@ovapi.nl</email>
+            <organization>Bliksem Labs B.V.</organization>
+            <organizationUrl>http://www.bliksemlabs.nl</organizationUrl>
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
-        <url>https://github.com/entur/netex-java-model/tree/master</url>
+        <connection>scm:git:ssh://git@github.com/bliksemlabs/netex-java-model.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/bliksemlabs/netex-java-model.git</developerConnection>
+        <url>https://github.com/bliksemlabs/netex-java-model/tree/master</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>entur2-snapshots</name>
-            <url>https://entur2.jfrog.io/entur2/libs-snapshot-local</url>
-        </snapshotRepository>
+        <repository>
+            <id>github</id>
+            <name>GitHub BliksemLabs Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/bliksemlabs/netex-java-model</url>
+        </repository>
     </distributionManagement>
 
     <properties>
@@ -68,8 +52,8 @@
         <jdk.version>1.8</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>master</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
+        <netexBranch>next</netexBranch>
+        <netexGithubUrl>https://github.com/netex-cen/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.13</netexVersion>
 
         <!-- JAXB components versions -->
@@ -79,12 +63,13 @@
         <jaxb.java.time.adapters.version>1.1.3</jaxb.java.time.adapters.version>
 
         <cxf.xjc.plugin.version>3.0.5</cxf.xjc.plugin.version>
-        <cxf-xjc.version>3.1.0</cxf-xjc.version>
+        <cxf-xjc.version>3.3.1</cxf-xjc.version>
         <xjc.guava.plugin.version>0.3.1</xjc.guava.plugin.version>
 
         <!-- Other dependencies versions -->
-        <slf4j.version>1.7.32</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
+        <jaxb2-basics.version>1.11.1</jaxb2-basics.version>
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.22.0</assertj.core.version>
@@ -156,6 +141,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>${jaxb2-basics.version}</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -261,120 +251,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- This downloads 1.12 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.12</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.12</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.12/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.11 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.11</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.11</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.11/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.10 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.10</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.10</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.10-entur/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.09 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.09</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.09</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.9/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.08 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.08</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.08</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.8/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.07 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.07</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.07.zip
-                                </GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.04beta for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.04beta</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.04beta.zip
-                                </GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>annotation-removal</id>
                         <phase>generate-sources</phase>
                         <goals>
@@ -424,8 +300,12 @@
                                     <extensionArgs>
                                         <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
-                                        <extensionArg>-Xts:style:org.rutebanken.netex.OmitNullsToStringStyle.INSTANCE
-                                        </extensionArg>
+                                        <extensionArg>-Xts:style:com.bliksemlabs.netex.OmitNullsToStringStyle.INSTANCE</extensionArg>
+                                        <extensionArg>-Xequals</extensionArg>
+                                        <extensionArg>-XhashCode</extensionArg>
+                                        <extensionArg>-Xcopyable</extensionArg>
+                                        <extensionArg>-Xmergeable</extensionArg>
+                                        <extensionArg>-XautoNameResolution</extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
                             </xsdOptions>
@@ -437,6 +317,11 @@
                         <groupId>org.apache.cxf.xjcplugins</groupId>
                         <artifactId>cxf-xjc-bug986</artifactId>
                         <version>${cxf.xjc.plugin.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2-basics.version}</version>
                     </dependency>
                     <dependency>
                         <groupId>javax.activation</groupId>
@@ -499,7 +384,7 @@
                                 <requireJavaVersion>
                                     <version>${jdk.version}</version>
                                 </requireJavaVersion>
-                                <requirePluginVersions/>
+                                <requirePluginVersions />
                             </rules>
                         </configuration>
                     </execution>
@@ -537,7 +422,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <rules/>
+                            <rules />
                         </configuration>
                     </execution>
                 </executions>
@@ -561,6 +446,7 @@
                             <version>${maven-surefire-plugin.version}</version>
                             <configuration>
                                 <useSystemClassLoader>false</useSystemClassLoader>
+                                <argLine>-Xmx1024m</argLine>
                             </configuration>
                         </plugin>
                     </plugins>
@@ -592,9 +478,7 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
+                                <goals><goal>jar</goal></goals>
                             </execution>
                         </executions>
                     </plugin>
@@ -654,8 +538,8 @@
             </activation>
 
             <properties>
-                <jdk.version>11</jdk.version>
-                <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+                <jdk.version>8</jdk.version>
+                <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
             </properties>
 
             <build>
