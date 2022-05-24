@@ -78,7 +78,7 @@
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <jaxb.java.time.adapters.version>1.1.3</jaxb.java.time.adapters.version>
 
-        <cxf.xjc.plugin.version>3.0.5</cxf.xjc.plugin.version>
+        <cxf.xjc.plugin.version>3.3.2</cxf.xjc.plugin.version>
         <cxf-xjc.version>3.1.0</cxf-xjc.version>
         <xjc.guava.plugin.version>0.3.1</xjc.guava.plugin.version>
 
