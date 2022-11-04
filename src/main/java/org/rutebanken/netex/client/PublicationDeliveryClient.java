@@ -45,9 +45,6 @@ public class PublicationDeliveryClient {
      *
      * @param publicationDeliveryUrl Url to where to POST the publication delivery XML
      * @param validateAgainstSchema If serialized XML should be validated against the NeTEx schema.
-     * @throws JAXBException
-     * @throws IOException
-     * @throws SAXException
      */
     public PublicationDeliveryClient(String publicationDeliveryUrl, boolean validateAgainstSchema) throws JAXBException, IOException, SAXException {
         this.publicationDeliveryUrl = publicationDeliveryUrl;
