@@ -87,14 +87,14 @@ public class NeTExValidator {
 
 
 	/**
-	 * "Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
 	 */
 	public NeTExValidator() throws IOException, SAXException {
 		this(LATEST);
 	}
 
 	/**
-	 * "Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
 	 */
 	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

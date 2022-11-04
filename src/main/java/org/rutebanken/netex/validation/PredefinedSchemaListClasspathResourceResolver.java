@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class PredefinedSchemaListClasspathResourceResolver implements LSResourceResolver {
 
-    private Map<String, String> resourceToPathMap = new HashMap<>();
+    private final Map<String, String> resourceToPathMap = new HashMap<>();
 
     public PredefinedSchemaListClasspathResourceResolver(String schemaList) throws IOException {
 
