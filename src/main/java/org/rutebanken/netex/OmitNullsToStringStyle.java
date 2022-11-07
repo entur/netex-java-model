@@ -17,7 +17,7 @@ package org.rutebanken.netex;
 
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class OmitNullsToStringStyle extends org.apache.commons.lang3.builder.ToStringStyle {
+public class OmitNullsToStringStyle extends ToStringStyle {
 
     /**
 	 * 

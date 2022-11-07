@@ -18,7 +18,12 @@ package org.rutebanken.netex.validation;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,10 +34,10 @@ public class PredefinedSchemaListClasspathResourceResolver implements LSResource
     public PredefinedSchemaListClasspathResourceResolver(String schemaList) throws IOException {
 
         InputStream resourceAsStream = getClass().getResourceAsStream(schemaList);
-        if(resourceAsStream == null) {
-        	throw new IOException("Unable to load "+schemaList+" as resource stream");
+        if (resourceAsStream == null) {
+            throw new IOException("Unable to load " + schemaList + " as resource stream");
         }
-        BufferedReader r = new BufferedReader(new InputStreamReader(resourceAsStream));
+        BufferedReader r = new BufferedReader(new InputStreamReader(resourceAsStream, StandardCharsets.UTF_8));
         String resource;
         while ((resource = r.readLine()) != null) {
             String name = resource.substring(resource.lastIndexOf('/') + 1);

@@ -30,8 +30,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
@@ -45,7 +48,7 @@ class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
 	
-	private static ObjectFactory factory = new ObjectFactory();
+	private static final ObjectFactory factory = new ObjectFactory();
 
 	@BeforeAll
 	public static void initContext() throws JAXBException {
@@ -256,16 +259,16 @@ class MarshalUnmarshalTest {
 	}
 
 	@Test
-	void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, FileNotFoundException {
+	void unmarshalPublicationDeliveryAndVerifyValidBetween() throws JAXBException, IOException {
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		@SuppressWarnings("unchecked")
 		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
-				.unmarshal(new FileInputStream(new File("src/test/resources/date_time_examples.xml")));
+				.unmarshal(Files.newInputStream(Paths.get("src/test/resources/date_time_examples.xml")));
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
-		CompositeFrame compositeFrame = (CompositeFrame) ((JAXBElement<? extends Common_VersionFrameStructure>) actual.dataObjects.compositeFrameOrCommonFrame
-				.get(0)).getValue();
+		CompositeFrame compositeFrame = (CompositeFrame) actual.dataObjects.compositeFrameOrCommonFrame
+				.get(0).getValue();
 		ValidityConditions_RelStructure validityConditions = compositeFrame.getValidityConditions();
 		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
