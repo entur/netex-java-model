@@ -139,4 +139,4 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: 1.x
