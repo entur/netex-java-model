@@ -13,12 +13,11 @@
   ~ limitations under the Licence.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>1.0.14-SNAPSHOT</version>
+    <version>1.0.14</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx xsds using jaxb.</description>
@@ -52,7 +51,7 @@
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
         <url>https://github.com/entur/netex-java-model/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>netex-java-model-1.0.14</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -112,7 +111,7 @@
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
 
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
-        <argLine/>
+        <argLine />
 
         <!-- GPG configuration for jar signing-->
         <gpg.executable>gpg</gpg.executable>
@@ -515,7 +514,7 @@
                                 <requireJavaVersion>
                                     <version>${jdk.version}</version>
                                 </requireJavaVersion>
-                                <requirePluginVersions/>
+                                <requirePluginVersions />
                             </rules>
                         </configuration>
                     </execution>
@@ -553,7 +552,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <rules/>
+                            <rules />
                         </configuration>
                     </execution>
                 </executions>
