@@ -452,12 +452,7 @@
                         <artifactId>cxf-xjc-bug986</artifactId>
                         <version>${cxf.xjc.plugin.version}</version>
                     </dependency>
-                    <dependency>
-                        <groupId>javax.activation</groupId>
-                        <artifactId>javax.activation-api</artifactId>
-                        <version>1.2.0</version>
-                    </dependency>
-                </dependencies>
+                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
