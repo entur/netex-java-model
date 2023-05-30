@@ -20,11 +20,11 @@
     <version>2.0.15-SNAPSHOT</version>
 
     <name>netex-java-model</name>
-    <description>Generates Java model from NeTEx xsds using jaxb.</description>
+    <description>Generates Java model from NeTEx XSDs using JAXB.</description>
     <url>https://github.com/entur/netex-java-model</url>
     <organization>
         <name>Entur AS</name>
-        <url>http://www.entur.org/</url>
+        <url>https://www.entur.org/</url>
     </organization>
     <licenses>
         <license>
@@ -38,13 +38,13 @@
             <name>Erlend Nossum</name>
             <email>erlend.nossum@entur.org</email>
             <organization>Entur</organization>
-            <organizationUrl>http://www.entur.org</organizationUrl>
+            <organizationUrl>https://www.entur.org</organizationUrl>
         </developer>
         <developer>
             <name>Cristoffer Solem</name>
             <email>cristoffer.solem@entur.org</email>
             <organization>Entur</organization>
-            <organizationUrl>http://www.entur.org</organizationUrl>
+            <organizationUrl>https://www.entur.org</organizationUrl>
         </developer>
     </developers>
     <scm>
