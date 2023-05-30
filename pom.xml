@@ -560,6 +560,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
+                            <Automatic-Module-Name>org.entur.netex.java.model</Automatic-Module-Name>
                             <Last-Commit-Id>${git.commit.id}</Last-Commit-Id>
                             <Last-Commit-Time>${git.commit.time}</Last-Commit-Time>
                             </manifestEntries>
