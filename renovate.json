@@ -1,5 +1,6 @@
 {
   "extends": [
-    "config:base"
-  ]
+    "github>entur/ror-renovate-config"
+  ],
+  "separateMinorPatch": true
 }
