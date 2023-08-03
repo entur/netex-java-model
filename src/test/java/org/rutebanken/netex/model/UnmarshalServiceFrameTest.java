@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class UnmarshalServiceFrameTest {
 
@@ -151,14 +152,24 @@ class UnmarshalServiceFrameTest {
         assertEquals("F8", line.getPrivateCode().getValue());
         assertEquals("rail", line.getTransportMode().value());
 
-
         Route route = (Route) serviceFrame.getRoutes().getRoute_().get(0).getValue();
         assertEquals("Riksgränsen-Narvik  Ofotbanen", route.getName().getValue());
         assertEquals("KJ-NK", route.getShortName().getValue());
 
+        PointOnRoute pointOnRoute = route.getPointsInSequence().getPointOnRoute().get(0);
+        assertEquals("VYG:RoutePoint:KJ", pointOnRoute.getPointRef().getValue().getRef());
 
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_OrJourneyPatternView().get(0).getValue();
+        assertEquals("KMB-NK", journeyPattern.getName().getValue());
+        assertEquals("VYG:Route:F8-R", journeyPattern.getRouteRef().getRef());
 
+        StopPointInJourneyPattern stopPointInJourneyPattern = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence().getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().get(0);
+        assertEquals("VYG:ScheduledStopPoint:KMB-1", stopPointInJourneyPattern.getScheduledStopPointRef().getValue().getRef());
+        assertFalse(stopPointInJourneyPattern.isForAlighting());
+        assertEquals("VYG:DestinationDisplay:F8-NK", stopPointInJourneyPattern.getDestinationDisplayRef().getRef());
 
+        ServiceLinkInJourneyPattern_VersionedChildStructure serviceLinkInJourneyPattern = (ServiceLinkInJourneyPattern_VersionedChildStructure) journeyPattern.getLinksInSequence().getServiceLinkInJourneyPatternOrTimingLinkInJourneyPattern().get(0);
+        assertEquals("VYG:ServiceLink:KMB-1_ABOe-1_NULL",serviceLinkInJourneyPattern.getServiceLinkRef().getRef());
 
 
     }
