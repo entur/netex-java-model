@@ -15,11 +15,9 @@
 
 package org.rutebanken.netex.model;
 
-import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -27,16 +25,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UnmarshalSiteFrameTest {
-
-    private static JAXBContext jaxbContext;
-
-
-    @BeforeAll
-    public static void initContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
-
-    }
+class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest{
 
     @Test
     void unmarshalSiteFrame() throws JAXBException {

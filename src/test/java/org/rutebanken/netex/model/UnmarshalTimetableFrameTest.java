@@ -15,11 +15,9 @@
 
 package org.rutebanken.netex.model;
 
-import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -27,16 +25,7 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UnmarshalTimetableFrameTest {
-
-    private static JAXBContext jaxbContext;
-
-
-    @BeforeAll
-    public static void initContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
-
-    }
+class UnmarshalTimetableFrameTest extends AbstractUnmarshalFrameTest {
 
     @Test
     void unmarshalTimetableFrame() throws JAXBException {
@@ -107,6 +96,7 @@ class UnmarshalTimetableFrameTest {
                 "           \n" +
                 "            <DatedServiceJourney version=\"1\" id=\"VYG:DatedServiceJourney:96_KMB-NK_23-12-09\">\n" +
                 "              <ServiceJourneyRef ref=\"VYG:ServiceJourney:96-KMB_87815-R\" version=\"11\"></ServiceJourneyRef>\n" +
+                "              <DatedServiceJourneyRef ref=\"VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19\" version=\"1\"></DatedServiceJourneyRef>\n" +
                 "              <OperatingDayRef ref=\"VYG:OperatingDay:2023-12-09\"></OperatingDayRef>\n" +
                 "            </DatedServiceJourney>\n" +
                 "          </vehicleJourneys>\n" +
@@ -136,6 +126,8 @@ class UnmarshalTimetableFrameTest {
 
         DatedServiceJourney dsj = (DatedServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(1);
         assertEquals("VYG:OperatingDay:2023-12-09", dsj.getOperatingDayRef().getRef());
+        assertEquals("VYG:ServiceJourney:96-KMB_87815-R", dsj.getJourneyRef().get(0).getValue().getRef());
+        assertEquals("VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19", dsj.getJourneyRef().get(1).getValue().getRef());
 
 
 
