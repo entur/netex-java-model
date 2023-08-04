@@ -89,6 +89,16 @@ class UnmarshalServiceCalendarFrameTest extends AbstractUnmarshalFrameTest {
                 "              <CalendarDate>2023-10-30</CalendarDate>\n" +
                 "            </OperatingDay>\n" +
                 "          </operatingDays>\n" +
+                "          <operatingPeriods>\n" +
+                "            <OperatingPeriod version=\"1\" id=\"BRA:OperatingPeriod:355-1\">\n" +
+                "              <FromDate>2023-08-17T00:00:00</FromDate>\n" +
+                "              <ToDate>2024-06-24T00:00:00</ToDate>\n" +
+                "            </OperatingPeriod>\n" +
+                "            <OperatingPeriod version=\"1\" id=\"BRA:OperatingPeriod:311-1\">\n" +
+                "              <FromDate>2023-08-16T00:00:00</FromDate>\n" +
+                "              <ToDate>2024-06-23T00:00:00</ToDate>\n" +
+                "            </OperatingPeriod>" +
+                "          </operatingPeriods>\n" +
                 "          <dayTypeAssignments>\n" +
                 "            <DayTypeAssignment order=\"1988\" version=\"1\" id=\"BRA:DayTypeAssignment:375-4\">\n" +
                 "              <Date>2024-05-01</Date>\n" +
@@ -123,6 +133,9 @@ class UnmarshalServiceCalendarFrameTest extends AbstractUnmarshalFrameTest {
 
         OperatingDay operatingDay = serviceCalendarFrame.getOperatingDays().getOperatingDay().get(0);
         assertEquals(LocalDateTime.of(2023,10,29,0,0), operatingDay.getCalendarDate());
+
+        OperatingPeriod operatingPeriod = (OperatingPeriod) serviceCalendarFrame.getOperatingPeriods().getOperatingPeriodOrUicOperatingPeriod().get(0);
+        assertEquals(LocalDateTime.of(2023,8,17,0,0), operatingPeriod.getFromDate());
 
         DayTypeAssignment dayTypeAssignment = serviceCalendarFrame.getDayTypeAssignments().getDayTypeAssignment().get(0);
         assertEquals(LocalDateTime.of(2024,5,1,0,0), dayTypeAssignment.getDate());
