@@ -15,11 +15,9 @@
 
 package org.rutebanken.netex.model;
 
-import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
@@ -27,15 +25,7 @@ import java.io.ByteArrayInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class UnmarshalServiceFrameTest {
-
-    private static JAXBContext jaxbContext;
-
-    @BeforeAll
-    public static void initContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
-
-    }
+class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
 
     @Test
     void unmarshalServiceFrame() throws JAXBException {
@@ -130,6 +120,16 @@ class UnmarshalServiceFrameTest {
                 "              </linksInSequence>\n" +
                 "            </JourneyPattern>\n" +
                 "          </journeyPatterns>\n" +
+                "          <stopAssignments>\n" +
+                "            <PassengerStopAssignment order=\"34\" version=\"1\" id=\"VYG:PassengerStopAssignment:HAL-1\">\n" +
+                "              <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:HAL-1\" version=\"1\"></ScheduledStopPointRef>\n" +
+                "              <QuayRef ref=\"NSR:Quay:111\"></QuayRef>\n" +
+                "            </PassengerStopAssignment>\n" +
+                "            <PassengerStopAssignment order=\"64\" version=\"1\" id=\"VYG:PassengerStopAssignment:HAL-2\">\n" +
+                "              <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:HAL-2\" version=\"1\"></ScheduledStopPointRef>\n" +
+                "              <QuayRef ref=\"NSR:Quay:110\"></QuayRef>\n" +
+                "            </PassengerStopAssignment>\n" +
+                "          </stopAssignments>\n" +
                 "        </ServiceFrame>\n" +
                 "      </frames>\n" +
                 "    </CompositeFrame>\n" +
@@ -170,6 +170,10 @@ class UnmarshalServiceFrameTest {
 
         ServiceLinkInJourneyPattern_VersionedChildStructure serviceLinkInJourneyPattern = (ServiceLinkInJourneyPattern_VersionedChildStructure) journeyPattern.getLinksInSequence().getServiceLinkInJourneyPatternOrTimingLinkInJourneyPattern().get(0);
         assertEquals("VYG:ServiceLink:KMB-1_ABOe-1_NULL",serviceLinkInJourneyPattern.getServiceLinkRef().getRef());
+
+        PassengerStopAssignment passengerStopAssignment = (PassengerStopAssignment) serviceFrame.getStopAssignments().getStopAssignment().get(0).getValue();
+        assertEquals("NSR:Quay:111", passengerStopAssignment.getQuayRef().getRef());
+        assertEquals("VYG:ScheduledStopPoint:HAL-1", passengerStopAssignment.getScheduledStopPointRef().getValue().getRef());
 
 
     }
