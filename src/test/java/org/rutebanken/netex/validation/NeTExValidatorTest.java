@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class NeTExValidatorTest {
 
-    private NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
+    private final NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
     
     public NeTExValidatorTest() throws IOException, SAXException {    }
 
@@ -43,9 +43,7 @@ class NeTExValidatorTest {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\"></PublicationDelivery>";
 
-        assertThatThrownBy(() -> {
-            neTExValidator.validate(new StreamSource(new StringReader(xml)));
-        }).isInstanceOf(SAXParseException.class);
+        assertThatThrownBy(() -> neTExValidator.validate(new StreamSource(new StringReader(xml)))).isInstanceOf(SAXParseException.class);
     }
 
     @Test
