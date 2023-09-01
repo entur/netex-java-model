@@ -172,7 +172,7 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
         assertEquals("VYG:ServiceLink:KMB-1_ABOe-1_NULL",serviceLinkInJourneyPattern.getServiceLinkRef().getRef());
 
         PassengerStopAssignment passengerStopAssignment = (PassengerStopAssignment) serviceFrame.getStopAssignments().getStopAssignment().get(0).getValue();
-        assertEquals("NSR:Quay:111", passengerStopAssignment.getQuayRef().getRef());
+        assertEquals("NSR:Quay:111", passengerStopAssignment.getQuayRef().getValue().getRef());
         assertEquals("VYG:ScheduledStopPoint:HAL-1", passengerStopAssignment.getScheduledStopPointRef().getValue().getRef());
 
 

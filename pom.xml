@@ -69,7 +69,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.14</netexVersion>
+        <netexVersion>1.15</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>2.3.3</jakarta-xml-bind.version>
@@ -257,6 +257,22 @@
                             <executable>
                                 ./bin/version_updater.sh
                             </executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- This downloads 1.14 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.14</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.14</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.14/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
                     </execution>
                     <execution>
