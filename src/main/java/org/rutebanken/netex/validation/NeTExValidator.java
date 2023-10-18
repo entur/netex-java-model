@@ -42,7 +42,8 @@ public class NeTExValidator {
 		v1_11 ("1.11"),
 		v1_12 ("1.12"),
 		v1_13 ("1.13"),
-		v1_14 ("1.14");
+		v1_14 ("1.14"),
+		v1_15 ("1.15");
 
 		private final String folderName;
 
@@ -57,7 +58,7 @@ public class NeTExValidator {
 	}
 	private final Schema neTExSchema;
 
-	public static final NetexVersion LATEST = NetexVersion.v1_14;
+	public static final NetexVersion LATEST = NetexVersion.v1_15;
 
 	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new EnumMap<>(NetexVersion.class);
 
