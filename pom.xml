@@ -75,7 +75,7 @@
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>3.0.1</jakarta-xml-bind.version>
-        <glassfish-jaxb.version>3.0.2</glassfish-jaxb.version>
+        <glassfish-jaxb.version>4.0.4</glassfish-jaxb.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <threeten-jaxb-core.version>2.1.0</threeten-jaxb-core.version>
 
