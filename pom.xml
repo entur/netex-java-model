@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.15-SNAPSHOT</version>
+    <version>2.0.15</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -51,7 +51,7 @@
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
         <url>https://github.com/entur/netex-java-model/tree/master</url>
-        <tag>HEAD</tag>
+        <tag>netex-java-model-2.0.15</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -65,7 +65,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Do not edit, this is automatically updated by the Maven release plugin -->
-        <project.build.outputTimestamp>2023-01-01T00:00:00Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2023-11-01T10:18:06Z</project.build.outputTimestamp>
         <jdk.version>11</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
