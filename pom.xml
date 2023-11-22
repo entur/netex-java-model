@@ -84,7 +84,7 @@
 
         <!-- Other dependencies versions -->
         <slf4j.version>2.0.9</slf4j.version>
-        <commons-lang3.version>3.13.0</commons-lang3.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.24.2</assertj.core.version>
