@@ -97,8 +97,10 @@ class UnmarshalTimetableFrameTest extends AbstractUnmarshalFrameTest {
                 "            <DatedServiceJourney version=\"1\" id=\"VYG:DatedServiceJourney:96_KMB-NK_23-12-09\">\n" +
                 "              <ServiceAlteration>cancellation</ServiceAlteration>" +
                 "              <ServiceJourneyRef ref=\"VYG:ServiceJourney:96-KMB_87815-R\" version=\"11\"></ServiceJourneyRef>\n" +
-                "              <DatedServiceJourneyRef ref=\"VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19\" version=\"1\"></DatedServiceJourneyRef>\n" +
-                "              <OperatingDayRef ref=\"VYG:OperatingDay:2023-12-09\"></OperatingDayRef>\n" +
+                "              <OperatingDayRef ref=\"VYG:OperatingDay:2023-12-09\"/>\n" +
+                "              <replacedJourneys>" +
+                "                   <DatedVehicleJourneyRef ref=\"VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19\" version=\"1\"/>\n" +
+                "              </replacedJourneys>\n" +
                 "            </DatedServiceJourney>\n" +
                 "          </vehicleJourneys>\n" +
                 "        </TimetableFrame>\n" +
@@ -127,9 +129,10 @@ class UnmarshalTimetableFrameTest extends AbstractUnmarshalFrameTest {
 
         DatedServiceJourney dsj = (DatedServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(1);
         assertEquals("VYG:OperatingDay:2023-12-09", dsj.getOperatingDayRef().getRef());
-        assertEquals("VYG:ServiceJourney:96-KMB_87815-R", dsj.getJourneyRef().get(0).getValue().getRef());
-        assertEquals("VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19", dsj.getJourneyRef().get(1).getValue().getRef());
+        assertEquals("VYG:ServiceJourney:96-KMB_87815-R", dsj.getJourneyRef().getValue().getRef());
+        assertEquals("VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19", dsj.getReplacedJourneys().getDatedVehicleJourneyRefOrNormalDatedVehicleJourneyRef().get(0).getValue().getRef());
         assertEquals("cancellation", dsj.getServiceAlteration().value());
+
 
 
 
