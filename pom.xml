@@ -74,7 +74,7 @@
         <netexVersion>1.15</netexVersion>
 
         <!-- JAXB components versions -->
-        <jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>
+        <jakarta-xml-bind.version>4.0.2</jakarta-xml-bind.version>
         <glassfish-jaxb.version>4.0.4</glassfish-jaxb.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <threeten-jaxb-core.version>2.2.0</threeten-jaxb-core.version>
