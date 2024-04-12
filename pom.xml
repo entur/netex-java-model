@@ -83,7 +83,7 @@
         <cxf-xjc.version>4.0.1</cxf-xjc.version>
 
         <!-- Other dependencies versions -->
-        <slf4j.version>2.0.12</slf4j.version>
+        <slf4j.version>2.0.13</slf4j.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
