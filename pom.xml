@@ -79,7 +79,7 @@
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <threeten-jaxb-core.version>2.2.0</threeten-jaxb-core.version>
 
-        <cxf.xjc.plugin.version>4.0.2</cxf.xjc.plugin.version>
+        <cxf.xjc.plugin.version>4.1.0</cxf.xjc.plugin.version>
         <cxf-xjc.version>4.0.2</cxf-xjc.version>
 
         <!-- Other dependencies versions -->
