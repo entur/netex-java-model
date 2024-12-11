@@ -1,6 +1,7 @@
 {
   "extends": [
-    "github>entur/ror-renovate-config"
+    "github>entur/ror-renovate-config",
+    "github>entur/ror-renovate-config:groupNonMajorWeekly"
   ],
   "separateMinorPatch": true
 }
