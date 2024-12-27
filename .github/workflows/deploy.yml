@@ -35,11 +35,8 @@ jobs:
 
       - name: Install xmlstarlet
         run: |
-          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get update
-          sudo apt-get -y install xmlstarlet
-          
-          - name: Run maven build
+          sudo apt-get install xmlstarlet
       - name: Run maven build
         run: mvn verify -s .github/workflows/settings.xml
       - name: Sonar Scan
@@ -86,9 +83,8 @@ jobs:
 
       - name: Install xmlstarlet
         run: |
-          sudo rm -rf /var/lib/apt/lists/*
           sudo apt-get update
-          sudo apt-get -y install xmlstarlet
+          sudo apt-get install xmlstarlet
 
       - name: Release to Entur JFrog
         run: mvn deploy -s .github/workflows/settings.xml -DskipTests
