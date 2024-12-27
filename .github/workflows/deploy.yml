@@ -33,6 +33,13 @@ jobs:
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
 
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+          
+          - name: Run maven build
       - name: Run maven build
         run: mvn verify -s .github/workflows/settings.xml
       - name: Sonar Scan
@@ -76,6 +83,12 @@ jobs:
             ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
 
       - name: Release to Entur JFrog
         run: mvn deploy -s .github/workflows/settings.xml -DskipTests
