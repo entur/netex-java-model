@@ -88,7 +88,7 @@
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.27.3</assertj.core.version>
-        <junit.version>5.11.4</junit.version>
+        <junit.version>5.12.0</junit.version>
 
         <!-- Maven plugin versions  -->
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -99,7 +99,7 @@
         <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
