@@ -28,7 +28,7 @@ jobs:
           wget https://raw.githubusercontent.com/entur/ror-maven-settings/master/.m2/settings.xml -O .github/workflows/settings.xml
       - uses: actions/setup-java@v4
         with:
-          java-version: 17.0.13
+          java-version: 17.0.15
           distribution: temurin
       - name: Cache Maven dependencies
         uses: actions/cache@v4
@@ -58,4 +58,38 @@ jobs:
                   -Dsonar.projectName=${SONAR_PROJECT_NAME} \
                   -Dsonar.host.url=https://sonarcloud.io \
                   -Dsonar.token=${SONAR_TOKEN}
+
+  deploy-artifactory:
+    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: [maven-package]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+      - name: Copy maven settings
+        run: |
+          wget https://raw.githubusercontent.com/entur/ror-maven-settings/master/.m2/settings.xml -O .github/workflows/settings.xml
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17.0.15
+          distribution: liberica
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            ${{ runner.os }}-maven-
+            ${{ runner.os }}-
+
+      - name: Deploy to Entur Artifactory
+        run: mvn deploy -s .github/workflows/settings.xml -DskipTests
+
 
