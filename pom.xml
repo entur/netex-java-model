@@ -88,7 +88,7 @@
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.27.3</assertj.core.version>
-        <junit.version>5.13.1</junit.version>
+        <junit.version>5.13.2</junit.version>
 
         <!-- Maven plugin versions  -->
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
