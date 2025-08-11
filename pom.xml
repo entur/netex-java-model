@@ -87,7 +87,7 @@
         <commons-lang3.version>3.18.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
-        <assertj.core.version>3.27.3</assertj.core.version>
+        <assertj.core.version>3.27.4</assertj.core.version>
         <junit.version>5.13.4</junit.version>
 
         <!-- Maven plugin versions  -->
