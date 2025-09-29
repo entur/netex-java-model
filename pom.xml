@@ -75,7 +75,7 @@
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.4</jakarta-xml-bind.version>
-        <glassfish-jaxb.version>4.0.5</glassfish-jaxb.version>
+        <glassfish-jaxb.version>4.0.6</glassfish-jaxb.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <threeten-jaxb-core.version>2.2.0</threeten-jaxb-core.version>
 
@@ -87,7 +87,7 @@
         <commons-lang3.version>3.18.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
-        <assertj.core.version>3.27.5</assertj.core.version>
+        <assertj.core.version>3.27.6</assertj.core.version>
         <junit.version>5.13.4</junit.version>
 
         <!-- Maven plugin versions  -->
