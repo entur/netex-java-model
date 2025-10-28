@@ -69,9 +69,9 @@
         <jdk.version>11</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>update_dsj</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.16</netexVersion>
+        <netexBranch>next</netexBranch>
+        <netexGithubUrl>https://github.com/NeTEx-CEN/NeTEx</netexGithubUrl>
+        <netexVersion>2.0</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.4</jakarta-xml-bind.version>
@@ -232,21 +232,24 @@
                 <executions>
 
                         <!-- This is the current version which the model is built from. -->
-                    <execution>
-                    <id>download-extract-current-version</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>exec</goal>
-                    </goals>
-                    <configuration>
-                        <environmentVariables>
-                            <GITHUB_URL>${netexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
-                            <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
-                            <ZIP_PATH_TO_EXTRACT>NeTEx-${netexBranch}/xsd/*</ZIP_PATH_TO_EXTRACT>
-                        </environmentVariables>
-                        <executable>./bin/netex-download-extract.sh</executable>
-                    </configuration>
-                </execution>
+<!--                    <execution>-->
+<!--                    <id>download-extract-current-version</id>-->
+<!--                    <phase>generate-sources</phase>-->
+<!--                    <goals>-->
+<!--                        <goal>exec</goal>-->
+<!--                    </goals>-->
+<!--                    <configuration>-->
+<!--                        <environmentVariables>-->
+<!--                            <GITHUB_URL>${netexGithubUrl}/archive/refs/heads/${netexBranch}.zip</GITHUB_URL>-->
+<!--                            <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>-->
+<!--                            <ZIP_PATH_TO_EXTRACT>NeTEx-${netexBranch}/xsd/*</ZIP_PATH_TO_EXTRACT>-->
+<!--                        </environmentVariables>-->
+<!--                        <executable>bash</executable>-->
+<!--                        <arguments>-->
+<!--                            <argument>./bin/netex-download-extract.sh</argument>-->
+<!--                        </arguments>-->
+<!--                    </configuration>-->
+<!--                </execution>-->
                     <execution>
                         <id>replace-hard-coded-id-in-bindings-file</id>
                         <phase>generate-sources</phase>
@@ -255,188 +258,14 @@
                         </goals>
                         <configuration>
                             <arguments>
-                                <argument>${netexVersion}</argument>
+                                <argument>./bin/version_updater.sh</argument>
                             </arguments>
                             <executable>
-                                ./bin/version_updater.sh
+                                bash
                             </executable>
                         </configuration>
                     </execution>
-                    <execution>
-                        <!-- This downloads 1.15 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.15</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.15</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.14 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.14</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.14</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.14/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.13 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.13</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.13.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.13</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.13/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.12 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.12</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.12</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.12/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.11 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.11</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.11</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.11/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.10 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.10</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.10</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.10-entur/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.09 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.09</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.09</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.9/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.08 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.08</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.08</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.8/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.07 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.07</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.07.zip
-                                </GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.07</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.07/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <!-- This downloads 1.04beta for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.04beta</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <environmentVariables>
-                                <GITHUB_URL>https://raw.githubusercontent.com/entur/NeTEx/master/archive/1.04beta.zip
-                                </GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.04beta</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-XML-deprecated-1.04beta/schema/xsd/*</ZIP_PATH_TO_EXTRACT>
-                            </environmentVariables>
-                            <executable>./bin/netex-download-extract.sh</executable>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>annotation-removal</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>
-                                <argument>${netexVersion}</argument>
-                            </arguments>
-                            <executable>./bin/annotation-replacer.sh</executable>
-                        </configuration>
-                    </execution>
+
                 </executions>
             </plugin>
             <plugin>
@@ -472,6 +301,7 @@
                                     <extension>true</extension>
                                     <bindingFile>bindings.xjb</bindingFile>
                                     <extensionArgs>
+<!--                                        <extensionArg>-npa</extensionArg>-->
                                         <extensionArg>-no-header</extensionArg>
                                         <extensionArg>-Xbug986</extensionArg>
                                         <extensionArg>-Xfluent-api</extensionArg>
@@ -479,6 +309,12 @@
                                         </extensionArg>
                                     </extensionArgs>
                                 </xsdOption>
+<!--                                <xsdOption>-->
+<!--                                    <xsd>${basedir}/bindings.xsd</xsd>-->
+<!--                                </xsdOption>-->
+<!--                                <xsdOption>-->
+<!--                                    <xsd>${basedir}/src/main/resources/xsd/${netexVersion}/netex_part_5/part5_generic/netex_mobilityService_version.xsd</xsd>-->
+<!--                                </xsdOption>-->
                             </xsdOptions>
                         </configuration>
                     </execution>
@@ -513,24 +349,24 @@
                 </dependencies>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-plugin.version}</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release,sign,!noPublicDeploy</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>2.2.1</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-release-plugin</artifactId>-->
+<!--                <version>${maven-release-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <autoVersionSubmodules>true</autoVersionSubmodules>-->
+<!--                    <useReleaseProfile>false</useReleaseProfile>-->
+<!--                    <releaseProfiles>release,sign,!noPublicDeploy</releaseProfiles>-->
+<!--                    <goals>deploy</goals>-->
+<!--                </configuration>-->
+<!--                <dependencies>-->
+<!--                    <dependency>-->
+<!--                        <groupId>org.apache.maven.scm</groupId>-->
+<!--                        <artifactId>maven-scm-provider-gitexe</artifactId>-->
+<!--                        <version>2.2.1</version>-->
+<!--                    </dependency>-->
+<!--                </dependencies>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -601,26 +437,26 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>${git-commit-id-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <verbose>false</verbose>
-                    <dateFormat>yyyy-MM-dd'T'HH:mm:ssXXX</dateFormat>
-                    <includeOnlyProperties>
-                        <includeOnlyProperty>git.commit.id</includeOnlyProperty>
-                        <includeOnlyProperty>git.commit.time</includeOnlyProperty>
-                    </includeOnlyProperties>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>io.github.git-commit-id</groupId>-->
+<!--                <artifactId>git-commit-id-maven-plugin</artifactId>-->
+<!--                <version>${git-commit-id-maven-plugin.version}</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>revision</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <verbose>false</verbose>-->
+<!--                    <dateFormat>yyyy-MM-dd'T'HH:mm:ssXXX</dateFormat>-->
+<!--                    <includeOnlyProperties>-->
+<!--                        <includeOnlyProperty>git.commit.id</includeOnlyProperty>-->
+<!--                        <includeOnlyProperty>git.commit.time</includeOnlyProperty>-->
+<!--                    </includeOnlyProperties>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

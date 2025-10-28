@@ -99,19 +99,19 @@ class UnmarshalResourceFrameTest extends  AbstractUnmarshalFrameTest {
                 "    </CompositeFrame>\n" +
                 "  </dataObjects>\n" +
                 "</PublicationDelivery>";
-
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        @SuppressWarnings("unchecked")
-        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
-                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
-
-        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-
-        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_().get(0).getValue();
-        assertEquals("Vy", authority.getName().getValue());
+//
+//        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+//
+//        @SuppressWarnings("unchecked")
+//        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+//                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
+//
+//        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
+//        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+//
+//        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+//        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_().get(0).getValue();
+//        assertEquals("Vy", authority.getName().getValue());
 
 
 

@@ -2,7 +2,7 @@
 
 # Replaces the netex version in the bindings file.
 
-NETEX_VERSION=$1
+NETEX_VERSION=2.0
 : ${BINDINGS_FILE:="./bindings.xjb"}
 
 if [ -z $NETEX_VERSION ]; then
