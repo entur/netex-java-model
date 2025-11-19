@@ -60,7 +60,7 @@ jobs:
                   -Dsonar.token=${SONAR_TOKEN}
 
   deploy-artifactory:
-    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.repository_owner == 'entur' && github.event_name == 'push' 
     needs: [maven-package]
     runs-on: ubuntu-24.04
     steps:
