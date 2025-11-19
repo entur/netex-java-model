@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2025 rel. 2 (x64) (https://www.altova.com) by Gunnar Gudlaugsson (Egde Consulting) -->
 <xsd:schema xmlns="http://www.netex.org.uk/netex" xmlns:netex="http://www.netex.org.uk/netex" xmlns:siri="http://www.siri.org.uk/siri" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.netex.org.uk/netex" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0" id="ifopt">
 	<!-- === IFOPT SUBSET OF NeTEX ================= -->
 	<!-- === THIS IS FOR DOCUMENTATION TO SHOW THE COVERAGE OF THE ORIGINAL  IFOPT ELEMENTS ===== -->
@@ -12,7 +11,7 @@
 			<xsd:element name="organisations" minOccurs="0">
 				<xsd:complexType>
 					<xsd:sequence minOccurs="0" maxOccurs="1">
-						<xsd:element ref="Organisation_" maxOccurs="unbounded"/>
+						<xsd:element ref="Organisation_Dummy" maxOccurs="unbounded"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
