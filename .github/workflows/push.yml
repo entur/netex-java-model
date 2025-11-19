@@ -2,7 +2,7 @@ name: Build and push
 on:
   push:
     branches:
-      - master
+      - vehicle-registry-test-branch
   pull_request:
     branches:
       - master
