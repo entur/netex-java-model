@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.15</version>
+    <version>2.0.15.1-SNAPSHOT</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -50,8 +50,8 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
-        <url>https://github.com/entur/netex-java-model/tree/master</url>
-        <tag>netex-java-model-2.0.15</tag>
+        <url>https://github.com/entur/netex-java-model/tree/v2.0.15</url>
+        <tag>HEAD</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
@@ -71,7 +71,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.15</netexVersion>
+        <netexVersion>1.15.1</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>
@@ -262,7 +262,23 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- This downloads 1.14 for validation needs. This is not used to generate the model -->
+                        <!-- This downloads 1.15 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.15</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.15</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
+                    <!-- This downloads 1.14 for validation needs. This is not used to generate the model -->
                         <id>download-extract-legacy-1.14</id>
                         <phase>generate-resources</phase>
                         <goals>
