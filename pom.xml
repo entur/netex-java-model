@@ -94,9 +94,9 @@
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <maven-exec-plugin.version>3.6.2</maven-exec-plugin.version>
         <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
-        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>3.2.0</maven-release-plugin.version>
+        <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
@@ -105,12 +105,12 @@
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+        <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
         <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
         <git-commit-id-maven-plugin.version>9.0.2</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-        <sonar-maven-plugin.version>5.3.0.6276</sonar-maven-plugin.version>
+        <sonar-maven-plugin.version>5.5.0.6356</sonar-maven-plugin.version>
         <jreleaser-maven-plugin.version>1.18.0</jreleaser-maven-plugin.version>
 
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
