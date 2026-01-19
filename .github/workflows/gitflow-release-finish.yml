@@ -69,7 +69,7 @@ jobs:
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.release_branch }}
           fetch-depth: 0
@@ -93,7 +93,7 @@ jobs:
     needs: get-release-version
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.release_branch }}
           fetch-depth: 0
@@ -127,7 +127,7 @@ jobs:
       JRELEASER_UPDATE: true
       JRELEASER_GIT_ROOT_SEARCH: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.version_tag_prefix || 'v' }}${{ needs.get-release-version.outputs.version }}
           fetch-depth: 0
@@ -173,7 +173,7 @@ jobs:
     needs: [get-release-version, publish-release]
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.base_branch || 'main' }}
           fetch-depth: 0
@@ -200,7 +200,7 @@ jobs:
     needs: [get-release-version, merge-release-to-base]
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ inputs.base_branch || 'main' }}
           fetch-depth: 0

@@ -94,14 +94,14 @@ jobs:
       version: ${{ steps.release.outputs.version }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         if: ${{ inputs.git_ref == '' }}
         with:
           fetch-depth: 0
           ssh-key: ${{ secrets.GIT_SSH_KEY }}
 
       - name: Checkout code with reference
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         if: ${{ inputs.git_ref != '' }}
         with:
           ref: ${{ inputs.git_ref }}
