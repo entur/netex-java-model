@@ -116,10 +116,6 @@
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
         <argLine />
 
-        <!-- GPG configuration for jar signing-->
-        <gpg.executable>gpg</gpg.executable>
-        <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
-
     </properties>
 
     <dependencies>
