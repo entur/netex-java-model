@@ -1,0 +1,84 @@
+name: Manual Hotfix (Emergency/Fallback)
+
+# This workflow is a FALLBACK for emergency situations.
+# For normal hotfixes, use: "Hotfix Start" → "Hotfix Finish" workflows
+# Only use this if the gitflow workflows fail or for emergency hotfixes.
+
+on:
+  workflow_dispatch:
+    inputs:
+      git_ref:
+        description: 'Git tag to release (e.g., v2.0.15.1). Tag must already exist!'
+        required: true
+        type: string
+      version:
+        description: 'Version to release (if different from tag, e.g., 2.0.15.1)'
+        required: false
+        type: string
+
+jobs:
+  publish-hotfix:
+    name: Publish hotfix to Maven Central
+    runs-on: ubuntu-24.04
+    env:
+      JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
+      JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
+      JRELEASER_DEPLOY_MAVEN_NEXUS2_ACTIVE: "SNAPSHOT"
+      JRELEASER_NEXUS2_URL: "https://ossrh-staging-api.central.sonatype.com/service/local"
+      JRELEASER_NEXUS2_SNAPSHOT_URL: "https://central.sonatype.com/repository/maven-snapshots"
+      JRELEASER_OVERWRITE: true
+      JRELEASER_UPDATE: true
+      JRELEASER_GIT_ROOT_SEARCH: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.git_ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: liberica
+          cache: maven
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+
+      - name: Get version from tag or input
+        id: get_version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            GIT_REF="${{ github.event.inputs.git_ref }}"
+            VERSION="${GIT_REF#v}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Publishing hotfix version: $VERSION"
+
+      - name: JReleaser Release to Maven Central
+        uses: entur/gha-maven-central/.github/actions/jreleaser-release@v1
+        with:
+          version: ${{ steps.get_version.outputs.version }}
+          version_tag_prefix: v
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonatype_username: ${{ secrets.SONATYPE_AUTH_USER }}
+          sonatype_password: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+          gpg_public_key: ${{ secrets.SONATYPE_GPG_KEY_PUBLIC }}
+          gpg_secret_key: ${{ secrets.SONATYPE_GPG_KEY }}
+          gpg_passphrase: ${{ secrets.SONATYPE_GPG_KEY_PASSWORD }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Upload Build Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-reports
+          path: |
+            **/target/site
+            **/target/reports/
+            **/target/surefire-reports
