@@ -1,0 +1,21 @@
+name: Release Start (Gitflow)
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release version (e.g., 2.0.16). Leave empty to auto-detect from develop.'
+        required: false
+        type: string
+      base_branch:
+        description: 'Base branch to create release from'
+        required: false
+        type: string
+        default: 'master'
+
+jobs:
+  release-start:
+    uses: entur/ror-gha-workflows/.github/workflows/release-start.yml@v1
+    with:
+      release_version: ${{ inputs.release_version }}
+      base_branch: ${{ inputs.base_branch }}

@@ -1,0 +1,29 @@
+name: Hotfix Finish (Gitflow)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hotfix_branch:
+        description: 'Hotfix branch to finish (e.g., hotfix/2.0.16.1)'
+        required: true
+        type: string
+      merge_to_master:
+        description: 'Cherry-pick hotfix commits to master'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  hotfix-finish:
+    uses: entur/ror-gha-workflows/.github/workflows/hotfix-finish.yml@v1
+    with:
+      hotfix_branch: ${{ inputs.hotfix_branch }}
+      merge_to_main: ${{ inputs.merge_to_master }}
+      base_branch: master
+      runner: ubuntu-24.04
+      java_version: 11
+      java_distribution: liberica
+      version_tag_prefix: v
+      artifact_group_id: io.entur
+      artifact_ids: osm-to-netex-beta,osm-to-netex-beta-cli
+    secrets: inherit
