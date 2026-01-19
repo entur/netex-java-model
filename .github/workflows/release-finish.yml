@@ -23,7 +23,7 @@ on:
 
 jobs:
   release-finish:
-    uses: entur/ror-gha-workflows/.github/workflows/release-finish.yml@v1
+    uses: ./.github/workflows/gitflow-release-finish.yml
     with:
       release_branch: ${{ inputs.release_branch }}
       next_version_increment: ${{ inputs.next_version_increment }}
@@ -33,6 +33,6 @@ jobs:
       java_version: 11
       java_distribution: liberica
       version_tag_prefix: v
-      artifact_group_id: io.entur
-      artifact_ids: osm-to-netex-beta,osm-to-netex-beta-cli
+      artifact_group_id: org.entur
+      artifact_ids: netex-java-model
     secrets: inherit

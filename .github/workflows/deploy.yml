@@ -6,19 +6,20 @@ on:
   pull_request:
     branches:
       - master
-env:
-    JFROG_USER: ${{ secrets.ARTIFACTORY_AUTH_USER }}
-    JFROG_PASS: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
 jobs:
   maven-verify:
     runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Copy maven settings
+      - name: Install xmlstarlet
         run: |
-          wget https://raw.githubusercontent.com/entur/ror-maven-settings/master/.m2/settings.xml -O .github/workflows/settings.xml
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
       - uses: actions/setup-java@v4
         with:
           java-version: 11
@@ -33,8 +34,33 @@ jobs:
             ${{ runner.os }}-maven-
             ${{ runner.os }}-
 
+      - name: Get version from pom.xml
+        id: get-version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Detected version: $VERSION"
+
       - name: Run maven build
-        run: mvn verify -s .github/workflows/settings.xml
+        run: mvn package
+
+      - name: Sonar Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.ENTUR_SONAR_PASSWORD }}
+          SONAR_PROJECT_NAME: ${{ github.event.repository.name }}
+          SONAR_PROJECT_KEY: entur_${{ github.event.repository.name }}
+        run: |
+          mvn -Psonar -s .github/workflows/settings.xml \
+                  org.jacoco:jacoco-maven-plugin:prepare-agent verify \
+                  org.jacoco:jacoco-maven-plugin:report sonar:sonar \
+                  -Dmaven.main.skip \
+                  -DskipTests \
+                  -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                  -Dsonar.organization=enturas-github \
+                  -Dsonar.projectName=${SONAR_PROJECT_NAME} \
+                  -Dsonar.host.url=https://sonarcloud.io \
+                  -Dsonar.token=${SONAR_TOKEN}
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4.4.3
         with:
@@ -43,12 +69,13 @@ jobs:
 
   publish-snapshot:
     name: Publish snapshot to Maven Central
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/master'
     needs: maven-verify
-    uses: entur/gha-maven-central/.github/workflows/maven-publish.yml@v1
+    uses: ./.github/workflows/maven-jreleaser-release.yml
     with:
+      version: ${{ needs.maven-verify.outputs.version }}
       snapshot: true
-      push_to_repo: false
+      skip_version_update: true
       java_version: 11
-      next_version: ""
+      java_distribution: liberica
     secrets: inherit

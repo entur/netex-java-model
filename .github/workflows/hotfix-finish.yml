@@ -15,7 +15,7 @@ on:
 
 jobs:
   hotfix-finish:
-    uses: entur/ror-gha-workflows/.github/workflows/hotfix-finish.yml@v1
+    uses: ./.github/workflows/gitflow-hotfix-finish.yml
     with:
       hotfix_branch: ${{ inputs.hotfix_branch }}
       merge_to_main: ${{ inputs.merge_to_master }}
@@ -24,6 +24,6 @@ jobs:
       java_version: 11
       java_distribution: liberica
       version_tag_prefix: v
-      artifact_group_id: io.entur
-      artifact_ids: osm-to-netex-beta,osm-to-netex-beta-cli
+      artifact_group_id: org.entur
+      artifact_ids: netex-java-model
     secrets: inherit
