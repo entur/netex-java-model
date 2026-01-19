@@ -60,7 +60,7 @@ jobs:
           echo "Publishing hotfix version: $VERSION"
 
       - name: JReleaser Release to Maven Central
-        uses: entur/gha-maven-central/.github/actions/jreleaser-release@v1
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1
         with:
           version: ${{ steps.get_version.outputs.version }}
           version_tag_prefix: v

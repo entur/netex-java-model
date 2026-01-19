@@ -150,7 +150,7 @@ jobs:
 
       - name: JReleaser Release to Maven Central
         id: release
-        uses: entur/gha-maven-central/.github/actions/jreleaser-release@v1
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1
         with:
           version: ${{ inputs.version }}
           version_tag_prefix: ${{ inputs.version_tag_prefix }}
