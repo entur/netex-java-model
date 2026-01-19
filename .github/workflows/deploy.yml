@@ -22,7 +22,7 @@ jobs:
           sudo apt-get -y install xmlstarlet
       - uses: actions/setup-java@v4
         with:
-          java-version: 11
+          java-version: 17
           distribution: liberica
       - name: Cache Maven dependencies
         uses: actions/cache@v4
