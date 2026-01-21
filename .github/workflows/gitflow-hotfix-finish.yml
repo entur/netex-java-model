@@ -70,7 +70,7 @@ jobs:
           ref: ${{ inputs.hotfix_branch }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: ${{ inputs.java_version || 21 }}
           distribution: ${{ inputs.java_distribution || 'liberica' }}
@@ -128,7 +128,7 @@ jobs:
           ref: ${{ inputs.version_tag_prefix || 'v' }}${{ needs.get-hotfix-version.outputs.version }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: ${{ inputs.java_version || 21 }}
           distribution: ${{ inputs.java_distribution || 'liberica' }}
