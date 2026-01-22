@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.15.1-SNAPSHOT</version>
+    <version>2.0.15.1</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
