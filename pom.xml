@@ -71,7 +71,7 @@
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.15.1</netexVersion>
+        <netexVersion>1.15.2</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.0</jakarta-xml-bind.version>
