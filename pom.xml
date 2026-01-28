@@ -302,17 +302,17 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- This downloads 1.15.2 for validation needs. This is not used to generate the model -->
-                        <id>download-extract-legacy-1.15.2</id>
+                        <!-- This downloads 1.15.1 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.15.1</id>
                         <phase>generate-resources</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.2.zip</GITHUB_URL>
-                                <DESTINATION_PATH>src/main/resources/xsd/1.15.2</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15.2/xsd/*</ZIP_PATH_TO_EXTRACT>
+                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.1.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.15.1</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15.1/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
