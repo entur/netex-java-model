@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.15.1</version>
+    <version>2.0.15.2</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -50,7 +50,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
-        <url>https://github.com/entur/netex-java-model/tree/v2.0.15</url>
+        <url>https://github.com/entur/netex-java-model/tree/v2.0.15.2</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
@@ -681,14 +681,14 @@
             </properties>
 
             <build>
-                <plugins>
+                    <plugins>
 
-                    <plugin>
+                        <plugin>
                         <groupId>org.sonarsource.scanner.maven</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
                         <version>${sonar-maven-plugin.version}</version>
-                    </plugin>
-                </plugins>
+                        </plugin>
+                    </plugins>
             </build>
         </profile>
         <profile>
@@ -725,9 +725,9 @@
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <configuration>
+                        <configuration>
                                     <attach>true</attach>
-                                </configuration>
+                        </configuration>
                             </execution>
                         </executions>
                     </plugin>
