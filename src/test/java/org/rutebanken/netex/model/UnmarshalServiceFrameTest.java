@@ -24,6 +24,8 @@ import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
 
@@ -174,9 +176,67 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
         PassengerStopAssignment passengerStopAssignment = (PassengerStopAssignment) serviceFrame.getStopAssignments().getStopAssignment().get(0).getValue();
         assertEquals("NSR:Quay:111", passengerStopAssignment.getQuayRef().getValue().getRef());
         assertEquals("VYG:ScheduledStopPoint:HAL-1", passengerStopAssignment.getScheduledStopPointRef().getValue().getRef());
-
-
     }
 
+    @Test
+    void unmarshalPassengerInformationEquipmentList() throws JAXBException {
 
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.15:NO-NeTEx-networktimetable:1.3\">\n" +
+                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
+                "  <ParticipantRef>RB</ParticipantRef>\n" +
+                "  <dataObjects>\n" +
+                "    <ServiceFrame version=\"1\" id=\"NSR:ServiceFrame:1\">\n" +
+                "      <passengerInformationEquipments>\n" +
+                "        <PassengerInformationEquipment version=\"1\" id=\"NSR:PassengerInformationEquipment:1\">\n" +
+                "          <Name>Station Display Board</Name>\n" +
+                "          <Description>Real-time departure display at platform 1</Description>\n" +
+                "          <StopPlaceRef ref=\"NSR:StopPlace:420\"/>\n" +
+                "          <PassengerInformationEquipmentList>realTimeDepartures stopTimetable fareInformation</PassengerInformationEquipmentList>\n" +
+                "          <PassengerInformationFacilityList>nextStopIndicator stopAnnouncements</PassengerInformationFacilityList>\n" +
+                "        </PassengerInformationEquipment>\n" +
+                "        <PassengerInformationEquipment version=\"1\" id=\"NSR:PassengerInformationEquipment:2\">\n" +
+                "          <Name>Interactive Kiosk</Name>\n" +
+                "          <PassengerInformationEquipmentList>interactiveKiosk journeyPlanning lineNetworkPlan</PassengerInformationEquipmentList>\n" +
+                "        </PassengerInformationEquipment>\n" +
+                "      </passengerInformationEquipments>\n" +
+                "    </ServiceFrame>\n" +
+                "  </dataObjects>\n" +
+                "</PublicationDelivery>";
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+
+        assertNotNull(serviceFrame.getPassengerInformationEquipments());
+        assertEquals(2, serviceFrame.getPassengerInformationEquipments().getPassengerInformationEquipment().size());
+
+        PassengerInformationEquipment equipment1 = serviceFrame.getPassengerInformationEquipments().getPassengerInformationEquipment().get(0);
+        assertEquals("Station Display Board", equipment1.getName().getValue());
+        assertEquals("Real-time departure display at platform 1", equipment1.getDescription().getValue());
+        assertEquals("NSR:StopPlace:420", equipment1.getStopPlaceRef().getValue().getRef());
+
+        // Verify PassengerInformationEquipmentList (space-separated list of enums)
+        assertEquals(3, equipment1.getPassengerInformationEquipmentList().size());
+        assertTrue(equipment1.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.REAL_TIME_DEPARTURES));
+        assertTrue(equipment1.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.STOP_TIMETABLE));
+        assertTrue(equipment1.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.FARE_INFORMATION));
+
+        // Verify PassengerInformationFacilityList
+        assertEquals(2, equipment1.getPassengerInformationFacilityList().size());
+        assertTrue(equipment1.getPassengerInformationFacilityList().contains(PassengerInformationFacilityEnumeration.NEXT_STOP_INDICATOR));
+        assertTrue(equipment1.getPassengerInformationFacilityList().contains(PassengerInformationFacilityEnumeration.STOP_ANNOUNCEMENTS));
+
+        PassengerInformationEquipment equipment2 = serviceFrame.getPassengerInformationEquipments().getPassengerInformationEquipment().get(1);
+        assertEquals("Interactive Kiosk", equipment2.getName().getValue());
+        assertEquals(3, equipment2.getPassengerInformationEquipmentList().size());
+        assertTrue(equipment2.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.INTERACTIVE_KIOSK));
+        assertTrue(equipment2.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.JOURNEY_PLANNING));
+        assertTrue(equipment2.getPassengerInformationEquipmentList().contains(PassengerInformationEquipmentEnumeration.LINE_NETWORK_PLAN));
+    }
 }

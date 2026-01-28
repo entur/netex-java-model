@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest {
 
@@ -170,10 +171,106 @@ class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest {
         GroupOfStopPlaces groupOfStopPlaces = siteFrame.getGroupsOfStopPlaces().getGroupOfStopPlaces().get(0);
         assertEquals("Lillehammer", groupOfStopPlaces.getName().getValue());
         assertEquals("NSR:StopPlace:420", groupOfStopPlaces.getMembers().getStopPlaceRef().get(0).getValue().getRef());
-
-
-
     }
 
+    @Test
+    void unmarshalTopographicPlaceWithPolygon() throws JAXBException {
+
+        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                + "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+                + " <PublicationTimestamp>2016-05-18T15:00:00.0+01:00</PublicationTimestamp>"
+                + " <ParticipantRef>NHR</ParticipantRef>"
+                + " <dataObjects>"
+                + "  <SiteFrame version=\"01\" id=\"nhr:sf:1\">"
+                + "   <topographicPlaces>"
+                + "    <TopographicPlace version=\"1\" id=\"NSR:TopographicPlace:1\">"
+                + "     <Descriptor>"
+                + "      <Name lang=\"nor\">Oslo</Name>"
+                + "     </Descriptor>"
+                + "     <TopographicPlaceType>municipality</TopographicPlaceType>"
+                + "     <ns2:Polygon ns2:id=\"GEN-Polygon-1\">"
+                + "      <ns2:exterior>"
+                + "       <ns2:LinearRing>"
+                + "        <ns2:posList>59.91 10.75 59.92 10.76 59.91 10.77 59.90 10.76 59.91 10.75</ns2:posList>"
+                + "       </ns2:LinearRing>"
+                + "      </ns2:exterior>"
+                + "     </ns2:Polygon>"
+                + "    </TopographicPlace>"
+                + "   </topographicPlaces>"
+                + "  </SiteFrame>"
+                + " </dataObjects>"
+                + "</PublicationDelivery>";
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+
+        TopographicPlace topographicPlace = siteFrame.getTopographicPlaces().getTopographicPlace().get(0);
+        assertEquals("Oslo", topographicPlace.getDescriptor().getName().getValue());
+        assertEquals(TopographicPlaceTypeEnumeration.MUNICIPALITY, topographicPlace.getTopographicPlaceType());
+        assertNotNull(topographicPlace.getPolygon());
+    }
+
+    @Test
+    void unmarshalTopographicPlaceWithMultiSurface() throws JAXBException {
+
+        String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                     + "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+                     + " <PublicationTimestamp>2016-05-18T15:00:00.0+01:00</PublicationTimestamp>"
+                     + " <ParticipantRef>NHR</ParticipantRef>"
+                     + " <dataObjects>"
+                     + "  <SiteFrame version=\"01\" id=\"nhr:sf:1\">"
+                     + "   <topographicPlaces>"
+                     + "    <TopographicPlace version=\"1\" id=\"NSR:TopographicPlace:2\">"
+                     + "     <Descriptor>"
+                     + "      <Name lang=\"nor\">Coastal Municipality</Name>"
+                     + "     </Descriptor>"
+                     + "     <TopographicPlaceType>municipality</TopographicPlaceType>"
+                     + "     <ns2:MultiSurface ns2:id=\"GEN-MultiSurface-1\">"
+                     + "      <ns2:surfaceMember>"
+                     + "       <ns2:Polygon ns2:id=\"GEN-Polygon-2\">"
+                     + "        <ns2:exterior>"
+                     + "         <ns2:LinearRing>"
+                     + "          <ns2:posList>59.91 10.75 59.92 10.76 59.91 10.77 59.90 10.76 59.91 10.75</ns2:posList>"
+                     + "         </ns2:LinearRing>"
+                     + "        </ns2:exterior>"
+                     + "       </ns2:Polygon>"
+                     + "      </ns2:surfaceMember>"
+                     + "      <ns2:surfaceMember>"
+                     + "       <ns2:Polygon ns2:id=\"GEN-Polygon-3\">"
+                     + "        <ns2:exterior>"
+                     + "         <ns2:LinearRing>"
+                     + "          <ns2:posList>59.85 10.80 59.86 10.81 59.85 10.82 59.84 10.81 59.85 10.80</ns2:posList>"
+                     + "         </ns2:LinearRing>"
+                     + "        </ns2:exterior>"
+                     + "       </ns2:Polygon>"
+                     + "      </ns2:surfaceMember>"
+                     + "     </ns2:MultiSurface>"
+                     + "    </TopographicPlace>"
+                     + "   </topographicPlaces>"
+                     + "  </SiteFrame>"
+                     + " </dataObjects>"
+                     + "</PublicationDelivery>";
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+
+        TopographicPlace topographicPlace = siteFrame.getTopographicPlaces().getTopographicPlace().get(0);
+        assertEquals("Coastal Municipality", topographicPlace.getDescriptor().getName().getValue());
+        assertEquals(TopographicPlaceTypeEnumeration.MUNICIPALITY, topographicPlace.getTopographicPlaceType());
+        assertNotNull(topographicPlace.getMultiSurface());
+        assertEquals(2, topographicPlace.getMultiSurface().getSurfaceMember().size());
+    }
 
 }
