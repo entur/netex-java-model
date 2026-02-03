@@ -47,14 +47,15 @@ public class NeTExValidator {
 		/**
 		 * NeTEx 1.16, validated against the latest 1.16 patch schema. Patch releases of the schema
 		 * are backward compatible, and documents only ever declare the minor version, so a document
-		 * declaring 1.16 is validated against the same schema the model is generated from.
+		 * declaring 1.16 is validated against the 1.16.1 schema.
 		 */
 		v1_16 ("1.16", "1.16.1"),
 		/**
 		 * @deprecated the 1.16.1 schema is what {@link #v1_16} validates against. Use {@link #v1_16}.
 		 */
 		@Deprecated
-		v1_16_1 ("1.16.1");
+		v1_16_1 ("1.16.1"),
+		v2_0 ("2.0");
 
 		private final String version;
 		private final String folderName;
@@ -78,7 +79,7 @@ public class NeTExValidator {
 	}
 	private final Schema neTExSchema;
 
-	public static final NetexVersion LATEST = NetexVersion.v1_16;
+	public static final NetexVersion LATEST = NetexVersion.v2_0;
 
 	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new EnumMap<>(NetexVersion.class);
 
