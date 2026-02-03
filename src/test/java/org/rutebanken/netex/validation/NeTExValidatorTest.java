@@ -56,6 +56,8 @@ class NeTExValidatorTest {
     /**
      * AssociatedContract / ContractRef on a ResponsibilityRoleAssignment was added in NeTEx 1.16.1
      * (entur/NeTEx#63). 1.16 is validated against the 1.16.1 schema, so it is valid against 1.16 too.
+     * It is not validated against 2.0 here: 2.0 enforces a key reference from ContractRef to a Contract
+     * declared in the same document, which 1.16.1 has no place for in a ResourceFrame.
      */
     private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
@@ -80,18 +82,13 @@ class NeTExValidatorTest {
                 "</PublicationDelivery>";
 
     @Test
-    void latestVersionIs1_16() {
-        assertEquals(NeTExValidator.NetexVersion.v1_16, NeTExValidator.LATEST);
+    void latestVersionIs2_0() {
+        assertEquals(NeTExValidator.NetexVersion.v2_0, NeTExValidator.LATEST);
     }
 
     @Test
     void version1_16IsNamed1_16() {
         assertEquals("1.16", NeTExValidator.NetexVersion.v1_16.toString());
-    }
-
-    @Test
-    void validateResponsibilitySetWithAssociatedContractAgainstLatestVersion() throws IOException, SAXException {
-        neTExValidator.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
     @Test
