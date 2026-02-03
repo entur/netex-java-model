@@ -30,7 +30,20 @@ abstract class AbstractUnmarshalFrameTest {
 
     }
 
-
+    /**
+     * Helper method to extract string value from MultilingualString.
+     * In NeTEx 2.0, MultilingualString uses mixed content instead of a simple value.
+     */
+    protected static String getStringValue(MultilingualString multilingualString) {
+        if (multilingualString == null || multilingualString.getContent() == null) {
+            return null;
+        }
+        return multilingualString.getContent().stream()
+                .filter(String.class::isInstance)
+                .map(String.class::cast)
+                .findFirst()
+                .orElse(null);
+    }
 
 
 }
