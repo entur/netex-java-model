@@ -23,8 +23,8 @@ class ToStringTest {
     @Test
     void toStringMethod() {
         StopPlace stopPlace = new StopPlace()
-                .withName(new MultilingualString().withValue("berger"))
-                .withDescription(new MultilingualString().withValue("description"));
+                .withName(new MultilingualString().withContent("berger"))
+                .withDescription(new MultilingualString().withContent("description"));
         System.out.println(stopPlace.toString());
         assertThat(stopPlace.toString()).contains("berger");
         assertThat(stopPlace.toString()).contains("description");
