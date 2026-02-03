@@ -128,7 +128,7 @@ class UnmarshalServiceCalendarFrameTest extends AbstractUnmarshalFrameTest {
 
         ServiceCalendarFrame serviceCalendarFrame = (ServiceCalendarFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType_().get(0).getValue();
+        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType_Dummy().get(0).getValue();
         assertEquals(DayOfWeekEnumeration.TUESDAY, dayType.getProperties().getPropertyOfDay().get(0).getDaysOfWeek().get(0));
 
         OperatingDay operatingDay = serviceCalendarFrame.getOperatingDays().getOperatingDay().get(0);

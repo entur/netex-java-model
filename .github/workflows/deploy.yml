@@ -2,10 +2,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - master
+      - upgrade-netex-2.0
   pull_request:
     branches:
-      - master
+      - upgrade-netex-2.0
 jobs:
   maven-verify:
     runs-on: ubuntu-24.04
@@ -22,7 +22,7 @@ jobs:
           sudo apt-get -y install xmlstarlet
       - uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: 21
           distribution: liberica
       - name: Cache Maven dependencies
         uses: actions/cache@v5
@@ -68,13 +68,13 @@ jobs:
 
   publish-snapshot:
     name: Publish snapshot to Maven Central
-    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/upgrade-netex-2.0'
     needs: maven-verify
     uses: ./.github/workflows/maven-jreleaser-release.yml
     with:
       version: ${{ needs.maven-verify.outputs.version }}
       snapshot: true
       skip_version_update: true
-      java_version: 11
+      java_version: 21
       java_distribution: liberica
     secrets: inherit
