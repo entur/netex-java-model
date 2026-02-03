@@ -120,7 +120,7 @@ class UnmarshalTimetableFrameTest extends AbstractUnmarshalFrameTest {
 
         TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
         ServiceJourney serviceJourney = (ServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
-        assertEquals("96", serviceJourney.getName().getValue());
+        assertEquals("96", getStringValue(serviceJourney.getName()));
         assertEquals("96", serviceJourney.getPrivateCode().getValue());
         assertEquals("rail", serviceJourney.getTransportMode().value());
 
