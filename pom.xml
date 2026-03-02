@@ -111,7 +111,7 @@
         <git-commit-id-maven-plugin.version>9.0.2</git-commit-id-maven-plugin.version>
         <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>5.5.0.6356</sonar-maven-plugin.version>
-        <jreleaser-maven-plugin.version>1.22.0</jreleaser-maven-plugin.version>
+        <jreleaser-maven-plugin.version>1.23.0</jreleaser-maven-plugin.version>
 
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
         <argLine />
