@@ -69,7 +69,7 @@
         <jdk.version>11</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>update_dsj</netexBranch>
+        <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.16</netexVersion>
 
