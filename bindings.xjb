@@ -2,7 +2,7 @@
               xmlns:xs="http://www.w3.org/2001/XMLSchema"
 			  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jxb:version="3.0" jxb:extensionBindingPrefixes="xjc">
-    
+
 	<jxb:bindings>
 		<jxb:globalBindings underscoreBinding="asCharInWord">
 			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="org.rutebanken.util.LocalDateTimeISO8601XmlAdapter" />
@@ -14,14 +14,14 @@
 
 	<!-- See the script bin/version_updater.sh It updates version in schema locations-->
 
-|	<jxb:bindings schemaLocation="./src/main/resources/xsd/1.16/NeTEx_publication.xsd">
+|	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/NeTEx_publication.xsd">
 		<jxb:schemaBindings>
 			<jxb:package name="org.rutebanken.netex.model" />
 		</jxb:schemaBindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_genericFramework/netex_organisation_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_organisation_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusOrganisationGroup" />
 		</jxb:bindings>
@@ -30,35 +30,28 @@
 		</jxb:bindings>
 	</jxb:bindings>
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
 		<jxb:bindings node="//xsd:element[@ref = 'ResponsibilitySetRef']">
 			<jxb:property name="ResponsibilitySetRefDistributionByGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_2/part2_journeyTimes/netex_vehicleJourneyFrequency_version.xsd">
-		<jxb:bindings node="//xsd:group[@name= 'HeadwayJourneyGroupGroup']/xsd:sequence/xsd:element[@name = 'Description']">
-			<jxb:property name="DescriptionHeadwayJourneyGroupGroup" />
-		</jxb:bindings>
-	</jxb:bindings>
-
-	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_salesTransactions/netex_salesContract_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_salesContract_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusPassengerContractGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_salesTransactions/netex_retailConsortium_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_retailConsortium_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusRetailDeviceGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_responsibility/netex_version_support.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_responsibility/netex_version_support.xsd">
 		<jxb:bindings node="//xsd:attributeGroup[@name = 'BasicModificationDetailsGroup']/xsd:attribute[@name = 'status']">
 			<jxb:property name="status_BasicModificationDetailsGroup" />
 		</jxb:bindings>
@@ -68,14 +61,43 @@
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_genericFramework/netex_zone_version.xsd">
-		<jxb:bindings node="//xsd:complexType[@name = 'tariffZonesInFrame_RelStructure']/xsd:complexContent/xsd:extension[@base = 'containmentAggregationStructure']/xsd:sequence/xsd:element[@ref = 'TariffZone_']">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_zone_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'tariffZonesInFrame_RelStructure']/xsd:complexContent/xsd:extension[@base = 'containmentAggregationStructure']/xsd:sequence/xsd:element[@ref = 'TariffZone_Dummy']">
 			<jxb:property name="tariffZone" />
 		</jxb:bindings>
 	</jxb:bindings>
 
+	<!-- NeTEx 2.0: Resolve ObjectFactory collisions for bookingArrangements vs BookingArrangements -->
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_tacticalPlanning/netex_servicePattern_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'StopPointInPatternPropertiesGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructure" />
+		</jxb:bindings>
+	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_rc/netex_nm_mobilityService_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'MobilityServiceGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'serviceBookingArrangements']">
+			<jxb:property name="serviceBookingArrangementsRelStructure" />
+		</jxb:bindings>
+	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_usageParameterBooking_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'ReservingGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureReserving" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'CancellingGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureCancelling" />
+		</jxb:bindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_ifopt/netex_assistanceBooking_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'AssistanceBookingServiceGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureAssistance" />
+		</jxb:bindings>
+	</jxb:bindings>
 
 
 </jxb:bindings>

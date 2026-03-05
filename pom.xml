@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.16-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -66,12 +66,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Do not edit, this is automatically updated by the Maven release plugin -->
         <project.build.outputTimestamp>2023-11-01T10:21:59Z</project.build.outputTimestamp>
-        <jdk.version>11</jdk.version>
+        <jdk.version>21</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>update_dsj</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.16</netexVersion>
+        <netexBranch>v2.0</netexBranch>
+        <cenNetexGithubUrl>https://github.com/NeTEx-CEN/${netexRepoName}</cenNetexGithubUrl>
+        <enturNetexGithubUrl>https://github.com/entur/${netexRepoName}</enturNetexGithubUrl>
+        <netexVersion>2.0</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.5</jakarta-xml-bind.version>
@@ -279,9 +280,9 @@
                     </goals>
                     <configuration>
                         <environmentVariables>
-                            <GITHUB_URL>${netexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
+                            <GITHUB_URL>${cenNetexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
                             <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
-                            <ZIP_PATH_TO_EXTRACT>NeTEx-${netexBranch}/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            <ZIP_PATH_TO_EXTRACT>NeTEx-${netexVersion}/xsd/*</ZIP_PATH_TO_EXTRACT>
                         </environmentVariables>
                         <executable>./bin/netex-download-extract.sh</executable>
                     </configuration>
@@ -310,7 +311,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.15</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -326,7 +327,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.14</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.14/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -342,7 +343,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.13.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.13.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.13</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.13/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -358,7 +359,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.12</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.12/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -374,7 +375,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.11</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.11/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -390,7 +391,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.10</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.10-entur/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -406,7 +407,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.09</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.9/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -422,7 +423,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.08</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.8/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -676,7 +677,7 @@
             </activation>
 
             <properties>
-                <jdk.version>11</jdk.version>
+                <jdk.version>21</jdk.version>
                 <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
             </properties>
 
