@@ -378,6 +378,38 @@ class MarshalUnmarshalTest {
 	}
 
 	@Test
+	void blockRoundTrip() throws JAXBException {
+		Marshaller marshaller = jaxbContext.createMarshaller();
+
+		Block block = new Block()
+				.withVersion("1").withId("TST:Block:1")
+				.withName(factory.createMultilingualString().withValue("Test Block"))
+				.withDescription(factory.createMultilingualString().withValue("Block description"))
+				.withPrivateCode(new PrivateCodeStructure().withValue("BLK001"))
+				.withStartTime(LocalTime.of(6, 0))
+				.withEndTime(LocalTime.of(14, 30));
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		marshaller.marshal(factory.createBlock(block), byteArrayOutputStream);
+
+		String xml = byteArrayOutputStream.toString();
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<Block> jaxbElement = (JAXBElement<Block>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+		Block actual = jaxbElement.getValue();
+		assertThat(actual.getName().getValue()).isEqualTo("Test Block");
+		assertThat(actual.getDescription().getValue()).isEqualTo("Block description");
+		assertThat(actual.getPrivateCode().getValue()).isEqualTo("BLK001");
+		assertThat(actual.getStartTime()).isEqualTo(LocalTime.of(6, 0));
+		assertThat(actual.getEndTime()).isEqualTo(LocalTime.of(14, 30));
+	}
+
+	@Test
 	void fragmentShouldNotContainNetexNamespace() throws Exception {
 		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
 		Marshaller marshaller = netexJaxBContext.createMarshaller();
