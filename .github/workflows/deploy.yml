@@ -44,22 +44,6 @@ jobs:
       - name: Run maven build
         run: mvn package
 
-      - name: Sonar Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.ENTUR_SONAR_PASSWORD }}
-          SONAR_PROJECT_NAME: ${{ github.event.repository.name }}
-          SONAR_PROJECT_KEY: entur_${{ github.event.repository.name }}
-        run: |
-          mvn -Psonar org.jacoco:jacoco-maven-plugin:prepare-agent verify \
-                  org.jacoco:jacoco-maven-plugin:report sonar:sonar \
-                  -Dmaven.main.skip \
-                  -DskipTests \
-                  -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                  -Dsonar.organization=enturas-github \
-                  -Dsonar.projectName=${SONAR_PROJECT_NAME} \
-                  -Dsonar.host.url=https://sonarcloud.io \
-                  -Dsonar.token=${SONAR_TOKEN}
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4.6.2
         with:
