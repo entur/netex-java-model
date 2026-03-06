@@ -67,7 +67,7 @@
         <jdk.version>1.8</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>update_dsj</netexBranch>
+        <netexBranch>master</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.16</netexVersion>
 
@@ -701,7 +701,6 @@
             </activation>
 
             <properties>
-                <jdk.version>11</jdk.version>
                 <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
             </properties>
 
