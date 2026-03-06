@@ -701,7 +701,6 @@
             </activation>
 
             <properties>
-                <jdk.version>11</jdk.version>
                 <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
             </properties>
 
