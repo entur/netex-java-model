@@ -2,10 +2,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - 1.x
+      - upgrade-netex-2.0_for_1.x
   pull_request:
     branches:
-      - 1.x
+      - upgrade-netex-2.0_for_1.x
 jobs:
   maven-verify:
     runs-on: ubuntu-24.04
@@ -52,7 +52,7 @@ jobs:
 
   publish-snapshot:
     name: Publish snapshot to Maven Central
-    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/1.x'
+    if: github.repository_owner == 'entur' && github.event_name == 'push' && github.ref == 'refs/heads/upgrade-netex-2.0_for_1.x'
     needs: maven-verify
     uses: ./.github/workflows/maven-jreleaser-release.yml
     with:
