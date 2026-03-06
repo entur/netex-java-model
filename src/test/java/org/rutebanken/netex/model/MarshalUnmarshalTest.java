@@ -35,6 +35,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoField;
@@ -293,6 +294,119 @@ class MarshalUnmarshalTest {
 
 		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
 		assertThat(departureTimeOffset).isNotNull().hasToString("08:40");
+	}
+
+	@Test
+	void networkWithAuthorityRefRoundTrip() throws JAXBException {
+		Marshaller marshaller = jaxbContext.createMarshaller();
+
+		Network network = factory.createNetwork()
+				.withVersion("1").withId("TST:Network:1")
+				.withName(factory.createMultilingualString().withValue("Test Network"))
+				.withTransportOrganisationRef(factory.createAuthorityRef(
+						new AuthorityRef().withRef("TST:Authority:1")));
+
+		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
+				.withPublicationTimestamp(LocalDateTime.now().withNano(0))
+				.withParticipantRef("test")
+				.withDataObjects(new PublicationDeliveryStructure.DataObjects()
+						.withCompositeFrameOrCommonFrame(factory.createCompositeFrame(
+								factory.createCompositeFrame()
+										.withVersion("1").withId("TST:CompositeFrame:1")
+										.withFrames(new Frames_RelStructure()
+												.withCommonFrame(factory.createServiceFrame(
+														factory.createServiceFrame()
+																.withVersion("1").withId("TST:ServiceFrame:1")
+																.withNetwork(network)))))));
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		marshaller.marshal(factory.createPublicationDelivery(publicationDelivery), byteArrayOutputStream);
+
+		String xml = byteArrayOutputStream.toString();
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+		CompositeFrame compositeFrame = (CompositeFrame) actual.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+		Network actualNetwork = serviceFrame.getNetwork();
+
+		assertThat(actualNetwork.getName().getValue()).isEqualTo("Test Network");
+		assertThat(actualNetwork.getTransportOrganisationRef().getValue().getRef()).isEqualTo("TST:Authority:1");
+	}
+
+	@Test
+	void flexibleLineRoundTrip() throws JAXBException {
+		Marshaller marshaller = jaxbContext.createMarshaller();
+
+		FlexibleLine flexibleLine = new FlexibleLine()
+				.withVersion("1").withId("TST:FlexibleLine:1")
+				.withName(factory.createMultilingualString().withValue("Flex Route"))
+				.withTransportMode(AllVehicleModesOfTransportEnumeration.BUS)
+				.withFlexibleLineType(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY)
+				.withBookingAccess(BookingAccessEnumeration.PUBLIC)
+				.withBookWhen(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY)
+				.withLatestBookingTime(LocalTime.of(14, 0))
+				.withBookingContact(new ContactStructure().withPhone("+47 11223344").withUrl("https://flex.example.com"));
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		marshaller.marshal(factory.createFlexibleLine(flexibleLine), byteArrayOutputStream);
+
+		String xml = byteArrayOutputStream.toString();
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<FlexibleLine> jaxbElement = (JAXBElement<FlexibleLine>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+		FlexibleLine actual = jaxbElement.getValue();
+		assertThat(actual.getName().getValue()).isEqualTo("Flex Route");
+		assertThat(actual.getTransportMode()).isEqualTo(AllVehicleModesOfTransportEnumeration.BUS);
+		assertThat(actual.getFlexibleLineType()).isEqualTo(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY);
+		assertThat(actual.getBookingAccess()).isEqualTo(BookingAccessEnumeration.PUBLIC);
+		assertThat(actual.getBookWhen()).isEqualTo(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY);
+		assertThat(actual.getLatestBookingTime()).isEqualTo(LocalTime.of(14, 0));
+		assertThat(actual.getBookingContact().getPhone()).isEqualTo("+47 11223344");
+		assertThat(actual.getBookingContact().getUrl()).isEqualTo("https://flex.example.com");
+	}
+
+	@Test
+	void blockRoundTrip() throws JAXBException {
+		Marshaller marshaller = jaxbContext.createMarshaller();
+
+		Block block = new Block()
+				.withVersion("1").withId("TST:Block:1")
+				.withName(factory.createMultilingualString().withValue("Test Block"))
+				.withDescription(factory.createMultilingualString().withValue("Block description"))
+				.withPrivateCode(new PrivateCodeStructure().withValue("BLK001"))
+				.withStartTime(LocalTime.of(6, 0))
+				.withEndTime(LocalTime.of(14, 30));
+
+		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		marshaller.marshal(factory.createBlock(block), byteArrayOutputStream);
+
+		String xml = byteArrayOutputStream.toString();
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<Block> jaxbElement = (JAXBElement<Block>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+		Block actual = jaxbElement.getValue();
+		assertThat(actual.getName().getValue()).isEqualTo("Test Block");
+		assertThat(actual.getDescription().getValue()).isEqualTo("Block description");
+		assertThat(actual.getPrivateCode().getValue()).isEqualTo("BLK001");
+		assertThat(actual.getStartTime()).isEqualTo(LocalTime.of(6, 0));
+		assertThat(actual.getEndTime()).isEqualTo(LocalTime.of(14, 30));
 	}
 
 	@Test
