@@ -1,0 +1,29 @@
+name: Hotfix Finish (Gitflow)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hotfix_branch:
+        description: 'Hotfix branch to finish (e.g., hotfix/1.0.16.1)'
+        required: true
+        type: string
+      merge_to_1x:
+        description: 'Cherry-pick hotfix commits to 1.x'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  hotfix-finish:
+    uses: ./.github/workflows/gitflow-hotfix-finish.yml
+    with:
+      hotfix_branch: ${{ inputs.hotfix_branch }}
+      merge_to_main: ${{ inputs.merge_to_1x }}
+      base_branch: 1.x
+      runner: ubuntu-24.04
+      java_version: 8
+      java_distribution: temurin
+      version_tag_prefix: v
+      artifact_group_id: org.entur
+      artifact_ids: netex-java-model
+    secrets: inherit

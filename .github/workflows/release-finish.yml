@@ -1,0 +1,38 @@
+name: Release Finish (Gitflow)
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_branch:
+        description: 'Release branch to finish (e.g., release/1.0.16)'
+        required: true
+        type: string
+      next_version_increment:
+        description: 'Next version increment type for 1.x'
+        required: false
+        type: choice
+        default: 'patch'
+        options:
+          - major
+          - minor
+          - patch
+      next_version:
+        description: 'Or specify exact next version for 1.x (e.g., 1.0.17-SNAPSHOT)'
+        required: false
+        type: string
+
+jobs:
+  release-finish:
+    uses: ./.github/workflows/gitflow-release-finish.yml
+    with:
+      release_branch: ${{ inputs.release_branch }}
+      next_version_increment: ${{ inputs.next_version_increment }}
+      next_version: ${{ inputs.next_version }}
+      base_branch: 1.x
+      runner: ubuntu-24.04
+      java_version: 8
+      java_distribution: temurin
+      version_tag_prefix: v
+      artifact_group_id: org.entur
+      artifact_ids: netex-java-model
+    secrets: inherit
