@@ -227,7 +227,9 @@
                         <jreleaser>
                             <signing>
                                 <active>ALWAYS</active>
-                                <armored>true</armored>
+                                <pgp>
+                                    <armored>true</armored>
+                                </pgp>
                             </signing>
                             <deploy>
                                 <maven>
@@ -236,6 +238,8 @@
                                             <active>RELEASE</active>
                                             <url>https://central.sonatype.com/api/v1/publisher</url>
                                             <stagingRepositories>target/staging-deploy</stagingRepositories>
+                                            <connectTimeout>20</connectTimeout>
+                                            <readTimeout>600</readTimeout>
                                         </sonatype>
                                     </mavenCentral>
                                     <nexus2>
