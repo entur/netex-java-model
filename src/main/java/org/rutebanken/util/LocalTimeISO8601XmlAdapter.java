@@ -21,6 +21,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.HashMap;
 
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
@@ -28,14 +29,15 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
 			.optionalStart().appendPattern("XXXXX")
             .optionalEnd()
-			
+
 //
 	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
 
+	private final HashMap<String, LocalTime> cache = new HashMap<>();
+
 	@Override
 	public LocalTime unmarshal(String inputDate) {
-		return LocalTime.parse(inputDate, formatter);
-
+		return cache.computeIfAbsent(inputDate, key -> LocalTime.parse(key, formatter));
 	}
 
 	@Override
