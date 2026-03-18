@@ -1,5 +1,7 @@
 package org.rutebanken.util;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
@@ -96,5 +98,22 @@ public class LocalTimeISO8601XmlAdapterTest {
         LocalTime first = adapter.unmarshal(timeString);
         LocalTime second = adapter.unmarshal(timeString);
         assertSame(first, second, "Same string should return cached instance");
+    }
+
+    @Test
+    public void testCachingIdenticalValue() {
+        var equalInputs = List.of(
+                "12:20:00",
+                "12:20:00+02:00",
+                "12:20:00.000",
+                "12:20:00.000+02:00"
+        );
+
+        var parsed = equalInputs.stream()
+                .map(adapter::unmarshal)
+                .collect(Collectors.toList());
+        var first = parsed.get(0);
+
+        parsed.forEach(time -> assertSame(first, time, "Same time value should return same instance"));
     }
 }
