@@ -17,9 +17,14 @@ on:
           - minor
           - patch
       next_version:
-        description: 'Or specify exact next version for master (e.g., 2.1.0-SNAPSHOT)'
+        description: 'Or specify exact next version for base branch (e.g., 2.1.0-SNAPSHOT)'
         required: false
         type: string
+      base_branch:
+        description: 'Base branch to merge release back into'
+        required: false
+        type: string
+        default: 'master'
 
 jobs:
   release-finish:
@@ -28,7 +33,7 @@ jobs:
       release_branch: ${{ inputs.release_branch }}
       next_version_increment: ${{ inputs.next_version_increment }}
       next_version: ${{ inputs.next_version }}
-      base_branch: master
+      base_branch: ${{ inputs.base_branch || 'master' }}
       runner: ubuntu-24.04
       java_version: 11
       java_distribution: liberica
