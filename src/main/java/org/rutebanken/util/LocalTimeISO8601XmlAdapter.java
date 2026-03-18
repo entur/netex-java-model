@@ -33,11 +33,12 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 //
 	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
 
-	private final HashMap<String, LocalTime> cache = new HashMap<>();
+	private final HashMap<LocalTime, LocalTime> cache = new HashMap<>();
 
 	@Override
-	public LocalTime unmarshal(String inputDate) {
-		return cache.computeIfAbsent(inputDate, key -> LocalTime.parse(key, formatter));
+	public LocalTime unmarshal(String input) {
+		var key = LocalTime.parse(input, formatter);
+		return cache.computeIfAbsent(key, time -> time);
 	}
 
 	@Override
