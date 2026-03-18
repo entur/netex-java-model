@@ -33,6 +33,13 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 //
 	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
 
+	/**
+	 * We store a cache of parsed LocalTime instances to avoid wasting memory in immutable value
+	 * objects that strictly identical and interchangeable.
+	 * Since there is a limited number of seconds in a single day, this cannot grow unbounded.
+	 * If input data differs by milliseconds or even nanoseconds, this might cause problems. It
+	 * is, however, very unlikely to happen in the context of NeTEx.
+	 */
 	private final HashMap<LocalTime, LocalTime> cache = new HashMap<>();
 
 	@Override
