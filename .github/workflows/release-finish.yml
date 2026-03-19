@@ -59,6 +59,7 @@ jobs:
   create-tag:
     name: Create release tag
     needs: get-release-version
+    if: ${{ !inputs.skip_publish }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
@@ -139,10 +140,11 @@ jobs:
 
   merge-release-to-base:
     name: Merge release branch to base branch
-    needs: [get-release-version, publish-release]
+    needs: [get-release-version, create-tag, publish-release]
     if: |
       always() &&
       needs.get-release-version.result == 'success' &&
+      (needs.create-tag.result == 'success' || needs.create-tag.result == 'skipped') &&
       (needs.publish-release.result == 'success' || needs.publish-release.result == 'skipped')
     runs-on: ubuntu-24.04
     steps:
