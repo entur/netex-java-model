@@ -1,4 +1,4 @@
-name: Release Start (Gitflow)
+name: Release Start
 
 on:
   workflow_dispatch:

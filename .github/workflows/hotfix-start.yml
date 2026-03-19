@@ -1,4 +1,4 @@
-name: Hotfix Start (Gitflow)
+name: Hotfix Start
 
 on:
   workflow_dispatch:
