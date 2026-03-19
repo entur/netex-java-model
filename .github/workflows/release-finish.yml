@@ -61,6 +61,8 @@ jobs:
     needs: get-release-version
     if: ${{ !inputs.skip_publish }}
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -147,6 +149,8 @@ jobs:
       (needs.create-tag.result == 'success' || needs.create-tag.result == 'skipped') &&
       (needs.publish-release.result == 'success' || needs.publish-release.result == 'skipped')
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
@@ -178,6 +182,8 @@ jobs:
       needs.get-release-version.result == 'success' &&
       needs.merge-release-to-base.result == 'success'
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v6
         with:
