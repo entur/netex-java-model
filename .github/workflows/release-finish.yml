@@ -77,9 +77,22 @@ jobs:
           VERSION="${{ needs.get-release-version.outputs.version }}"
           TAG="v${VERSION}"
 
-          echo "Creating tag: $TAG from branch ${{ inputs.release_branch }}"
-          git tag -a "$TAG" -m "Release $VERSION"
-          git push origin "$TAG"
+          EXISTING_TAG_SHA=$(git ls-remote --tags origin "refs/tags/$TAG" | awk '{print $1}')
+          if [ -n "$EXISTING_TAG_SHA" ]; then
+            BRANCH_SHA=$(git rev-parse HEAD)
+            # Dereference annotated tag to its commit SHA for comparison
+            TAGGED_COMMIT_SHA=$(git cat-file -t "$EXISTING_TAG_SHA" 2>/dev/null && git rev-list -n 1 "$EXISTING_TAG_SHA" 2>/dev/null || echo "$EXISTING_TAG_SHA")
+            if [ "$TAGGED_COMMIT_SHA" = "$BRANCH_SHA" ]; then
+              echo "Tag $TAG already exists and points to the same commit, skipping"
+            else
+              echo "::error::Tag $TAG already exists but points to a different commit ($TAGGED_COMMIT_SHA) than the release branch HEAD ($BRANCH_SHA). Delete the tag manually if you want to re-tag."
+              exit 1
+            fi
+          else
+            echo "Creating tag: $TAG from branch ${{ inputs.release_branch }}"
+            git tag -a "$TAG" -m "Release $VERSION"
+            git push origin "$TAG"
+          fi
 
   publish-release:
     name: Publish to Maven Central
