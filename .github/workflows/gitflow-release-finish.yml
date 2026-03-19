@@ -46,6 +46,11 @@ on:
         required: false
         type: string
         default: ""
+      skip_publish:
+        description: 'Skip Maven Central publish (use if artifact was already published but merge/bump steps failed)'
+        required: false
+        type: boolean
+        default: false
       base_branch:
         description: 'Base branch to merge changes back to (e.g., main, master, develop)'
         required: false
@@ -116,6 +121,7 @@ jobs:
   publish-release:
     name: Publish to Maven Central
     needs: [get-release-version, create-tag]
+    if: ${{ !inputs.skip_publish }}
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     env:
       JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
@@ -171,6 +177,10 @@ jobs:
   merge-release-to-base:
     name: Merge release branch to base branch
     needs: [get-release-version, publish-release]
+    if: |
+      always() &&
+      needs.get-release-version.result == 'success' &&
+      (needs.publish-release.result == 'success' || needs.publish-release.result == 'skipped')
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     steps:
       - uses: actions/checkout@v6
@@ -198,6 +208,10 @@ jobs:
   update-base-branch:
     name: Update base branch to next SNAPSHOT version
     needs: [get-release-version, merge-release-to-base]
+    if: |
+      always() &&
+      needs.get-release-version.result == 'success' &&
+      needs.merge-release-to-base.result == 'success'
     runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
     steps:
       - uses: actions/checkout@v6
