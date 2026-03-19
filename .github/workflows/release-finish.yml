@@ -25,6 +25,11 @@ on:
         required: false
         type: string
         default: 'master'
+      skip_publish:
+        description: 'Skip Maven Central publish (use if artifact was already published but merge/bump steps failed)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   release-finish:
@@ -34,6 +39,7 @@ jobs:
       next_version_increment: ${{ inputs.next_version_increment }}
       next_version: ${{ inputs.next_version }}
       base_branch: ${{ inputs.base_branch || 'master' }}
+      skip_publish: ${{ inputs.skip_publish || false }}
       runner: ubuntu-24.04
       java_version: 11
       java_distribution: liberica
