@@ -1,4 +1,4 @@
-name: Hotfix Finish (Gitflow)
+name: Hotfix Finish
 
 on:
   workflow_dispatch:
@@ -14,16 +14,169 @@ on:
         default: true
 
 jobs:
-  hotfix-finish:
-    uses: ./.github/workflows/gitflow-hotfix-finish.yml
-    with:
-      hotfix_branch: ${{ inputs.hotfix_branch }}
-      merge_to_main: ${{ inputs.merge_to_master }}
-      base_branch: master
-      runner: ubuntu-24.04
-      java_version: 11
-      java_distribution: liberica
-      version_tag_prefix: v
-      artifact_group_id: org.entur
-      artifact_ids: netex-java-model
-    secrets: inherit
+  get-hotfix-version:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.hotfix_branch }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: liberica
+
+      - name: Get hotfix version
+        id: get_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Remove -SNAPSHOT if present
+          VERSION="${VERSION%-SNAPSHOT}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Hotfix version: $VERSION"
+
+  create-tag:
+    name: Create hotfix tag
+    needs: get-hotfix-version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.hotfix_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and push tag
+        run: |
+          VERSION="${{ needs.get-hotfix-version.outputs.version }}"
+          TAG="v${VERSION}"
+
+          echo "Creating tag: $TAG from branch ${{ inputs.hotfix_branch }}"
+          git tag -a "$TAG" -m "Hotfix $VERSION"
+          git push origin "$TAG"
+
+  publish-hotfix:
+    name: Publish to Maven Central
+    needs: [get-hotfix-version, create-tag]
+    runs-on: ubuntu-24.04
+    env:
+      JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
+      JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
+      JRELEASER_DEPLOY_MAVEN_NEXUS2_ACTIVE: "SNAPSHOT"
+      JRELEASER_NEXUS2_URL: "https://ossrh-staging-api.central.sonatype.com/service/local"
+      JRELEASER_NEXUS2_SNAPSHOT_URL: "https://central.sonatype.com/repository/maven-snapshots"
+      JRELEASER_OVERWRITE: true
+      JRELEASER_UPDATE: true
+      JRELEASER_GIT_ROOT_SEARCH: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: v${{ needs.get-hotfix-version.outputs.version }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: liberica
+          cache: maven
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+
+      - name: JReleaser Release to Maven Central
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1
+        with:
+          version: ${{ needs.get-hotfix-version.outputs.version }}
+          version_tag_prefix: v
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonatype_username: ${{ secrets.SONATYPE_AUTH_USER }}
+          sonatype_password: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+          gpg_public_key: ${{ secrets.SONATYPE_GPG_KEY_PUBLIC }}
+          gpg_secret_key: ${{ secrets.SONATYPE_GPG_KEY }}
+          gpg_passphrase: ${{ secrets.SONATYPE_GPG_KEY_PASSWORD }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Upload Build Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-reports
+          path: |
+            **/target/site
+            **/target/reports/
+            **/target/surefire-reports
+
+  merge-to-base-branch:
+    name: Cherry-pick hotfix to master
+    needs: [get-hotfix-version, publish-hotfix]
+    if: inputs.merge_to_master == true
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: master
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Cherry-pick hotfix commits
+        run: |
+          HOTFIX_BRANCH="${{ inputs.hotfix_branch }}"
+          echo "Cherry-picking commits from $HOTFIX_BRANCH to master"
+
+          git fetch origin "$HOTFIX_BRANCH"
+
+          # Find all commits in the hotfix branch
+          HOTFIX_COMMITS=$(git log --reverse --pretty=format:"%H" origin/$HOTFIX_BRANCH --not $(git merge-base origin/master origin/$HOTFIX_BRANCH))
+
+          # Cherry-pick each commit
+          for commit in $HOTFIX_COMMITS; do
+            echo "Cherry-picking commit: $commit"
+            git cherry-pick "$commit" || {
+              echo "::warning::Cherry-pick conflict on commit $commit. Resolve manually."
+              git cherry-pick --abort
+              exit 1
+            }
+          done
+
+      - name: Push to master
+        run: git push origin master
+
+      - name: Delete hotfix branch
+        continue-on-error: true
+        run: |
+          HOTFIX_BRANCH="${{ inputs.hotfix_branch }}"
+          echo "Deleting hotfix branch: $HOTFIX_BRANCH"
+          git push origin --delete "$HOTFIX_BRANCH" || echo "Branch already deleted"
+
+      - name: Create summary
+        run: |
+          VERSION="${{ needs.get-hotfix-version.outputs.version }}"
+
+          cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## Hotfix Released
+
+          - **Hotfix Version:** $VERSION
+          - **Git Tag:** \`v${VERSION}\`
+          - **Maven Central (netex-java-model):** https://central.sonatype.com/artifact/org.entur/netex-java-model/${VERSION}
+          - **Hotfix Branch:** Deleted
+          - **Merged to master:** ${{ inputs.merge_to_master }}
+
+          The hotfix has been published to Maven Central.
+          EOF

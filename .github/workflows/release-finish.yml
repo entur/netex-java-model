@@ -1,4 +1,4 @@
-name: Release Finish (Gitflow)
+name: Release Finish
 
 on:
   workflow_dispatch:
@@ -32,18 +32,246 @@ on:
         default: false
 
 jobs:
-  release-finish:
-    uses: ./.github/workflows/gitflow-release-finish.yml
-    with:
-      release_branch: ${{ inputs.release_branch }}
-      next_version_increment: ${{ inputs.next_version_increment }}
-      next_version: ${{ inputs.next_version }}
-      base_branch: ${{ inputs.base_branch || 'master' }}
-      skip_publish: ${{ inputs.skip_publish || false }}
-      runner: ubuntu-24.04
-      java_version: 11
-      java_distribution: liberica
-      version_tag_prefix: v
-      artifact_group_id: org.entur
-      artifact_ids: netex-java-model
-    secrets: inherit
+  get-release-version:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.release_branch }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: liberica
+
+      - name: Get release version
+        id: get_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Remove -SNAPSHOT if present
+          VERSION="${VERSION%-SNAPSHOT}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Release version: $VERSION"
+
+  create-tag:
+    name: Create release tag
+    needs: get-release-version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.release_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and push tag
+        run: |
+          VERSION="${{ needs.get-release-version.outputs.version }}"
+          TAG="v${VERSION}"
+
+          echo "Creating tag: $TAG from branch ${{ inputs.release_branch }}"
+          git tag -a "$TAG" -m "Release $VERSION"
+          git push origin "$TAG"
+
+  publish-release:
+    name: Publish to Maven Central
+    needs: [get-release-version, create-tag]
+    if: ${{ !inputs.skip_publish }}
+    runs-on: ubuntu-24.04
+    env:
+      JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
+      JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
+      JRELEASER_DEPLOY_MAVEN_NEXUS2_ACTIVE: "SNAPSHOT"
+      JRELEASER_NEXUS2_URL: "https://ossrh-staging-api.central.sonatype.com/service/local"
+      JRELEASER_NEXUS2_SNAPSHOT_URL: "https://central.sonatype.com/repository/maven-snapshots"
+      JRELEASER_OVERWRITE: true
+      JRELEASER_UPDATE: true
+      JRELEASER_GIT_ROOT_SEARCH: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: v${{ needs.get-release-version.outputs.version }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: liberica
+          cache: maven
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+
+      - name: JReleaser Release to Maven Central
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1
+        with:
+          version: ${{ needs.get-release-version.outputs.version }}
+          version_tag_prefix: v
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonatype_username: ${{ secrets.SONATYPE_AUTH_USER }}
+          sonatype_password: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+          gpg_public_key: ${{ secrets.SONATYPE_GPG_KEY_PUBLIC }}
+          gpg_secret_key: ${{ secrets.SONATYPE_GPG_KEY }}
+          gpg_passphrase: ${{ secrets.SONATYPE_GPG_KEY_PASSWORD }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Upload Build Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-reports
+          path: |
+            **/target/site
+            **/target/reports/
+            **/target/surefire-reports
+
+  merge-release-to-base:
+    name: Merge release branch to base branch
+    needs: [get-release-version, publish-release]
+    if: |
+      always() &&
+      needs.get-release-version.result == 'success' &&
+      (needs.publish-release.result == 'success' || needs.publish-release.result == 'skipped')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.base_branch || 'master' }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge release branch
+        run: |
+          RELEASE_BRANCH="${{ inputs.release_branch }}"
+          BASE_BRANCH="${{ inputs.base_branch || 'master' }}"
+          VERSION="${{ needs.get-release-version.outputs.version }}"
+
+          echo "Merging $RELEASE_BRANCH into $BASE_BRANCH"
+          git fetch origin "$RELEASE_BRANCH"
+          git merge "origin/$RELEASE_BRANCH" -m "chore: merge release $VERSION into $BASE_BRANCH"
+          git push origin "$BASE_BRANCH"
+
+  update-base-branch:
+    name: Update base branch to next SNAPSHOT version
+    needs: [get-release-version, merge-release-to-base]
+    if: |
+      always() &&
+      needs.get-release-version.result == 'success' &&
+      needs.merge-release-to-base.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.base_branch || 'master' }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: liberica
+
+      - name: Calculate next development version
+        id: next_version
+        run: |
+          CURRENT_VERSION="${{ needs.get-release-version.outputs.version }}"
+
+          # Use custom version if provided, otherwise increment
+          if [ -n "${{ inputs.next_version }}" ]; then
+            NEXT_VERSION="${{ inputs.next_version }}"
+            # Ensure it has -SNAPSHOT
+            if [[ ! "$NEXT_VERSION" =~ -SNAPSHOT$ ]]; then
+              NEXT_VERSION="${NEXT_VERSION}-SNAPSHOT"
+            fi
+          else
+            INCREMENT_TYPE="${{ inputs.next_version_increment }}"
+
+            # Parse version components
+            IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION"
+            MAJOR="${VERSION_PARTS[0]:-0}"
+            MINOR="${VERSION_PARTS[1]:-0}"
+            PATCH="${VERSION_PARTS[2]:-0}"
+
+            # Calculate next version based on increment type
+            case "$INCREMENT_TYPE" in
+              major)
+                MAJOR=$((MAJOR + 1))
+                MINOR=0
+                PATCH=0
+                ;;
+              minor)
+                MINOR=$((MINOR + 1))
+                PATCH=0
+                ;;
+              patch)
+                PATCH=$((PATCH + 1))
+                ;;
+              *)
+                echo "Error: Invalid increment type: $INCREMENT_TYPE"
+                exit 1
+                ;;
+            esac
+
+            NEXT_VERSION="$MAJOR.$MINOR.$PATCH-SNAPSHOT"
+          fi
+
+          echo "next_version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          echo "Next development version: $NEXT_VERSION"
+
+      - name: Update base branch version
+        run: |
+          NEXT_VERSION="${{ steps.next_version.outputs.next_version }}"
+          BASE_BRANCH="${{ inputs.base_branch || 'master' }}"
+          echo "Updating $BASE_BRANCH to: $NEXT_VERSION"
+
+          mvn -B versions:set -DnewVersion="$NEXT_VERSION" -DgenerateBackupPoms=false -DprocessAllModules=true
+
+          git add '*/pom.xml' pom.xml
+          git commit -m "chore: prepare for next development iteration $NEXT_VERSION [skip ci]"
+          git push origin "$BASE_BRANCH"
+
+      - name: Delete release branch
+        continue-on-error: true
+        run: |
+          RELEASE_BRANCH="${{ inputs.release_branch }}"
+          echo "Deleting release branch: $RELEASE_BRANCH"
+          git push origin --delete "$RELEASE_BRANCH" || echo "Branch already deleted"
+
+      - name: Create summary
+        run: |
+          VERSION="${{ needs.get-release-version.outputs.version }}"
+          BASE_BRANCH="${{ inputs.base_branch || 'master' }}"
+
+          cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## Release Finished
+
+          - **Released Version:** $VERSION
+          - **Git Tag:** \`v${VERSION}\`
+          - **Maven Central (netex-java-model):** https://central.sonatype.com/artifact/org.entur/netex-java-model/${VERSION}
+          - **Next Development Version ($BASE_BRANCH):** ${{ steps.next_version.outputs.next_version }}
+          - **Release Branch:** Merged to $BASE_BRANCH and deleted
+
+          The release has been published to Maven Central, merged to $BASE_BRANCH, and $BASE_BRANCH has been updated to the next development version.
+          EOF
