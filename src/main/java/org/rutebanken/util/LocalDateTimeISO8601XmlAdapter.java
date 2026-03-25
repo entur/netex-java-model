@@ -25,7 +25,7 @@ import java.time.temporal.ChronoField;
 public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDateTime> {
 
 	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss")
-			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
+			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 9, true).optionalEnd()
 			.optionalStart().appendPattern("XXXXX")
             .optionalEnd()
 			
