@@ -24,7 +24,7 @@ jobs:
           ref: ${{ inputs.hotfix_branch }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: liberica
@@ -82,7 +82,7 @@ jobs:
           ref: v${{ needs.get-hotfix-version.outputs.version }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: liberica
