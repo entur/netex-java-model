@@ -16,7 +16,6 @@
 package org.rutebanken.util;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-import java.util.HashMap;
 
 public class VersionXmlAdapter extends XmlAdapter<String, String> {
 
@@ -28,12 +27,7 @@ public class VersionXmlAdapter extends XmlAdapter<String, String> {
 
 	@Override
 	public String unmarshal(String input) {
-		if(input.equals(ANY)) {
-			return ANY;
-		}
-		else {
-			return input;
-		}
+		return ANY.equals(input) ? ANY : input;
 	}
 
 	@Override
