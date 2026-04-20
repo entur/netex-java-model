@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
@@ -36,16 +37,23 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 	/**
 	 * We store a cache of parsed LocalTime instances to avoid wasting memory in immutable value
 	 * objects that strictly identical and interchangeable.
-	 * Since there is a limited number of seconds in a single day, this cannot grow unbounded.
-	 * If input data differs by milliseconds or even nanoseconds, this might cause problems. It
-	 * is, however, very unlikely to happen in the context of NeTEx.
+	 *
+	 * We only cache times that are full seconds to avoid increasing the size of the cache unduly,
+	 * since there is a limited number of seconds in a single day.
 	 */
-	private final HashMap<LocalTime, LocalTime> cache = new HashMap<>();
+	private final ConcurrentHashMap<LocalTime, LocalTime> cache = new ConcurrentHashMap<>();
 
 	@Override
 	public LocalTime unmarshal(String input) {
 		var key = LocalTime.parse(input, formatter);
-		return cache.computeIfAbsent(key, time -> time);
+		// only cache if nano is zero
+		if(key.getNano() == 0){
+			return cache.computeIfAbsent(key, time -> time);
+		}
+		// sub-second times are not cached to not increase the size of the cache unduly
+		else {
+			return key;
+		}
 	}
 
 	@Override
