@@ -42,7 +42,7 @@ jobs:
           ref: ${{ inputs.release_branch }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: liberica
@@ -104,7 +104,7 @@ jobs:
           ref: v${{ needs.get-release-version.outputs.version }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: liberica
@@ -196,7 +196,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 21
           distribution: liberica
