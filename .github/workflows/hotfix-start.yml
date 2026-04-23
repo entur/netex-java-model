@@ -1,0 +1,20 @@
+name: Hotfix Start (Gitflow)
+
+on:
+  workflow_dispatch:
+    inputs:
+      hotfix_version:
+        description: 'Hotfix version (e.g., 2.0.15.1 or leave empty to auto-increment patch)'
+        required: false
+        type: string
+      base_tag:
+        description: 'Base tag to create hotfix from (e.g., v2.0.15). Leave empty to use latest master.'
+        required: false
+        type: string
+
+jobs:
+  hotfix-start:
+    uses: entur/ror-gha-workflows/.github/workflows/hotfix-start.yml@v1
+    with:
+      hotfix_version: ${{ inputs.hotfix_version }}
+      base_tag: ${{ inputs.base_tag }}

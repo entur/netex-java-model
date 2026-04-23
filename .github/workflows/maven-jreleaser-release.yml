@@ -1,0 +1,174 @@
+name: JReleaser Release to Maven Central (Maven)
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: "Job Runner"
+        required: false
+        type: string
+        default: "ubuntu-24.04"
+      git_ref:
+        description: "Option to override git reference to checkout before build"
+        type: string
+        required: false
+      settings-xml_file:
+        description: "Link to the external settings.xml file"
+        required: false
+        type: string
+        default: ""
+      java_version:
+        description: "Java Runtime Version"
+        required: false
+        type: number
+        default: 21
+      java_distribution:
+        description: "Java distribution for Setup-Java"
+        required: false
+        type: string
+        default: "liberica"
+      version:
+        description: "The version to release (e.g., '1.3.0' or '1.3.0-SNAPSHOT'). This is required for this standalone workflow."
+        required: true
+        type: string
+      version_file_name:
+        description: "The name of the file containing the version number"
+        required: false
+        type: string
+        default: "pom.xml"
+      version_tag_prefix:
+        description: "The prefix for the git tag (e.g., 'v' for 'v1.0.0')"
+        required: false
+        type: string
+        default: "v"
+      snapshot:
+        description: "Whether the artifact is a snapshot or not"
+        required: false
+        type: boolean
+        default: false
+      skip_version_update:
+        description: "Skip setting version in pom.xml (useful if version is already set)"
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      GIT_SSH_KEY:
+        description: "Option to override git ssh key to checkout before build"
+        required: false
+      SONATYPE_AUTH_USER:
+        required: true
+      SONATYPE_AUTH_TOKEN:
+        required: true
+      SONATYPE_GPG_KEY_PUBLIC:
+        required: true
+      SONATYPE_GPG_KEY:
+        required: true
+      SONATYPE_GPG_KEY_PASSWORD:
+        required: true
+
+    outputs:
+      version:
+        description: Published version
+        value: ${{ jobs.release.outputs.version }}
+
+concurrency:
+  group: maven-jreleaser-release-${{ github.ref }}
+
+jobs:
+  release:
+    runs-on: ${{ inputs.runner }}
+    permissions:
+      contents: write
+      issues: write
+      packages: write
+    env:
+      JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
+      JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
+      JRELEASER_DEPLOY_MAVEN_NEXUS2_ACTIVE: "SNAPSHOT"
+      JRELEASER_NEXUS2_URL: "https://ossrh-staging-api.central.sonatype.com/service/local"
+      JRELEASER_NEXUS2_SNAPSHOT_URL: "https://central.sonatype.com/repository/maven-snapshots"
+      JRELEASER_OVERWRITE: true
+      JRELEASER_UPDATE: true
+      JRELEASER_GIT_ROOT_SEARCH: true
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        if: ${{ inputs.git_ref == '' }}
+        with:
+          fetch-depth: 0
+          ssh-key: ${{ secrets.GIT_SSH_KEY }}
+
+      - name: Checkout code with reference
+        uses: actions/checkout@v4
+        if: ${{ inputs.git_ref != '' }}
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+          ssh-key: ${{ secrets.GIT_SSH_KEY }}
+
+      - name: Set up Java ${{ inputs.java_version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java_version }}
+          distribution: ${{ inputs.java_distribution }}
+          cache: maven
+
+      - name: Copy maven settings
+        if: ${{ inputs.settings-xml_file != '' }}
+        run: |
+          wget ${{ inputs.settings-xml_file }} -O ~/.m2/settings.xml
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+
+      - name: Validate version input
+        shell: bash
+        env:
+          GHA_MAVENCENTRAL_VERSION: ${{ inputs.version }}
+        run: |
+          if [ -z "$GHA_MAVENCENTRAL_VERSION" ]; then
+            echo "Error: version input is required for this workflow"
+            exit 1
+          fi
+          echo "Using version: $GHA_MAVENCENTRAL_VERSION"
+
+      - name: Set version
+        if: ${{ inputs.skip_version_update == false }}
+        shell: bash
+        env:
+          GHA_MAVENCENTRAL_VERSION_FILE_NAME: ${{ inputs.version_file_name}}
+          GHA_MAVENCENTRAL_VERSION: ${{ inputs.version }}
+          JFROG_USER: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          JFROG_PASS: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+        run: |
+          mvn -B versions:set -f $GHA_MAVENCENTRAL_VERSION_FILE_NAME -DnewVersion=$GHA_MAVENCENTRAL_VERSION -DgenerateBackupPoms=false -DprocessAllModules=true
+
+      - name: JReleaser Release to Maven Central
+        id: release
+        uses: entur/gha-maven-central/.github/actions/jreleaser-release@v1
+        with:
+          version: ${{ inputs.version }}
+          version_tag_prefix: ${{ inputs.version_tag_prefix }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonatype_username: ${{ secrets.SONATYPE_AUTH_USER }}
+          sonatype_password: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+          gpg_public_key: ${{ secrets.SONATYPE_GPG_KEY_PUBLIC }}
+          gpg_secret_key: ${{ secrets.SONATYPE_GPG_KEY }}
+          gpg_passphrase: ${{ secrets.SONATYPE_GPG_KEY_PASSWORD }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Upload Build Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-reports
+          path: |
+            **/target/site
+            **/target/reports/
+            **/target/surefire-reports

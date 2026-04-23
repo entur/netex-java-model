@@ -1,0 +1,248 @@
+name: Hotfix Finish (Gitflow)
+
+on:
+  workflow_call:
+    inputs:
+      hotfix_branch:
+        description: 'Hotfix branch to finish (e.g., hotfix/2.0.16.1)'
+        required: true
+        type: string
+      merge_to_main:
+        description: 'Cherry-pick hotfix commits to base branch'
+        required: false
+        type: boolean
+        default: true
+      runner:
+        description: 'Runner to use for jobs'
+        required: false
+        type: string
+        default: "ubuntu-24.04"
+      java_version:
+        description: 'Java version to use'
+        required: false
+        type: number
+        default: 21
+      java_distribution:
+        description: 'Java distribution to use'
+        required: false
+        type: string
+        default: "liberica"
+      version_tag_prefix:
+        description: 'Prefix for version tags'
+        required: false
+        type: string
+        default: "v"
+      artifact_group_id:
+        description: 'Maven group ID for summary links (e.g., io.entur)'
+        required: false
+        type: string
+        default: ""
+      artifact_ids:
+        description: 'Comma-separated artifact IDs for summary links (e.g., my-library,my-cli)'
+        required: false
+        type: string
+        default: ""
+      base_branch:
+        description: 'Base branch to cherry-pick changes to (e.g., main, master, develop)'
+        required: false
+        type: string
+        default: "main"
+    secrets:
+      SONATYPE_AUTH_USER:
+        required: true
+      SONATYPE_AUTH_TOKEN:
+        required: true
+      SONATYPE_GPG_KEY_PUBLIC:
+        required: true
+      SONATYPE_GPG_KEY:
+        required: true
+      SONATYPE_GPG_KEY_PASSWORD:
+        required: true
+
+jobs:
+  get-hotfix-version:
+    runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.hotfix_branch }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java_version || 21 }}
+          distribution: ${{ inputs.java_distribution || 'liberica' }}
+
+      - name: Get hotfix version
+        id: get_version
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          # Remove -SNAPSHOT if present
+          VERSION="${VERSION%-SNAPSHOT}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Hotfix version: $VERSION"
+
+  create-tag:
+    name: Create hotfix tag
+    needs: get-hotfix-version
+    runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.hotfix_branch }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and push tag
+        run: |
+          VERSION="${{ needs.get-hotfix-version.outputs.version }}"
+          TAG="${{ inputs.version_tag_prefix || 'v' }}${VERSION}"
+
+          echo "Creating tag: $TAG from branch ${{ inputs.hotfix_branch }}"
+          git tag -a "$TAG" -m "Hotfix $VERSION"
+          git push origin "$TAG"
+
+  publish-hotfix:
+    name: Publish to Maven Central
+    needs: [get-hotfix-version, create-tag]
+    runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
+    env:
+      JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
+      JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
+      JRELEASER_DEPLOY_MAVEN_NEXUS2_ACTIVE: "SNAPSHOT"
+      JRELEASER_NEXUS2_URL: "https://ossrh-staging-api.central.sonatype.com/service/local"
+      JRELEASER_NEXUS2_SNAPSHOT_URL: "https://central.sonatype.com/repository/maven-snapshots"
+      JRELEASER_OVERWRITE: true
+      JRELEASER_UPDATE: true
+      JRELEASER_GIT_ROOT_SEARCH: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version_tag_prefix || 'v' }}${{ needs.get-hotfix-version.outputs.version }}
+          fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: ${{ inputs.java_version || 21 }}
+          distribution: ${{ inputs.java_distribution || 'liberica' }}
+          cache: maven
+
+      - name: Install xmlstarlet
+        run: |
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo apt-get update
+          sudo apt-get -y install xmlstarlet
+
+      - name: JReleaser Release to Maven Central
+        uses: entur/gha-maven-central/.github/actions/jreleaser-release@v1
+        with:
+          version: ${{ needs.get-hotfix-version.outputs.version }}
+          version_tag_prefix: ${{ inputs.version_tag_prefix || 'v' }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sonatype_username: ${{ secrets.SONATYPE_AUTH_USER }}
+          sonatype_password: ${{ secrets.SONATYPE_AUTH_TOKEN }}
+          gpg_public_key: ${{ secrets.SONATYPE_GPG_KEY_PUBLIC }}
+          gpg_secret_key: ${{ secrets.SONATYPE_GPG_KEY }}
+          gpg_passphrase: ${{ secrets.SONATYPE_GPG_KEY_PASSWORD }}
+          artifactory_user: ${{ secrets.ARTIFACTORY_AUTH_USER }}
+          artifactory_token: ${{ secrets.ARTIFACTORY_AUTH_TOKEN }}
+
+      - name: Upload Build Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jreleaser-reports
+          path: |
+            **/target/site
+            **/target/reports/
+            **/target/surefire-reports
+
+  merge-to-base-branch:
+    name: Cherry-pick hotfix to base branch
+    needs: [get-hotfix-version, publish-hotfix]
+    if: inputs.merge_to_main == true
+    runs-on: ${{ inputs.runner || 'ubuntu-24.04' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.base_branch || 'main' }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Cherry-pick hotfix commits
+        run: |
+          HOTFIX_BRANCH="${{ inputs.hotfix_branch }}"
+          BASE_BRANCH="${{ inputs.base_branch || 'main' }}"
+          echo "Cherry-picking commits from $HOTFIX_BRANCH to $BASE_BRANCH"
+
+          # Get the base commit (where hotfix branched from)
+          git fetch origin "$HOTFIX_BRANCH"
+
+          # Find all commits in the hotfix branch
+          HOTFIX_COMMITS=$(git log --reverse --pretty=format:"%H" origin/$HOTFIX_BRANCH --not $(git merge-base origin/$BASE_BRANCH origin/$HOTFIX_BRANCH))
+
+          # Cherry-pick each commit
+          for commit in $HOTFIX_COMMITS; do
+            echo "Cherry-picking commit: $commit"
+            git cherry-pick "$commit" || {
+              echo "::warning::Cherry-pick conflict on commit $commit. Resolve manually."
+              git cherry-pick --abort
+              exit 1
+            }
+          done
+
+      - name: Push to base branch
+        run: |
+          BASE_BRANCH="${{ inputs.base_branch || 'main' }}"
+          git push origin "$BASE_BRANCH"
+
+      - name: Delete hotfix branch
+        continue-on-error: true
+        run: |
+          HOTFIX_BRANCH="${{ inputs.hotfix_branch }}"
+          echo "Deleting hotfix branch: $HOTFIX_BRANCH"
+          git push origin --delete "$HOTFIX_BRANCH" || echo "Branch already deleted"
+
+      - name: Create summary
+        run: |
+          VERSION="${{ needs.get-hotfix-version.outputs.version }}"
+          TAG_PREFIX="${{ inputs.version_tag_prefix || 'v' }}"
+          GROUP_ID="${{ inputs.artifact_group_id }}"
+          ARTIFACT_IDS="${{ inputs.artifact_ids }}"
+
+          cat >> $GITHUB_STEP_SUMMARY <<EOF
+          ## Hotfix Released
+
+          - **Hotfix Version:** $VERSION
+          - **Git Tag:** \`${TAG_PREFIX}${VERSION}\`
+          EOF
+
+          # Add Maven Central links if artifact details are provided
+          if [ -n "$GROUP_ID" ] && [ -n "$ARTIFACT_IDS" ]; then
+            IFS=',' read -ra ARTIFACTS <<< "$ARTIFACT_IDS"
+            for ARTIFACT_ID in "${ARTIFACTS[@]}"; do
+              ARTIFACT_ID=$(echo "$ARTIFACT_ID" | xargs)  # Trim whitespace
+              echo "- **Maven Central ($ARTIFACT_ID):** https://central.sonatype.com/artifact/${GROUP_ID}/${ARTIFACT_ID}/${VERSION}" >> $GITHUB_STEP_SUMMARY
+            done
+          fi
+
+          BASE_BRANCH="${{ inputs.base_branch || 'main' }}"
+
+          cat >> $GITHUB_STEP_SUMMARY <<EOF
+          - **Hotfix Branch:** Deleted
+          - **Merged to $BASE_BRANCH:** ${{ inputs.merge_to_main }}
+
+          The hotfix has been published to Maven Central.
+          EOF

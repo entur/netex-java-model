@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>2.0.15.3-SNAPSHOT</version>
+    <version>2.0.15.3</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -50,7 +50,7 @@
     <scm>
         <connection>scm:git:ssh://git@github.com/entur/netex-java-model.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/entur/netex-java-model.git</developerConnection>
-        <url>https://github.com/entur/netex-java-model/tree/v2.0.15.2</url>
+        <url>https://github.com/entur/netex-java-model/tree/v2.0.15.3</url>
         <tag>HEAD</tag>
     </scm>
     <distributionManagement>
@@ -69,7 +69,7 @@
         <jdk.version>11</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>master</netexBranch>
+        <netexBranch>tags/v1.0.15.2</netexBranch>
         <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
         <netexVersion>1.15.2</netexVersion>
 
@@ -281,7 +281,7 @@
                         <environmentVariables>
                             <GITHUB_URL>${netexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
                             <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
-                            <ZIP_PATH_TO_EXTRACT>NeTEx-${netexBranch}/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15.2/xsd/*</ZIP_PATH_TO_EXTRACT>
                         </environmentVariables>
                         <executable>./bin/netex-download-extract.sh</executable>
                     </configuration>
