@@ -17,6 +17,7 @@ package org.rutebanken.netex.model;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.rutebanken.util.LocalDateTimeISO8601XmlAdapter;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBElement;
@@ -38,17 +39,19 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class MarshalUnmarshalTest {
 
 	private static JAXBContext jaxbContext;
-	
+
 	private static final ObjectFactory factory = new ObjectFactory();
 
 	@BeforeAll
@@ -62,7 +65,8 @@ class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
-				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now().withNano(0))
+				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType(""))
+				.withPublicationTimestamp(LocalDateTime.now().withNano(0))
 				.withParticipantRef("participantRef");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -141,7 +145,8 @@ class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		TimetableFrame timetableFrame = factory.createTimetableFrame().withVersion("any").withId("TimetableFrame")
-				.withName(factory.createMultilingualString().withValue("TimetableFrame")).withVehicleModes(VehicleModeEnumeration.AIR);
+				.withName(factory.createMultilingualString().withValue("TimetableFrame"))
+				.withVehicleModes(VehicleModeEnumeration.AIR);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -153,7 +158,8 @@ class MarshalUnmarshalTest {
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		@SuppressWarnings("unchecked")
-		JAXBElement<TimetableFrame> jaxbElement = (JAXBElement<TimetableFrame>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<TimetableFrame> jaxbElement = (JAXBElement<TimetableFrame>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 		TimetableFrame actual = jaxbElement.getValue();
 
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getVersion());
@@ -167,13 +173,17 @@ class MarshalUnmarshalTest {
 	void dayTypeWithPropertiesOfDay() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
+		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY,
+				DayOfWeekEnumeration.WEDNESDAY,
 				DayOfWeekEnumeration.THURSDAY, DayOfWeekEnumeration.FRIDAY);
-		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
+		PropertyOfDay propertyOfDay = factory.createPropertyOfDay()
+				.withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
 				.withName(factory.createMultilingualString().withValue("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
-		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
+		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure()
+				.withPropertyOfDay(propertyOfDay);
 		DayType dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
-				.withName(factory.createMultilingualString().withValue("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
+				.withName(factory.createMultilingualString().withValue("Ukedager (mandag til fredag)"))
+				.withProperties(propertiesOfDay);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -185,7 +195,8 @@ class MarshalUnmarshalTest {
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
 		@SuppressWarnings("unchecked")
-		JAXBElement<DayType> jaxbElement = (JAXBElement<DayType>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<DayType> jaxbElement = (JAXBElement<DayType>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 		DayType actual = jaxbElement.getValue();
 
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(dayType.getVersion());
@@ -211,19 +222,18 @@ class MarshalUnmarshalTest {
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		assertThat(actual.getValue().getArrivalDate()).isEqualTo(datedCall.getArrivalDate());
 
 	}
-
 
 	@Test
 	void marshalledNamespacePrefixes() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDeliveryStructure = new PublicationDeliveryStructure();
-
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -234,7 +244,8 @@ class MarshalUnmarshalTest {
 		System.out.println(xml);
 
 		assertThat(xml)
-				.as("Namespace declaration without prefix for netex").contains("xmlns=\"http://www.netex.org.uk/netex\"")
+				.as("Namespace declaration without prefix for netex")
+				.contains("xmlns=\"http://www.netex.org.uk/netex\"")
 				.as("<PublicationDelivery without namespace prefix").contains("<PublicationDelivery");
 	}
 
@@ -253,7 +264,8 @@ class MarshalUnmarshalTest {
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		assertThat(actual.getValue().getChanged().getHour()).isEqualTo(datedCall.getChanged().getHour());
 		assertThat(actual.getValue().getChanged()).isEqualToIgnoringNanos(datedCall.getChanged());
@@ -271,28 +283,34 @@ class MarshalUnmarshalTest {
 		CompositeFrame compositeFrame = (CompositeFrame) actual.dataObjects.compositeFrameOrCommonFrame
 				.get(0).getValue();
 		ValidityConditions_RelStructure validityConditions = compositeFrame.getValidityConditions();
-		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
+		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions
+				.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).hasToString("2017-01-01T11:00");
 
-		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
+		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions
+				.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
 
 		assertThat(validBetweenWithoutTimezone.getToDate()).hasToString("2017-01-01T12:00");
 
-		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
-		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
+		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames()
+				.getCommonFrame().get(1).getValue();
+		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame
+				.getVehicleJourneys()
 				.getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
 		assertThat(serviceJourney.getDepartureTime()).hasToString("07:55");
 
-		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
+		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0)
+				.getDepartureTime();
 		assertThat(departureTimeZulu).isNotNull().hasToString("07:55");
 
-		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
+		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1)
+				.getArrivalTime();
 		assertThat(departureTimeOffset).isNotNull().hasToString("08:40");
 	}
 
@@ -332,7 +350,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
-		CompositeFrame compositeFrame = (CompositeFrame) actual.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+		CompositeFrame compositeFrame = (CompositeFrame) actual.getDataObjects().getCompositeFrameOrCommonFrame().get(0)
+				.getValue();
 		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 		Network actualNetwork = serviceFrame.getNetwork();
 
@@ -352,7 +371,8 @@ class MarshalUnmarshalTest {
 				.withBookingAccess(BookingAccessEnumeration.PUBLIC)
 				.withBookWhen(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY)
 				.withLatestBookingTime(LocalTime.of(14, 0))
-				.withBookingContact(new ContactStructure().withPhone("+47 11223344").withUrl("https://flex.example.com"));
+				.withBookingContact(
+						new ContactStructure().withPhone("+47 11223344").withUrl("https://flex.example.com"));
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -411,7 +431,8 @@ class MarshalUnmarshalTest {
 
 	@Test
 	void fragmentShouldNotContainNetexNamespace() throws Exception {
-		JAXBContext netexJaxBContext = JAXBContext.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
+		JAXBContext netexJaxBContext = JAXBContext
+				.newInstance("net.opengis.gml._3:org.rutebanken.netex.model:uk.org.siri.siri");
 		Marshaller marshaller = netexJaxBContext.createMarshaller();
 
 		marshaller.setProperty(jakarta.xml.bind.Marshaller.JAXB_ENCODING, StandardCharsets.UTF_8.name());
@@ -419,10 +440,10 @@ class MarshalUnmarshalTest {
 		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
 
 		StringWriter stringWriter = new StringWriter();
-		AvailabilityCondition availabilityCondition = new AvailabilityCondition().withFromDate(LocalDateTime.now()).withToDate(LocalDateTime.now()).withId("NSR:AvailabilityCondition:2").withVersion("v1");
+		AvailabilityCondition availabilityCondition = new AvailabilityCondition().withFromDate(LocalDateTime.now())
+				.withToDate(LocalDateTime.now()).withId("NSR:AvailabilityCondition:2").withVersion("v1");
 
-
-		String netexNamespace="http://www.netex.org.uk/netex";
+		String netexNamespace = "http://www.netex.org.uk/netex";
 
 		XMLOutputFactory outputFactory = XMLOutputFactory.newFactory();
 		XMLStreamWriter xmlStreamWriter = outputFactory.createXMLStreamWriter(stringWriter);
@@ -434,7 +455,7 @@ class MarshalUnmarshalTest {
 		assertFalse(xml.contains(netexNamespace));
 	}
 
-		@Test
+	@Test
 	void unmarshalPublicationDeliveryAndVerifyDateTimeNanoSeconds() throws JAXBException {
 
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -484,4 +505,163 @@ class MarshalUnmarshalTest {
 		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
 	}
 
+	@Test
+	void unmarshalPublicationDeliveryWithoutSeconds() throws JAXBException {
+		// Case 1: time without seconds, e.g. "15:00+01:00"
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
+				+ " <PublicationTimestamp>2016-05-18T15:10+01:00</PublicationTimestamp>"
+				+ " <ParticipantRef>NHR</ParticipantRef>"
+				+ " <dataObjects/>"
+				+ "</PublicationDelivery>";
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
+		assertThat(actual.getPublicationTimestamp().getMinute()).isEqualTo(10);
+		assertThat(actual.getPublicationTimestamp().getSecond()).isEqualTo(0);
+	}
+
+	@Test
+	void unmarshalPublicationDeliveryWithSpaceSeparator() throws JAXBException {
+		// Case 3: space instead of 'T' as date/time separator
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
+				+ " <PublicationTimestamp>2016-05-18 15:00:00+01:00</PublicationTimestamp>"
+				+ " <ParticipantRef>NHR</ParticipantRef>"
+				+ " <dataObjects/>"
+				+ "</PublicationDelivery>";
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
+	}
+
+	@Test
+	void unmarshalPublicationDeliveryWithOffsetWithoutColon() throws JAXBException {
+		// Case 4: offset without colon, e.g. "+0100" instead of "+01:00"
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
+				+ " <PublicationTimestamp>2016-05-18T15:00:00+0100</PublicationTimestamp>"
+				+ " <ParticipantRef>NHR</ParticipantRef>"
+				+ " <dataObjects/>"
+				+ "</PublicationDelivery>";
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
+	}
+
+	@Test
+	void unmarshalPublicationDeliveryWithCommaAsFractionSeparator() throws JAXBException {
+		// Case 7: comma instead of dot as decimal separator for fractional seconds
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
+				+ " <PublicationTimestamp>2016-05-18T15:00:00,123+01:00</PublicationTimestamp>"
+				+ " <ParticipantRef>NHR</ParticipantRef>"
+				+ " <dataObjects/>"
+				+ "</PublicationDelivery>";
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
+		assertThat(actual.getPublicationTimestamp().getNano()).isEqualTo(123_000_000);
+	}
+
+	@Test
+	void unmarshalPublicationDeliveryWithBracketedZoneId() throws JAXBException {
+		// Case 8: trailing IANA zone id in brackets, e.g. "+01:00[Europe/Berlin]"
+		// (as produced by ZonedDateTime.toString()). The zone id itself is stripped
+		// and not interpreted; only the offset and local fields are used.
+		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
+				+ " <PublicationTimestamp>2016-05-18T15:00:00+01:00[Europe/Berlin]</PublicationTimestamp>"
+				+ " <ParticipantRef>NHR</ParticipantRef>"
+				+ " <dataObjects/>"
+				+ "</PublicationDelivery>";
+
+		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+		@SuppressWarnings("unchecked")
+		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		PublicationDeliveryStructure actual = jaxbElement.getValue();
+
+		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
+	}
+
+	@Test
+	void unmarshalDateOnlyDefaultsToMidnight() {
+		// Case: date-only input (no time component at all) should default to midnight.
+		LocalDateTimeISO8601XmlAdapter adapter = new LocalDateTimeISO8601XmlAdapter();
+
+		LocalDateTime result = adapter.unmarshal("2016-05-18");
+
+		assertThat(result.getYear()).isEqualTo(2016);
+		assertThat(result.getMonthValue()).isEqualTo(5);
+		assertThat(result.getDayOfMonth()).isEqualTo(18);
+		assertThat(result.getHour()).isEqualTo(0);
+		assertThat(result.getMinute()).isEqualTo(0);
+		assertThat(result.getSecond()).isEqualTo(0);
+	}
+
+	@Test
+	void unmarshalRejectsBasicIso8601FormatWithoutSeparators() {
+		// Case 5 (documented limitation): the compact "basic" ISO-8601 format
+		// without any separators (e.g. "20160518T150000Z") is intentionally NOT
+		// supported by the current adapter. This test documents that behaviour
+		// so a future change is a conscious decision rather than an accident.
+		LocalDateTimeISO8601XmlAdapter adapter = new LocalDateTimeISO8601XmlAdapter();
+
+		assertThatThrownBy(() -> adapter.unmarshal("20160518T150000Z"))
+				.isInstanceOf(DateTimeParseException.class);
+	}
+
+	@Test
+	void unmarshalDoesNotDependOnSystemDefaultOffsetAtRuntime() {
+		// Case 10: the parsed result must not depend on "now" (e.g. current DST
+		// offset) - it only matters that parsing succeeds and the local fields
+		// are correct, regardless of when the test is executed.
+		LocalDateTimeISO8601XmlAdapter adapter = new LocalDateTimeISO8601XmlAdapter();
+
+		// Winter date (CET, +01:00) and summer date (CEST, +02:00) - both must
+		// parse correctly and independently of the JVM's current date/offset.
+		LocalDateTime winter = adapter.unmarshal("2016-01-18T15:00:00+01:00");
+		LocalDateTime summer = adapter.unmarshal("2016-07-18T15:00:00+02:00");
+
+		assertThat(winter.getHour()).isEqualTo(15);
+		assertThat(summer.getHour()).isEqualTo(15);
+	}
+
+	@Test
+	void marshalProducesCanonicalFormat() {
+		// Round-trip sanity check: marshalling always produces a single,
+		// unambiguous representation regardless of which input variant was parsed.
+		LocalDateTimeISO8601XmlAdapter adapter = new LocalDateTimeISO8601XmlAdapter();
+
+		LocalDateTime parsed = adapter.unmarshal("2016-05-18 15:00:00,500+01:00");
+		String marshalled = adapter.marshal(parsed);
+
+		assertThat(marshalled).isEqualTo("2016-05-18T15:00:00.500");
+	}
 }
