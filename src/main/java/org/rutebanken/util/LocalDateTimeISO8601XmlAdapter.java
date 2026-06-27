@@ -59,6 +59,11 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
     // DecimalStyle that accepts ',' as fraction separator (used by the comma-variant formatter)
     private static final DecimalStyle COMMA_DECIMAL_STYLE = DecimalStyle.STANDARD.withDecimalSeparator(',');
 
+ /*    private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
+			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
+			.optionalStart().appendPattern("XXXXX")
+            .optionalEnd()
+            .toFormatter();*/
     /**
      * Builds one formatter variant.
      *
@@ -142,11 +147,12 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
         throw lastException;
     }
 
-    @Override
-    public String marshal(LocalDateTime inputDate) {
-        if (inputDate == null) {
-            return null;
+ @Override
+	public String marshal(LocalDateTime inputDate) {
+		if(inputDate != null) {
+			return OUTPUT_FORMATTER.format(inputDate);
+		} else {
+			return null;
         }
-        return OUTPUT_FORMATTER.format(inputDate);
     }
 }
