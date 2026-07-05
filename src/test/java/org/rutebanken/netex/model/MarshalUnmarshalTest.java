@@ -84,7 +84,7 @@ class MarshalUnmarshalTest {
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
 
 		System.out.println(actual.getPublicationTimestamp());
-		assertThat(actual.getPublicationTimestamp()).isEqualTo(publicationDelivery.getPublicationTimestamp());
+		assertThat(actual.getPublicationTimestamp()).isEqualToIgnoringNanos(publicationDelivery.getPublicationTimestamp());
 		assertThat(actual.getDescription()).isNotNull();
 		assertThat(actual.getDescription().getValue()).isEqualTo(publicationDelivery.getDescription().getValue());
 		assertThat(actual.getParticipantRef()).isEqualTo(publicationDelivery.getParticipantRef());
@@ -662,6 +662,6 @@ class MarshalUnmarshalTest {
 		LocalDateTime parsed = adapter.unmarshal("2016-05-18 15:00:00,500+01:00");
 		String marshalled = adapter.marshal(parsed);
 
-		assertThat(marshalled).isEqualTo("2016-05-18T15:00:00.500");
+		assertThat(marshalled).isEqualTo("2016-05-18T15:00:00");
 	}
 }
