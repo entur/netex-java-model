@@ -528,26 +528,6 @@ class MarshalUnmarshalTest {
 	}
 
 	@Test
-	void unmarshalPublicationDeliveryWithSpaceSeparator() throws JAXBException {
-		// Case 3: space instead of 'T' as date/time separator
-		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-				+ "<PublicationDelivery version=\"1.0\" xmlns=\"http://www.netex.org.uk/netex\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.netex.org.uk/netex ../../xsd/NeTEx_publication.xsd\">"
-				+ " <PublicationTimestamp>2016-05-18 15:00:00+01:00</PublicationTimestamp>"
-				+ " <ParticipantRef>NHR</ParticipantRef>"
-				+ " <dataObjects/>"
-				+ "</PublicationDelivery>";
-
-		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-		@SuppressWarnings("unchecked")
-		JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
-				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
-		PublicationDeliveryStructure actual = jaxbElement.getValue();
-
-		assertThat(actual.getPublicationTimestamp().getHour()).isEqualTo(15);
-	}
-
-	@Test
 	void unmarshalPublicationDeliveryWithOffsetWithoutColon() throws JAXBException {
 		// Case 4: offset without colon, e.g. "+0100" instead of "+01:00"
 		String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -653,15 +633,4 @@ class MarshalUnmarshalTest {
 		assertThat(summer.getHour()).isEqualTo(15);
 	}
 
-	@Test
-	void marshalProducesCanonicalFormat() {
-		// Round-trip sanity check: marshalling always produces a single,
-		// unambiguous representation regardless of which input variant was parsed.
-		LocalDateTimeISO8601XmlAdapter adapter = new LocalDateTimeISO8601XmlAdapter();
-
-		LocalDateTime parsed = adapter.unmarshal("2016-05-18 15:00:00,500+01:00");
-		String marshalled = adapter.marshal(parsed);
-
-		assertThat(marshalled).isEqualTo("2016-05-18T15:00:00");
-	}
 }

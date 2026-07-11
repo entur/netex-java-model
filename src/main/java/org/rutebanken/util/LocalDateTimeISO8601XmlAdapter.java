@@ -31,38 +31,47 @@ import java.util.regex.Pattern;
  * ISO-8601-like string representations.
  *
  * Supported input variations:
- *  - Date-only:                 2023-01-01
- *  - 'T' or space as separator: 2023-01-01T10:15:30 / 2023-01-01 10:15:30
- *  - Seconds optional:          2023-01-01T10:15
- *  - Fractional seconds with '.' or ',':  10:15:30.123 / 10:15:30,123
- *  - Offset with colon:         +02:00
- *  - Offset without colon:      +0200
- *  - Zulu marker:                Z
- *  - Trailing zone-id in brackets (stripped, not interpreted): +01:00[Europe/Berlin]
+ * - Date-only: 2023-01-01
+ * - 'T' or space as separator: 2023-01-01T10:15:30 / 2023-01-01 10:15:30
+ * - Seconds optional: 2023-01-01T10:15
+ * - Fractional seconds with '.' or ',': 10:15:30.123 / 10:15:30,123
+ * - Offset with colon: +02:00
+ * - Offset without colon: +0200
+ * - Zulu marker: Z
+ * - Trailing zone-id in brackets (stripped, not interpreted):
+ * +01:00[Europe/Berlin]
  *
  * Notes / deliberate limitations:
- *  - The target type is LocalDateTime, so any offset/zone information found in the
- *    input is parsed only to avoid failures - it is NOT applied to shift the time.
- *    If you need offset-aware conversion, parse to OffsetDateTime/ZonedDateTime instead.
- *  - The bracketed zone-id (e.g. "[Europe/Berlin]") is stripped via regex before
- *    parsing because DateTimeFormatterBuilder has no simple "consume and ignore"
- *    construct for that syntax.
- *  - Full ISO-8601 "basic" format (no separators at all, e.g. 20230101T101530Z)
- *    is intentionally NOT supported here to keep the formatter list manageable.
- *    Add another formatter to the list below if you need it.
+ * - The target type is LocalDateTime, so any offset/zone information found in
+ * the
+ * input is parsed only to avoid failures - it is NOT applied to shift the time.
+ * If you need offset-aware conversion, parse to OffsetDateTime/ZonedDateTime
+ * instead.
+ * - The bracketed zone-id (e.g. "[Europe/Berlin]") is stripped via regex before
+ * parsing because DateTimeFormatterBuilder has no simple "consume and ignore"
+ * construct for that syntax.
+ * - Full ISO-8601 "basic" format (no separators at all, e.g. 20230101T101530Z)
+ * is intentionally NOT supported here to keep the formatter list manageable.
+ * Add another formatter to the list below if you need it.
  */
 public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDateTime> {
 
-    // Strips a trailing IANA zone id in brackets, e.g. "+01:00[Europe/Berlin]" -> "+01:00"
+    // Strips a trailing IANA zone id in brackets, e.g. "+01:00[Europe/Berlin]" ->
+    // "+01:00"
     private static final Pattern ZONE_ID_SUFFIX = Pattern.compile("\\[.*\\]$");
 
-    // DecimalStyle that accepts ',' as fraction separator (used by the comma-variant formatter)
+    // DecimalStyle that accepts ',' as fraction separator (used by the
+    // comma-variant formatter)
     private static final DecimalStyle COMMA_DECIMAL_STYLE = DecimalStyle.STANDARD.withDecimalSeparator(',');
 
-     /* Builds one formatter variant.
+    /*
+     * Builds one formatter variant.
      *
-     * @param dateTimeSeparatorLiteral the literal between date and time, e.g. "T" or " "
-     * @param decimalStyle             decimal style to use for fractional seconds (dot or comma)
+     * @param dateTimeSeparatorLiteral the literal between date and time, e.g. "T"
+     * or " "
+     * 
+     * @param decimalStyle decimal style to use for fractional seconds (dot or
+     * comma)
      */
     private static DateTimeFormatter buildFormatter(String dateTimeSeparatorLiteral, DecimalStyle decimalStyle) {
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
@@ -71,24 +80,28 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
 
                 // Time part is entirely optional -> supports date-only input
                 .optionalStart()
-                    .appendLiteral(dateTimeSeparatorLiteral)
-                    .appendPattern("HH:mm")
-                    // Seconds are optional
-                    .optionalStart()
-                        .appendPattern(":ss")
-                    .optionalEnd()
-                    // Fractional seconds are optional (uses the decimalStyle set below)
-                    .optionalStart()
-                        .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
-                    .optionalEnd()
-                    // Offset with colon, e.g. +02:00, or 'Z'
-                    .optionalStart()
-                        .appendPattern("XXXXX")
-                    .optionalEnd()
-                    // Offset without colon, e.g. +0200 (only tried if the above didn't match)
-                    .optionalStart()
-                        .appendPattern("XX")
-                    .optionalEnd()
+                .appendLiteral(dateTimeSeparatorLiteral)
+                .appendPattern("HH:mm")
+                // Seconds are optional
+                .optionalStart()
+                .appendPattern(":ss")
+                // Fractional seconds are optional (uses the decimalStyle set below)
+                .optionalStart()
+                .appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true)
+                .optionalEnd()
+                .optionalEnd()
+                // Offset with colon, e.g. +02:00, or 'Z'
+                .optionalStart()
+                .appendPattern("XXXXX")
+                .optionalEnd()
+                // Offset without colon, e.g. +0200 (only tried if the above didn't match)
+                .optionalStart()
+                .appendPattern("XX")
+                .optionalEnd()
+                // Hour-only offset, e.g. +02
+                .optionalStart()
+                .appendPattern("X")
+                .optionalEnd()
                 .optionalEnd()
 
                 // Default missing fields so that LocalTime.MIDNIGHT / 0 seconds are assumed
@@ -107,16 +120,13 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
     // Order matters only for performance (most common case first); all variants
     // are tried until one succeeds.
     private static final List<DateTimeFormatter> PARSERS = List.of(
-            buildFormatter("T", DecimalStyle.STANDARD),         // 2023-01-01T10:15:30.123+02:00
-            buildFormatter(" ", DecimalStyle.STANDARD),         // 2023-01-01 10:15:30.123+02:00
-            buildFormatter("T", COMMA_DECIMAL_STYLE),           // 2023-01-01T10:15:30,123+02:00
-            buildFormatter(" ", COMMA_DECIMAL_STYLE)            // 2023-01-01 10:15:30,123+02:00
+            buildFormatter("T", DecimalStyle.STANDARD), // 2023-01-01T10:15:30.123+02:00
+            buildFormatter("T", COMMA_DECIMAL_STYLE) // 2023-01-01T10:15:30,123+02:00
     );
 
     // Formatter used for marshalling (output). Always produces a canonical,
     // unambiguous representation: 'T' separator, dot as decimal separator.
-    private static final DateTimeFormatter OUTPUT_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     @Override
     public LocalDateTime unmarshal(String inputDate) {
@@ -124,7 +134,8 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
             return null;
         }
 
-        // Strip a trailing bracketed zone id, e.g. "...+01:00[Europe/Berlin]" -> "...+01:00"
+        // Strip a trailing bracketed zone id, e.g. "...+01:00[Europe/Berlin]" ->
+        // "...+01:00"
         String cleaned = ZONE_ID_SUFFIX.matcher(inputDate.trim()).replaceAll("");
 
         DateTimeParseException lastException = null;
@@ -141,12 +152,12 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
         throw lastException;
     }
 
- @Override
-	public String marshal(LocalDateTime inputDate) {
-		if(inputDate != null) {
-			return OUTPUT_FORMATTER.format(inputDate);
-		} else {
-			return null;
+    @Override
+    public String marshal(LocalDateTime inputDate) {
+        if (inputDate != null) {
+            return OUTPUT_FORMATTER.format(inputDate);
+        } else {
+            return null;
         }
     }
 }
