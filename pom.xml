@@ -75,7 +75,7 @@
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>4.0.5</jakarta-xml-bind.version>
-        <glassfish-jaxb.version>4.0.7</glassfish-jaxb.version>
+        <glassfish-jaxb.version>4.0.9</glassfish-jaxb.version>
         <jaxb.fluent.api.version>2.1.8</jaxb.fluent.api.version>
         <threeten-jaxb-core.version>2.2.0</threeten-jaxb-core.version>
 
@@ -83,17 +83,17 @@
         <cxf-xjc.version>4.0.2</cxf-xjc.version>
 
         <!-- Other dependencies versions -->
-        <slf4j.version>2.0.17</slf4j.version>
+        <slf4j.version>2.0.18</slf4j.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
 
         <!-- Unit test frameworks versions -->
         <assertj.core.version>3.27.7</assertj.core.version>
-        <junit.version>5.14.3</junit.version>
+        <junit.version>5.14.4</junit.version>
 
         <!-- Maven plugin versions  -->
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <maven-exec-plugin.version>3.6.3</maven-exec-plugin.version>
-        <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
         <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
@@ -101,15 +101,15 @@
         <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
 
-        <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+        <maven-jar-plugin.version>3.5.1</maven-jar-plugin.version>
         <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
         <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
         <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
-        <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+        <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
         <git-commit-id-maven-plugin.version>9.0.2</git-commit-id-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
         <sonar-maven-plugin.version>5.5.0.6356</sonar-maven-plugin.version>
         <jreleaser-maven-plugin.version>1.23.0</jreleaser-maven-plugin.version>
 
