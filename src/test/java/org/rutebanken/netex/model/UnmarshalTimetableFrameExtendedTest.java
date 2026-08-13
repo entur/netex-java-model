@@ -124,7 +124,7 @@ class UnmarshalTimetableFrameExtendedTest extends AbstractUnmarshalFrameTest {
 
         ServiceJourney serviceJourney = (ServiceJourney) timetableFrame.getVehicleJourneys()
                 .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
-        assertEquals("Flex Service", serviceJourney.getName().getValue());
+        assertEquals("Flex Service", getStringValue(serviceJourney.getName()));
 
         FlexibleServiceProperties flexProps = serviceJourney.getFlexibleServiceProperties();
         assertEquals(BookingAccessEnumeration.PUBLIC, flexProps.getBookingAccess());
