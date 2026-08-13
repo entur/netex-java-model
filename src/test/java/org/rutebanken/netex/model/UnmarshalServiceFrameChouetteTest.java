@@ -77,7 +77,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_OrJourneyPatternView().get(0).getValue();
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_Dummy().get(0).getValue();
         StopPointInJourneyPattern stopPoint = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence()
                 .getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().get(0);
 
@@ -91,7 +91,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         assertEquals(java.time.Duration.ofHours(2), booking.getMinimumBookingPeriod());
         assertEquals("+47 55551234", booking.getBookingContact().getPhone());
         assertEquals("https://booking.example.com", booking.getBookingContact().getUrl());
-        assertEquals("Call to book", booking.getBookingNote().getValue());
+        assertEquals("Call to book", getStringValue(booking.getBookingNote()));
         assertEquals(2, booking.getBookingMethods().size());
         assertEquals(BookingMethodEnumeration.CALL_OFFICE, booking.getBookingMethods().get(0));
         assertEquals(BookingMethodEnumeration.ONLINE, booking.getBookingMethods().get(1));
@@ -138,7 +138,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
         DestinationDisplay dd = serviceFrame.getDestinationDisplays().getDestinationDisplay().get(0);
-        assertEquals("Bergen", dd.getFrontText().getValue());
+        assertEquals("Bergen", getStringValue(dd.getFrontText()));
         assertNotNull(dd.getVias());
         assertEquals(2, dd.getVias().getVia().size());
 
@@ -200,12 +200,12 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
 
         assertEquals(2, serviceFrame.getDirections().getDirection().size());
         Direction outbound = serviceFrame.getDirections().getDirection().get(0);
-        assertEquals("Outbound", outbound.getName().getValue());
+        assertEquals("Outbound", getStringValue(outbound.getName()));
         assertEquals(DirectionTypeEnumeration.OUTBOUND, outbound.getDirectionType());
         Direction inbound = serviceFrame.getDirections().getDirection().get(1);
         assertEquals(DirectionTypeEnumeration.INBOUND, inbound.getDirectionType());
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_().get(0).getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().get(0).getValue();
         assertEquals(DirectionTypeEnumeration.OUTBOUND, route.getDirectionType());
         assertEquals("TST:Direction:Outbound", route.getDirectionRef().getRef());
         assertEquals("TST:Route:2", route.getInverseRouteRef().getRef());
@@ -294,7 +294,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
         ScheduledStopPoint ssp1 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(0);
-        assertEquals("Timing Stop", ssp1.getName().getValue());
+        assertEquals("Timing Stop", getStringValue(ssp1.getName()));
         assertEquals(TimingPointStatusEnumeration.TIMING_POINT, ssp1.getTimingPointStatus());
 
         ScheduledStopPoint ssp2 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(1);
@@ -339,8 +339,8 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        Line line = (Line) serviceFrame.getLines().getLine_().get(0).getValue();
-        assertEquals("Line One", line.getName().getValue());
+        Line line = (Line) serviceFrame.getLines().getLine_Dummy().get(0).getValue();
+        assertEquals("Line One", getStringValue(line.getName()));
         assertEquals("PRIV001", line.getPrivateCode().getValue());
 
         PresentationStructure presentation = line.getPresentation();
@@ -391,18 +391,18 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
         Notice notice = serviceFrame.getNotices().getNotice().get(0);
-        assertEquals("Stopper ikke alle holdeplasser", notice.getText().getValue());
+        assertEquals("Stopper ikke alle holdeplasser", getStringValue(notice.getText()));
         assertEquals("no", notice.getText().getLang());
 
         assertNotNull(notice.getAlternativeTexts());
         assertEquals(2, notice.getAlternativeTexts().getAlternativeText().size());
 
         AlternativeText alt1 = notice.getAlternativeTexts().getAlternativeText().get(0);
-        assertEquals("Does not stop at all stops", alt1.getText().getValue());
+        assertEquals("Does not stop at all stops", getStringValue(alt1.getText()));
         assertEquals("en", alt1.getText().getLang());
 
         AlternativeText alt2 = notice.getAlternativeTexts().getAlternativeText().get(1);
-        assertEquals("Stannar inte vid alla hallplatser", alt2.getText().getValue());
+        assertEquals("Stannar inte vid alla hallplatser", getStringValue(alt2.getText()));
         assertEquals("sv", alt2.getText().getLang());
     }
 
