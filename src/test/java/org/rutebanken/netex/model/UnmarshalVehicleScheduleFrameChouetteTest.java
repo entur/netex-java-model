@@ -82,8 +82,8 @@ class UnmarshalVehicleScheduleFrameChouetteTest extends AbstractUnmarshalFrameTe
         assertEquals(1, vsFrame.getBlocks().getBlockOrCompoundBlockOrTrainBlock().size());
 
         Block block = (Block) vsFrame.getBlocks().getBlockOrCompoundBlockOrTrainBlock().get(0);
-        assertEquals("Morning Block", block.getName().getValue());
-        assertEquals("First block of the day", block.getDescription().getValue());
+        assertEquals("Morning Block", getStringValue(block.getName()));
+        assertEquals("First block of the day", getStringValue(block.getDescription()));
         assertEquals("BLK001", block.getPrivateCode().getValue());
         assertEquals(LocalTime.of(5, 30), block.getStartTime());
         assertEquals(LocalTime.of(12, 0), block.getEndTime());

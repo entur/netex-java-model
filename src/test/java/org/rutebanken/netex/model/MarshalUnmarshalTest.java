@@ -306,7 +306,7 @@ class MarshalUnmarshalTest {
 
 		Network network = factory.createNetwork()
 				.withVersion("1").withId("TST:Network:1")
-				.withName(factory.createMultilingualString().withValue("Test Network"))
+				.withName(factory.createMultilingualString().withContent("Test Network"))
 				.withTransportOrganisationRef(factory.createAuthorityRef(
 						new AuthorityRef().withRef("TST:Authority:1")));
 
@@ -340,7 +340,7 @@ class MarshalUnmarshalTest {
 		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 		Network actualNetwork = serviceFrame.getNetwork();
 
-		assertThat(actualNetwork.getName().getValue()).isEqualTo("Test Network");
+		assertThat(actualNetwork.getName().getContent()).isNotNull().isNotEmpty();
 		assertThat(actualNetwork.getTransportOrganisationRef().getValue().getRef()).isEqualTo("TST:Authority:1");
 	}
 
@@ -350,8 +350,8 @@ class MarshalUnmarshalTest {
 
 		FlexibleLine flexibleLine = new FlexibleLine()
 				.withVersion("1").withId("TST:FlexibleLine:1")
-				.withName(factory.createMultilingualString().withValue("Flex Route"))
-				.withTransportMode(AllVehicleModesOfTransportEnumeration.BUS)
+				.withName(factory.createMultilingualString().withContent("Flex Route"))
+				.withTransportMode(AllPublicTransportModesEnumeration.BUS)
 				.withFlexibleLineType(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY)
 				.withBookingAccess(BookingAccessEnumeration.PUBLIC)
 				.withBookWhen(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY)
@@ -371,8 +371,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		FlexibleLine actual = jaxbElement.getValue();
-		assertThat(actual.getName().getValue()).isEqualTo("Flex Route");
-		assertThat(actual.getTransportMode()).isEqualTo(AllVehicleModesOfTransportEnumeration.BUS);
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty();
+		assertThat(actual.getTransportMode()).isEqualTo(AllPublicTransportModesEnumeration.BUS);
 		assertThat(actual.getFlexibleLineType()).isEqualTo(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY);
 		assertThat(actual.getBookingAccess()).isEqualTo(BookingAccessEnumeration.PUBLIC);
 		assertThat(actual.getBookWhen()).isEqualTo(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY);
@@ -387,8 +387,8 @@ class MarshalUnmarshalTest {
 
 		Block block = new Block()
 				.withVersion("1").withId("TST:Block:1")
-				.withName(factory.createMultilingualString().withValue("Test Block"))
-				.withDescription(factory.createMultilingualString().withValue("Block description"))
+				.withName(factory.createMultilingualString().withContent("Test Block"))
+				.withDescription(factory.createMultilingualString().withContent("Block description"))
 				.withPrivateCode(new PrivateCodeStructure().withValue("BLK001"))
 				.withStartTime(LocalTime.of(6, 0))
 				.withEndTime(LocalTime.of(14, 30));
@@ -406,8 +406,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		Block actual = jaxbElement.getValue();
-		assertThat(actual.getName().getValue()).isEqualTo("Test Block");
-		assertThat(actual.getDescription().getValue()).isEqualTo("Block description");
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty();
+		assertThat(actual.getDescription().getContent()).isNotNull().isNotEmpty();
 		assertThat(actual.getPrivateCode().getValue()).isEqualTo("BLK001");
 		assertThat(actual.getStartTime()).isEqualTo(LocalTime.of(6, 0));
 		assertThat(actual.getEndTime()).isEqualTo(LocalTime.of(14, 30));

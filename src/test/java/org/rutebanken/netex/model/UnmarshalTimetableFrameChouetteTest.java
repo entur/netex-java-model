@@ -77,8 +77,8 @@ class UnmarshalTimetableFrameChouetteTest extends AbstractUnmarshalFrameTest {
 
         DeadRun deadRun = (DeadRun) timetableFrame.getVehicleJourneys()
                 .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
-        assertEquals("Dead Run to Depot", deadRun.getName().getValue());
-        assertEquals(AllVehicleModesOfTransportEnumeration.BUS, deadRun.getTransportMode());
+        assertEquals("Dead Run to Depot", getStringValue(deadRun.getName()));
+        assertEquals(AllPublicTransportModesEnumeration.BUS, deadRun.getTransportMode());
 
         assertNotNull(deadRun.getDayTypes());
         assertEquals("TST:DayType:Weekday", deadRun.getDayTypes().getDayTypeRef().get(0).getValue().getRef());
@@ -151,7 +151,7 @@ class UnmarshalTimetableFrameChouetteTest extends AbstractUnmarshalFrameTest {
         assertEquals(PurchaseMomentEnumeration.BEFORE_BOARDING, fsp.getBuyWhen().get(0));
         assertEquals(PurchaseMomentEnumeration.ON_BOARDING, fsp.getBuyWhen().get(1));
 
-        assertEquals("Advanced booking required", fsp.getBookingNote().getValue());
+        assertEquals("Advanced booking required", getStringValue(fsp.getBookingNote()));
         assertEquals("+47 99998888", fsp.getBookingContact().getPhone());
     }
 }
