@@ -14,7 +14,7 @@ on:
 
 jobs:
   hotfix-start:
-    uses: entur/ror-gha-workflows/.github/workflows/hotfix-start.yml@v1
+    uses: entur/ror-gha-workflows/.github/workflows/hotfix-start.yml@v1.2.1
     with:
       hotfix_version: ${{ inputs.hotfix_version }}
       base_tag: ${{ inputs.base_tag }}
