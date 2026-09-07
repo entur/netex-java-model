@@ -37,6 +37,24 @@ public class LocalTimeISO8601XmlAdapterTest {
     }
 
     @Test
+    public void testUnmarshalTimeWithMicroseconds() {
+        LocalTime result = adapter.unmarshal("07:55:00.398629");
+        assertEquals(LocalTime.of(7, 55, 0, 398_629_000), result);
+    }
+
+    @Test
+    public void testUnmarshalTimeWithMicrosecondsAndOffset() {
+        LocalTime result = adapter.unmarshal("07:55:00.398629+02:00");
+        assertEquals(LocalTime.of(7, 55, 0, 398_629_000), result);
+    }
+
+    @Test
+    public void testUnmarshalTimeWithNanoseconds() {
+        LocalTime result = adapter.unmarshal("07:55:00.123456789+02:00");
+        assertEquals(LocalTime.of(7, 55, 0, 123_456_789), result);
+    }
+
+    @Test
     public void testUnmarshalMidnight() {
         LocalTime result = adapter.unmarshal("00:00:00");
         assertEquals(LocalTime.MIDNIGHT, result);
@@ -67,6 +85,12 @@ public class LocalTimeISO8601XmlAdapterTest {
     }
 
     @Test
+    public void testMarshalTimeWithMicroseconds() {
+        String result = adapter.marshal(LocalTime.of(7, 55, 0, 398_629_000));
+        assertEquals("07:55:00.398629", result);
+    }
+
+    @Test
     public void testMarshalMidnight() {
         String result = adapter.marshal(LocalTime.MIDNIGHT);
         assertEquals("00:00:00", result);
@@ -90,6 +114,12 @@ public class LocalTimeISO8601XmlAdapterTest {
         String marshalled = adapter.marshal(original);
         LocalTime unmarshalled = adapter.unmarshal(marshalled);
         assertEquals(original, unmarshalled);
+    }
+
+    @Test
+    public void testRoundTripWithMicroseconds() {
+        LocalTime original = LocalTime.of(7, 55, 0, 398_629_000);
+        assertEquals(original, adapter.unmarshal(adapter.marshal(original)));
     }
 
     @Test

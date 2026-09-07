@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
 	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
-			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
+			.optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd()
 			.optionalStart().appendPattern("XXXXX")
             .optionalEnd()
 
