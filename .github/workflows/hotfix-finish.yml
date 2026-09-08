@@ -19,7 +19,7 @@ jobs:
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.hotfix_branch }}
           fetch-depth: 0
@@ -43,7 +43,7 @@ jobs:
     needs: get-hotfix-version
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.hotfix_branch }}
           fetch-depth: 0
@@ -77,7 +77,7 @@ jobs:
       JRELEASER_UPDATE: true
       JRELEASER_GIT_ROOT_SEARCH: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: v${{ needs.get-hotfix-version.outputs.version }}
           fetch-depth: 0
@@ -124,7 +124,7 @@ jobs:
     if: inputs.merge_to_master == true
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: master
           fetch-depth: 0
