@@ -38,9 +38,10 @@ mvn validate
 │   └── version_updater.sh         # Updates version references
 ├── bindings.xjb               # JAXB customization bindings
 ├── src/main/java/org/rutebanken/
-│   ├── netex/                 # Utilities (validation, client, toString style)
+│   ├── netex/                 # Utilities (validation, client, version conversion, toString style)
 │   └── util/                  # XML adapters for Java 8 time types
 ├── src/main/resources/xsd/    # NeTEx XSD files (downloaded at build time)
+├── src/main/resources/xslt/   # XSLT 1.0 stylesheets converting between NeTEx versions (committed)
 ├── src/test/                  # JUnit 5 tests for marshalling/unmarshalling
 └── target/generated-sources/  # JAXB-generated model classes (build artifact)
 ```
@@ -58,6 +59,9 @@ mvn validate
 
 - **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD.
 
+- **Version conversion**: `NeTExDowngrader` applies `xslt/netex-1.16-to-1.15.xsl` to convert a 1.16 document to 1.15
+  (reverts the `DatedServiceJourney` `replacedJourneys` change). Keep the stylesheet XSLT 1.0 so it also runs with `xmlstarlet tr`.
+
 ## CI/CD
 
 GitHub Actions workflows in `.github/workflows/`:
@@ -71,3 +75,4 @@ Tests verify JAXB marshalling/unmarshalling of various NeTEx frame types:
 - `MarshalUnmarshalTest` - Round-trip serialization
 - `UnmarshalServiceFrameTest`, `UnmarshalSiteFrameTest`, etc. - Frame-specific tests
 - `NeTExValidatorTest` - Schema validation tests
+- `NeTExDowngraderTest` - 1.16 to 1.15 conversion, validated against the bundled 1.15 XSD

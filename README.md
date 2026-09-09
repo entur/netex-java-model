@@ -57,6 +57,28 @@ Then add the dependency with the snapshot version:
 </dependency>
 ```
 
+### Converting a NeTEx 1.16 document to NeTEx 1.15
+
+NeTEx 1.16 changed `DatedServiceJourney` in a way that is not backward compatible (replaced journeys moved from
+repeated `DatedServiceJourneyRef` elements into a `replacedJourneys` container). `NeTExDowngrader` applies an XSLT
+stylesheet that reverts this change and rewrites the `PublicationDelivery` version prefix, so the output validates
+against the 1.15 schema:
+
+```java
+NeTExDowngrader downgrader = NeTExDowngrader.getNeTExDowngrader(); // 1.16 -> 1.15
+downgrader.downgrade(new StreamSource(new File("netex-1.16.xml")), new StreamResult(new File("netex-1.15.xml")));
+```
+
+The stylesheet is plain XSLT 1.0 and can be applied without the library, for instance with `xmlstarlet`:
+
+```bash
+xmlstarlet tr src/main/resources/xslt/netex-1.16-to-1.15.xsl netex-1.16.xml > netex-1.15.xml
+```
+
+Only the `DatedServiceJourney` changes are handled; other 1.16 additions (for example `DatedVehicleJourney` changes)
+are copied through unchanged. The JDK XSLT processor loads the whole document in memory, so large exports need a
+large heap.
+
 ## Building from Source
 
 ### Prerequisites
@@ -89,9 +111,10 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 │   └── version_updater.sh          # Updates version references in bindings
 ├── bindings.xjb                    # JAXB customization bindings
 ├── src/main/java/org/rutebanken/
-│   ├── netex/                      # NeTEx utilities (validation, toString style)
+│   ├── netex/                      # NeTEx utilities (validation, version conversion, toString style)
 │   └── util/                       # XML adapters for Java time types
 ├── src/main/resources/xsd/         # Downloaded NeTEx XSD files (build artifact)
+├── src/main/resources/xslt/        # XSLT stylesheets converting between NeTEx versions
 └── src/test/                       # JUnit 5 marshalling/unmarshalling tests
 ```
 
@@ -104,6 +127,9 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 - Package mapping to `org.rutebanken.netex.model`
 
 **Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 1.16.
+
+**Version conversion**: `NeTExDowngrader` converts a 1.16 document to 1.15 with the XSLT 1.0 stylesheet
+`src/main/resources/xslt/netex-1.16-to-1.15.xsl` (scope: `DatedServiceJourney` and the `PublicationDelivery` version attribute).
 
 **Note on GML types**: This library generates classes under `net.opengis.gml._3` as part of the NeTEx model.
 
