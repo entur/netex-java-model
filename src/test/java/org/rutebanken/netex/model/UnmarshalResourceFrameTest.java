@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class UnmarshalResourceFrameTest extends  AbstractUnmarshalFrameTest {
 
@@ -117,5 +118,54 @@ class UnmarshalResourceFrameTest extends  AbstractUnmarshalFrameTest {
 
     }
 
+    /**
+     * AssociatedContract / ContractRef on a ResponsibilityRoleAssignment was added in NeTEx 1.15.3
+     * (backport of entur/NeTEx#63).
+     */
+    @Test
+    void unmarshalResponsibilitySetWithAssociatedContract() throws JAXBException {
 
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
+                "  <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>\n" +
+                "  <ParticipantRef>TST</ParticipantRef>\n" +
+                "  <dataObjects>\n" +
+                "    <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
+                "      <responsibilitySets>\n" +
+                "        <ResponsibilitySet version=\"1\" id=\"TST:ResponsibilitySet:1\">\n" +
+                "          <Name>Contracted operation</Name>\n" +
+                "          <roles>\n" +
+                "            <ResponsibilityRoleAssignment version=\"1\" id=\"TST:ResponsibilityRoleAssignment:1\">\n" +
+                "              <AssociatedContract>\n" +
+                "                <ContractRef ref=\"TST:Contract:1\" version=\"1\"/>\n" +
+                "              </AssociatedContract>\n" +
+                "            </ResponsibilityRoleAssignment>\n" +
+                "          </roles>\n" +
+                "        </ResponsibilitySet>\n" +
+                "      </responsibilitySets>\n" +
+                "    </ResourceFrame>\n" +
+                "  </dataObjects>\n" +
+                "</PublicationDelivery>";
+
+        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+        @SuppressWarnings("unchecked")
+        JAXBElement<PublicationDeliveryStructure> jaxbElement = (JAXBElement<PublicationDeliveryStructure>) unmarshaller
+                .unmarshal(new ByteArrayInputStream(xml.getBytes()));
+
+        PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
+        ResourceFrame resourceFrame = (ResourceFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+
+        ResponsibilitySet responsibilitySet = resourceFrame.getResponsibilitySets().getResponsibilitySet().get(0);
+        assertEquals("Contracted operation", responsibilitySet.getName().getValue());
+
+        ResponsibilityRoleAssignment_VersionedChildStructure roleAssignment = responsibilitySet.getRoles().getResponsibilityRoleAssignment().get(0);
+
+        ContractRef_RelStructure associatedContract = roleAssignment.getAssociatedContract();
+        assertNotNull(associatedContract);
+        ContractRefStructure contractRef = associatedContract.getContractRef();
+        assertNotNull(contractRef);
+        assertEquals("TST:Contract:1", contractRef.getRef());
+        assertEquals("1", contractRef.getVersion());
+    }
 }
