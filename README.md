@@ -12,7 +12,7 @@ Java model classes generated from [NeTEx](https://github.com/entur/NeTEx) (Netwo
 
 This library downloads the NeTEx XSD files from the [Entur NeTEx fork](https://github.com/entur/NeTEx) and compiles them into JAXB-annotated Java model classes at build time. The generated classes support full marshalling and unmarshalling of NeTEx XML documents, including schema validation against multiple NeTEx versions.
 
-- **NeTEx version**: 1.16 (model generation), with legacy validation support back to 1.07
+- **NeTEx version**: 1.16.1 (model generation), with legacy validation support back to 1.07
 - **JAXB**: Jakarta XML Bind 4.x (Jakarta EE 9+)
 - **Generated package**: `org.rutebanken.netex.model`
 - **GML types package**: `net.opengis.gml._3`
@@ -103,7 +103,7 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 - Property name conflict resolution
 - Package mapping to `org.rutebanken.netex.model`
 
-**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 1.16.
+**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 1.16.1.
 
 **Note on GML types**: This library generates classes under `net.opengis.gml._3` as part of the NeTEx model.
 
