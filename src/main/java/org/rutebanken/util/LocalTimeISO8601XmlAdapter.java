@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
@@ -34,21 +34,39 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 //
 	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
 
+	private static final int SECONDS_PER_DAY = 24 * 60 * 60;
 	/**
-	 * We store a cache of parsed LocalTime instances to avoid wasting memory in immutable value
-	 * objects that strictly identical and interchangeable.
-	 *
-	 * We only cache times that are full seconds to avoid increasing the size of the cache unduly,
-	 * since there is a limited number of seconds in a single day.
+	 * Parsing a LocalTime with a DateTimeFormatter is expensive and shows up in real-world
+	 * profiles, since NeTEx documents contain a huge number of time values. Since there are only
+	 * 86400 distinct whole-second times in a day, we precompute all of them once: as canonical
+	 * LocalTime instances indexed by second-of-day (for reuse/dedup), and by their formatted
+	 * string representation (for a direct lookup that bypasses the parser entirely for the common
+	 * "HH:mm:ss" case).
 	 */
-	private final ConcurrentHashMap<LocalTime, LocalTime> cache = new ConcurrentHashMap<>();
+	private static final LocalTime[] TIMES_BY_SECOND_OF_DAY = new LocalTime[SECONDS_PER_DAY];
+	private static final Map<String, LocalTime> TIME_BY_STRING = new HashMap<>(SECONDS_PER_DAY * 2);
+
+	static {
+		for (int secondOfDay = 0; secondOfDay < SECONDS_PER_DAY; secondOfDay++) {
+			LocalTime time = LocalTime.ofSecondOfDay(secondOfDay);
+			TIMES_BY_SECOND_OF_DAY[secondOfDay] = time;
+			TIME_BY_STRING.put(formatter.format(time), time);
+		}
+	}
 
 	@Override
 	public LocalTime unmarshal(String input) {
+		// fast path: avoid the DateTimeFormatter parser entirely for plain whole-second times
+		LocalTime cached = TIME_BY_STRING.get(input);
+		if (cached != null) {
+			return cached;
+		}
+
 		var key = LocalTime.parse(input, formatter);
-		// only cache if nano is zero
-		if(key.getNano() == 0){
-			return cache.computeIfAbsent(key, time -> time);
+		// only reuse the cached instance if nano is zero, so as not to increase the size of the
+		// cache unduly, since there is a limited number of seconds in a single day
+		if (key.getNano() == 0) {
+			return TIMES_BY_SECOND_OF_DAY[key.toSecondOfDay()];
 		}
 		// sub-second times are not cached to not increase the size of the cache unduly
 		else {
