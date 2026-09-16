@@ -44,14 +44,16 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 	 * "HH:mm:ss" case).
 	 */
 	private static final LocalTime[] TIMES_BY_SECOND_OF_DAY = new LocalTime[SECONDS_PER_DAY];
-	private static final Map<String, LocalTime> TIME_BY_STRING = new HashMap<>(SECONDS_PER_DAY * 2);
+	private static final Map<String, LocalTime> TIME_BY_STRING;
 
 	static {
+		var tmp = new HashMap<String, LocalTime>(SECONDS_PER_DAY * 2);
 		for (int secondOfDay = 0; secondOfDay < SECONDS_PER_DAY; secondOfDay++) {
 			LocalTime time = LocalTime.ofSecondOfDay(secondOfDay);
 			TIMES_BY_SECOND_OF_DAY[secondOfDay] = time;
-			TIME_BY_STRING.put(formatter.format(time), time);
+			tmp.put(formatter.format(time), time);
 		}
+		TIME_BY_STRING = Map.copyOf(tmp);
 	}
 
 	@Override
