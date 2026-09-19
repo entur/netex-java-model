@@ -30,12 +30,12 @@ jobs:
       JRELEASER_UPDATE: true
       JRELEASER_GIT_ROOT_SEARCH: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.1.0
         with:
           ref: ${{ github.event.inputs.git_ref }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v4.9.1
         with:
           java-version: 11
           distribution: liberica
@@ -60,7 +60,7 @@ jobs:
           echo "Publishing version: $VERSION"
 
       - name: JReleaser Release to Maven Central
-        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1.2.1
         with:
           version: ${{ steps.get_version.outputs.version }}
           version_tag_prefix: v
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload Build Reports
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: jreleaser-reports
           path: |
