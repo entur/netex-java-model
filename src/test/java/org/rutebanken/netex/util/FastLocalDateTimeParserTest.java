@@ -13,7 +13,7 @@
  * limitations under the Licence.
  */
 
-package org.rutebanken.util;
+package org.rutebanken.netex.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
