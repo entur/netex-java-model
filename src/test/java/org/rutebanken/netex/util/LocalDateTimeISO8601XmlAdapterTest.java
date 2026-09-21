@@ -1,4 +1,4 @@
-package org.rutebanken.util;
+package org.rutebanken.netex.util;
 
 import org.junit.jupiter.api.Test;
 
