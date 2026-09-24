@@ -6,11 +6,11 @@
 [![License: EUPL-1.2](https://img.shields.io/badge/License-EUPL--1.2-blue.svg)](https://joinup.ec.europa.eu/software/page/eupl)
 [![Java 21+](https://img.shields.io/badge/Java-21%2B-orange)](https://adoptium.net/)
 
-Java model classes generated from [NeTEx](https://github.com/NeTEx-CEN/NeTEx) (Network Timetable Exchange) XML Schema Definition (XSD) files using JAXB. Maintained by [Entur AS](https://www.entur.org).
+Java model classes generated from [NeTEx](https://github.com/TransmodelEcosystem/NeTEx) (Network Timetable Exchange) XML Schema Definition (XSD) files using JAXB. Maintained by [Entur AS](https://www.entur.org).
 
 ## Overview
 
-This library downloads the NeTEx XSD files from the [CEN NeTEx repository](https://github.com/NeTEx-CEN/NeTEx) and compiles them into JAXB-annotated Java model classes at build time. The generated classes support full marshalling and unmarshalling of NeTEx XML documents, including schema validation against multiple NeTEx versions. Legacy schemas (1.08 - 1.15) are downloaded from the [Entur NeTEx fork](https://github.com/entur/NeTEx).
+This library downloads the NeTEx XSD files from the [NeTEx repository](https://github.com/TransmodelEcosystem/NeTEx) and compiles them into JAXB-annotated Java model classes at build time. The generated classes support full marshalling and unmarshalling of NeTEx XML documents, including schema validation against multiple NeTEx versions. Legacy schemas (1.08 - 1.15) are downloaded from the [Entur NeTEx fork](https://github.com/entur/NeTEx).
 
 - **NeTEx version**: 2.0 (model generation), with legacy validation support back to 1.07
 - **JAXB**: Jakarta XML Bind 4.x (Jakarta EE 9+)

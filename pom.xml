@@ -70,7 +70,7 @@
 
         <netexRepoName>NeTEx</netexRepoName>
         <netexBranch>v2.0</netexBranch>
-        <cenNetexGithubUrl>https://github.com/NeTEx-CEN/${netexRepoName}</cenNetexGithubUrl>
+        <cenNetexGithubUrl>https://github.com/TransmodelEcosystem/${netexRepoName}</cenNetexGithubUrl>
         <enturNetexGithubUrl>https://github.com/entur/${netexRepoName}</enturNetexGithubUrl>
         <netexVersion>2.0</netexVersion>
 
