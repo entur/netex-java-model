@@ -15,7 +15,7 @@ on:
 
 jobs:
   release-start:
-    uses: entur/ror-gha-workflows/.github/workflows/release-start.yml@v1
+    uses: entur/ror-gha-workflows/.github/workflows/release-start.yml@v1.2.1
     with:
       release_version: ${{ inputs.release_version }}
       base_branch: ${{ inputs.base_branch }}
