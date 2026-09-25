@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Organization**: Entur AS (Norwegian public transport data provider)
 - **License**: EUPL-1.2
 - **Java Version**: 11+ (builds on 17 in CI)
-- **Package**: `org.rutebanken.netex.model` (generated), `org.rutebanken.netex` and `org.rutebanken.util` (source)
+- **Package**: `org.rutebanken.netex.model` (generated), `org.rutebanken.netex` and `org.rutebanken.netex.util` (source)
 
 ## Build Commands
 
@@ -37,9 +37,10 @@ mvn validate
 │   ├── annotation-replacer.sh     # Post-processes generated Java files
 │   └── version_updater.sh         # Updates version references
 ├── bindings.xjb               # JAXB customization bindings
-├── src/main/java/org/rutebanken/
-│   ├── netex/                 # Utilities (validation, client, toString style)
-│   └── util/                  # XML adapters for Java 8 time types
+├── src/main/java/
+│   ├── module-info.java       # JPMS module descriptor (org.entur.netex.java.model)
+│   └── org/rutebanken/netex/  # Utilities (validation, client, toString style)
+│       └── util/              # XML adapters for Java 8 time types
 ├── src/main/resources/xsd/    # NeTEx XSD files (downloaded at build time)
 ├── src/test/                  # JUnit 5 tests for marshalling/unmarshalling
 └── target/generated-sources/  # JAXB-generated model classes (build artifact)
@@ -54,7 +55,7 @@ mvn validate
 
 - **Generated Code**: Model classes are generated in `target/generated-sources/` during build. Do not manually edit generated code.
 
-- **NeTEx Version**: Configured in `pom.xml` via `<netexVersion>` property (currently 1.16).
+- **NeTEx Version**: Configured in `pom.xml` via `<netexVersion>` property (currently 2.0).
 
 - **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD.
 
