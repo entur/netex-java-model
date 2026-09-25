@@ -65,8 +65,8 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
-        StopPlace stopPlace = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(0).getValue();
-        assertEquals("Accessible Stop", stopPlace.getName().getValue());
+        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().get(0);
+        assertEquals("Accessible Stop", getStringValue(stopPlace.getName()));
 
         AccessibilityAssessment assessment = stopPlace.getAccessibilityAssessment();
         assertNotNull(assessment);
@@ -106,8 +106,8 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
         FlexibleStopPlace flexibleStopPlace = siteFrame.getFlexibleStopPlaces().getFlexibleStopPlace().get(0);
-        assertEquals("Flexible Area North", flexibleStopPlace.getName().getValue());
-        assertEquals(AllVehicleModesOfTransportEnumeration.BUS, flexibleStopPlace.getTransportMode());
+        assertEquals("Flexible Area North", getStringValue(flexibleStopPlace.getName()));
+        assertEquals(AllPublicTransportModesEnumeration.BUS, flexibleStopPlace.getTransportMode());
     }
 
     @Test
@@ -139,8 +139,8 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
-        Parking parking = siteFrame.getParkings().getParking().get(0);
-        assertEquals("Central Parking", parking.getName().getValue());
+        Parking parking = (Parking) siteFrame.getParkings().getParking_Dummy().get(0).getValue();
+        assertEquals("Central Parking", getStringValue(parking.getName()));
         assertEquals(ParkingTypeEnumeration.PARK_AND_RIDE, parking.getParkingType());
         assertEquals(BigInteger.valueOf(250), parking.getTotalCapacity());
     }

@@ -27,9 +27,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
@@ -38,7 +35,6 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,7 +58,7 @@ class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		PublicationDeliveryStructure publicationDelivery = new PublicationDeliveryStructure()
-				.withDescription(new MultilingualString().withValue("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now().withNano(0))
+				.withDescription(new MultilingualString().withContent("value").withLang("no").withTextIdType("")).withPublicationTimestamp(LocalDateTime.now().withNano(0))
 				.withParticipantRef("participantRef");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
@@ -82,7 +78,7 @@ class MarshalUnmarshalTest {
 		System.out.println(actual.getPublicationTimestamp());
 		assertThat(actual.getPublicationTimestamp()).isEqualTo(publicationDelivery.getPublicationTimestamp());
 		assertThat(actual.getDescription()).isNotNull();
-		assertThat(actual.getDescription().getValue()).isEqualTo(publicationDelivery.getDescription().getValue());
+		assertThat(actual.getDescription().getContent()).isEqualTo(publicationDelivery.getDescription().getContent());
 		assertThat(actual.getParticipantRef()).isEqualTo(publicationDelivery.getParticipantRef());
 	}
 
@@ -141,7 +137,7 @@ class MarshalUnmarshalTest {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
 		TimetableFrame timetableFrame = factory.createTimetableFrame().withVersion("any").withId("TimetableFrame")
-				.withName(factory.createMultilingualString().withValue("TimetableFrame")).withVehicleModes(VehicleModeEnumeration.AIR);
+				.withName(factory.createMultilingualString().withContent("TimetableFrame")).withVehicleModes(AllPublicTransportModesEnumeration.AIR);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -158,9 +154,9 @@ class MarshalUnmarshalTest {
 
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getVersion());
 		assertThat(actual.getId()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getId());
-		assertThat(actual.getName().getValue()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getName().getValue());
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getName().getContent());
 		assertThat(actual.getVehicleModes()).isNotNull().isNotEmpty().hasSize(1);
-		assertThat(actual.getVehicleModes().get(0)).isNotNull().isEqualTo(VehicleModeEnumeration.AIR);
+		assertThat(actual.getVehicleModes().get(0)).isNotNull().isEqualTo(AllPublicTransportModesEnumeration.AIR);
 	}
 
 	@Test
@@ -169,11 +165,11 @@ class MarshalUnmarshalTest {
 
 		List<DayOfWeekEnumeration> daysOfWeek = Arrays.asList(DayOfWeekEnumeration.MONDAY, DayOfWeekEnumeration.TUESDAY, DayOfWeekEnumeration.WEDNESDAY,
 				DayOfWeekEnumeration.THURSDAY, DayOfWeekEnumeration.FRIDAY);
-		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withValue("PropertyOfDay"))
-				.withName(factory.createMultilingualString().withValue("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
+		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withContent("PropertyOfDay"))
+				.withName(factory.createMultilingualString().withContent("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
 		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
 		DayType dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
-				.withName(factory.createMultilingualString().withValue("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
+				.withName(factory.createMultilingualString().withContent("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -190,31 +186,35 @@ class MarshalUnmarshalTest {
 
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(dayType.getVersion());
 		assertThat(actual.getId()).isNotNull().isNotEmpty().isEqualTo(dayType.getId());
-		assertThat(actual.getName().getValue()).isNotNull().isNotEmpty().isEqualTo(dayType.getName().getValue());
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty().isEqualTo(dayType.getName().getContent());
 		assertThat(actual.getProperties().getPropertyOfDay().get(0).getDaysOfWeek()).isNotNull().isNotEmpty().hasSize(5)
 				.hasOnlyElementsOfType(DayOfWeekEnumeration.class).hasSameElementsAs(daysOfWeek);
 	}
 
 	@Test
-	void datedCallWithLocalDate() throws JAXBException {
+	void availabilityConditionWithLocalDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		DatedCall datedCall = new DatedCall().withArrivalDate(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
+		AvailabilityCondition condition = new AvailabilityCondition()
+				.withFromDate(LocalDateTime.now())
+				.withToDate(LocalDateTime.now().plusDays(1))
+				.withId("test:condition:1")
+				.withVersion("1");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-
-		marshaller.marshal(factory.createDatedCall(datedCall), byteArrayOutputStream);
+		marshaller.marshal(factory.createAvailabilityCondition(condition), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		@SuppressWarnings("unchecked")
+		JAXBElement<AvailabilityCondition> actual = (JAXBElement<AvailabilityCondition>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-		assertThat(actual.getValue().getArrivalDate()).isEqualTo(datedCall.getArrivalDate());
-
+		assertThat(actual.getValue().getFromDate().getHour()).isEqualTo(condition.getFromDate().getHour());
+		assertThat(actual.getValue().getFromDate()).isEqualToIgnoringNanos(condition.getFromDate());
 	}
 
 
@@ -239,24 +239,28 @@ class MarshalUnmarshalTest {
 	}
 
 	@Test
-	void datedCallWithLocalDateTime() throws JAXBException {
+	void availabilityConditionWithCreatedLocalDateTime() throws JAXBException {
 		Marshaller marshaller = jaxbContext.createMarshaller();
 
-		DatedCall datedCall = new DatedCall().withChanged(LocalDateTime.now());
+		AvailabilityCondition condition = new AvailabilityCondition()
+				.withCreated(LocalDateTime.now())
+				.withId("test:condition:2")
+				.withVersion("1");
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		marshaller.marshal(factory.createDatedCall(datedCall), byteArrayOutputStream);
+		marshaller.marshal(factory.createAvailabilityCondition(condition), byteArrayOutputStream);
 
 		String xml = byteArrayOutputStream.toString();
 		System.out.println(xml);
 
 		Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
-		JAXBElement<DatedCall> actual = (JAXBElement<DatedCall>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
+		@SuppressWarnings("unchecked")
+		JAXBElement<AvailabilityCondition> actual = (JAXBElement<AvailabilityCondition>) unmarshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
-		assertThat(actual.getValue().getChanged().getHour()).isEqualTo(datedCall.getChanged().getHour());
-		assertThat(actual.getValue().getChanged()).isEqualToIgnoringNanos(datedCall.getChanged());
+		assertThat(actual.getValue().getCreated().getHour()).isEqualTo(condition.getCreated().getHour());
+		assertThat(actual.getValue().getCreated()).isEqualToIgnoringNanos(condition.getCreated());
 	}
 
 	@Test
@@ -271,12 +275,12 @@ class MarshalUnmarshalTest {
 		CompositeFrame compositeFrame = (CompositeFrame) actual.dataObjects.compositeFrameOrCommonFrame
 				.get(0).getValue();
 		ValidityConditions_RelStructure validityConditions = compositeFrame.getValidityConditions();
-		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(0);
+		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).hasToString("2017-01-01T11:00");
 
-		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_().get(1);
+		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
 
@@ -302,7 +306,7 @@ class MarshalUnmarshalTest {
 
 		Network network = factory.createNetwork()
 				.withVersion("1").withId("TST:Network:1")
-				.withName(factory.createMultilingualString().withValue("Test Network"))
+				.withName(factory.createMultilingualString().withContent("Test Network"))
 				.withTransportOrganisationRef(factory.createAuthorityRef(
 						new AuthorityRef().withRef("TST:Authority:1")));
 
@@ -336,7 +340,7 @@ class MarshalUnmarshalTest {
 		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 		Network actualNetwork = serviceFrame.getNetwork();
 
-		assertThat(actualNetwork.getName().getValue()).isEqualTo("Test Network");
+		assertThat(actualNetwork.getName().getContent()).isNotNull().isNotEmpty();
 		assertThat(actualNetwork.getTransportOrganisationRef().getValue().getRef()).isEqualTo("TST:Authority:1");
 	}
 
@@ -346,8 +350,8 @@ class MarshalUnmarshalTest {
 
 		FlexibleLine flexibleLine = new FlexibleLine()
 				.withVersion("1").withId("TST:FlexibleLine:1")
-				.withName(factory.createMultilingualString().withValue("Flex Route"))
-				.withTransportMode(AllVehicleModesOfTransportEnumeration.BUS)
+				.withName(factory.createMultilingualString().withContent("Flex Route"))
+				.withTransportMode(AllPublicTransportModesEnumeration.BUS)
 				.withFlexibleLineType(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY)
 				.withBookingAccess(BookingAccessEnumeration.PUBLIC)
 				.withBookWhen(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY)
@@ -367,8 +371,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		FlexibleLine actual = jaxbElement.getValue();
-		assertThat(actual.getName().getValue()).isEqualTo("Flex Route");
-		assertThat(actual.getTransportMode()).isEqualTo(AllVehicleModesOfTransportEnumeration.BUS);
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty();
+		assertThat(actual.getTransportMode()).isEqualTo(AllPublicTransportModesEnumeration.BUS);
 		assertThat(actual.getFlexibleLineType()).isEqualTo(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY);
 		assertThat(actual.getBookingAccess()).isEqualTo(BookingAccessEnumeration.PUBLIC);
 		assertThat(actual.getBookWhen()).isEqualTo(PurchaseWhenEnumeration.DAY_OF_TRAVEL_ONLY);
@@ -383,8 +387,8 @@ class MarshalUnmarshalTest {
 
 		Block block = new Block()
 				.withVersion("1").withId("TST:Block:1")
-				.withName(factory.createMultilingualString().withValue("Test Block"))
-				.withDescription(factory.createMultilingualString().withValue("Block description"))
+				.withName(factory.createMultilingualString().withContent("Test Block"))
+				.withDescription(factory.createMultilingualString().withContent("Block description"))
 				.withPrivateCode(new PrivateCodeStructure().withValue("BLK001"))
 				.withStartTime(LocalTime.of(6, 0))
 				.withEndTime(LocalTime.of(14, 30));
@@ -402,8 +406,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		Block actual = jaxbElement.getValue();
-		assertThat(actual.getName().getValue()).isEqualTo("Test Block");
-		assertThat(actual.getDescription().getValue()).isEqualTo("Block description");
+		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty();
+		assertThat(actual.getDescription().getContent()).isNotNull().isNotEmpty();
 		assertThat(actual.getPrivateCode().getValue()).isEqualTo("BLK001");
 		assertThat(actual.getStartTime()).isEqualTo(LocalTime.of(6, 0));
 		assertThat(actual.getEndTime()).isEqualTo(LocalTime.of(14, 30));

@@ -61,7 +61,7 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
         Network network = serviceFrame.getNetwork();
         assertNotNull(network);
-        assertEquals("Test Network", network.getName().getValue());
+        assertEquals("Test Network", getStringValue(network.getName()));
         assertEquals("TST:Authority:1", network.getTransportOrganisationRef().getValue().getRef());
     }
 
@@ -107,13 +107,13 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
         DestinationDisplay destinationDisplay = serviceFrame.getDestinationDisplays().getDestinationDisplay().get(0);
-        assertEquals("Oslo S", destinationDisplay.getFrontText().getValue());
+        assertEquals("Oslo S", getStringValue(destinationDisplay.getFrontText()));
 
         assertEquals(2, serviceFrame.getScheduledStopPoints().getScheduledStopPoint().size());
         ScheduledStopPoint ssp1 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(0);
-        assertEquals("Jernbanetorget", ssp1.getName().getValue());
+        assertEquals("Jernbanetorget", getStringValue(ssp1.getName()));
         ScheduledStopPoint ssp2 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(1);
-        assertEquals("Majorstuen", ssp2.getName().getValue());
+        assertEquals("Majorstuen", getStringValue(ssp2.getName()));
     }
 
     @Test
@@ -202,13 +202,13 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
 
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        FlexibleLine flexibleLine = (FlexibleLine) serviceFrame.getLines().getLine_().get(0).getValue();
-        assertEquals("Flex Route 1", flexibleLine.getName().getValue());
-        assertEquals(AllVehicleModesOfTransportEnumeration.BUS, flexibleLine.getTransportMode());
+        FlexibleLine flexibleLine = (FlexibleLine) serviceFrame.getLines().getLine_Dummy().get(0).getValue();
+        assertEquals("Flex Route 1", getStringValue(flexibleLine.getName()));
+        assertEquals(AllPublicTransportModesEnumeration.BUS, flexibleLine.getTransportMode());
         assertEquals(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY, flexibleLine.getFlexibleLineType());
 
         GroupOfLines groupOfLines = serviceFrame.getGroupsOfLines().getGroupOfLines().get(0);
-        assertEquals("Line Group A", groupOfLines.getName().getValue());
+        assertEquals("Line Group A", getStringValue(groupOfLines.getName()));
         assertEquals(2, groupOfLines.getMembers().getLineRef().size());
         assertEquals("TST:Line:1", groupOfLines.getMembers().getLineRef().get(0).getValue().getRef());
         assertEquals("TST:Line:2", groupOfLines.getMembers().getLineRef().get(1).getValue().getRef());
@@ -256,10 +256,10 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
 
         assertEquals(1, serviceFrame.getNotices().getNotice().size());
         Notice notice = serviceFrame.getNotices().getNotice().get(0);
-        assertEquals("Does not stop at all stops", notice.getText().getValue());
-        assertEquals("A", notice.getPublicCode());
+        assertEquals("Does not stop at all stops", getStringValue(notice.getText()));
+        assertEquals("A", notice.getPublicCode().getValue());
 
-        NoticeAssignment noticeAssignment = (NoticeAssignment) serviceFrame.getNoticeAssignments().getNoticeAssignment_().get(0).getValue();
+        NoticeAssignment noticeAssignment = (NoticeAssignment) serviceFrame.getNoticeAssignments().getNoticeAssignment_Dummy().get(0).getValue();
         assertEquals("TST:Notice:1", noticeAssignment.getNoticeRef().getRef());
         assertEquals("TST:ServiceJourney:1", noticeAssignment.getNoticedObjectRef().getRef());
     }

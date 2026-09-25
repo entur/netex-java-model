@@ -76,28 +76,28 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
-        StopPlace busStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(0).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.BUS, busStop.getTransportMode());
+        StopPlace busStop = siteFrame.getStopPlaces().getStopPlace().get(0);
+        assertEquals(AllPublicTransportModesEnumeration.BUS, busStop.getTransportMode());
         assertEquals(BusSubmodeEnumeration.EXPRESS_BUS, busStop.getBusSubmode());
         assertEquals("expressBus", busStop.getBusSubmode().value());
 
-        StopPlace railStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(1).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.RAIL, railStop.getTransportMode());
+        StopPlace railStop = siteFrame.getStopPlaces().getStopPlace().get(1);
+        assertEquals(AllPublicTransportModesEnumeration.RAIL, railStop.getTransportMode());
         assertEquals(RailSubmodeEnumeration.REGIONAL_RAIL, railStop.getRailSubmode());
         assertEquals("regionalRail", railStop.getRailSubmode().value());
 
-        StopPlace waterStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(2).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.WATER, waterStop.getTransportMode());
+        StopPlace waterStop = siteFrame.getStopPlaces().getStopPlace().get(2);
+        assertEquals(AllPublicTransportModesEnumeration.WATER, waterStop.getTransportMode());
         assertEquals(WaterSubmodeEnumeration.LOCAL_CAR_FERRY, waterStop.getWaterSubmode());
         assertEquals("localCarFerry", waterStop.getWaterSubmode().value());
 
-        StopPlace tramStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(3).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.TRAM, tramStop.getTransportMode());
+        StopPlace tramStop = siteFrame.getStopPlaces().getStopPlace().get(3);
+        assertEquals(AllPublicTransportModesEnumeration.TRAM, tramStop.getTransportMode());
         assertEquals(TramSubmodeEnumeration.CITY_TRAM, tramStop.getTramSubmode());
         assertEquals("cityTram", tramStop.getTramSubmode().value());
 
-        StopPlace metroStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(4).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.METRO, metroStop.getTransportMode());
+        StopPlace metroStop = siteFrame.getStopPlaces().getStopPlace().get(4);
+        assertEquals(AllPublicTransportModesEnumeration.METRO, metroStop.getTransportMode());
         assertEquals(MetroSubmodeEnumeration.METRO, metroStop.getMetroSubmode());
         assertEquals("metro", metroStop.getMetroSubmode().value());
     }
@@ -154,21 +154,21 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
 
         ServiceJourney busSj = (ServiceJourney) timetableFrame.getVehicleJourneys()
                 .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
-        assertEquals(AllVehicleModesOfTransportEnumeration.BUS, busSj.getTransportMode());
+        assertEquals(AllPublicTransportModesEnumeration.BUS, busSj.getTransportMode());
         assertNotNull(busSj.getTransportSubmode());
         assertEquals(BusSubmodeEnumeration.EXPRESS_BUS, busSj.getTransportSubmode().getBusSubmode());
         assertEquals("expressBus", busSj.getTransportSubmode().getBusSubmode().value());
 
         ServiceJourney railSj = (ServiceJourney) timetableFrame.getVehicleJourneys()
                 .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(1);
-        assertEquals(AllVehicleModesOfTransportEnumeration.RAIL, railSj.getTransportMode());
+        assertEquals(AllPublicTransportModesEnumeration.RAIL, railSj.getTransportMode());
         assertNotNull(railSj.getTransportSubmode());
         assertEquals(RailSubmodeEnumeration.REGIONAL_RAIL, railSj.getTransportSubmode().getRailSubmode());
         assertEquals("regionalRail", railSj.getTransportSubmode().getRailSubmode().value());
 
         ServiceJourney waterSj = (ServiceJourney) timetableFrame.getVehicleJourneys()
                 .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(2);
-        assertEquals(AllVehicleModesOfTransportEnumeration.WATER, waterSj.getTransportMode());
+        assertEquals(AllPublicTransportModesEnumeration.WATER, waterSj.getTransportMode());
         assertNotNull(waterSj.getTransportSubmode());
         assertEquals(WaterSubmodeEnumeration.LOCAL_PASSENGER_FERRY, waterSj.getTransportSubmode().getWaterSubmode());
         assertEquals("localPassengerFerry", waterSj.getTransportSubmode().getWaterSubmode().value());
@@ -212,8 +212,8 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_().get(0).getValue();
-        assertEquals("Main Route", route.getName().getValue());
+        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().get(0).getValue();
+        assertEquals("Main Route", getStringValue(route.getName()));
         assertNotNull(route.getLineRef());
         assertEquals("TST:Line:100", route.getLineRef().getValue().getRef());
     }
@@ -262,23 +262,23 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
-        StopPlace coachStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(0).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.COACH, coachStop.getTransportMode());
+        StopPlace coachStop = siteFrame.getStopPlaces().getStopPlace().get(0);
+        assertEquals(AllPublicTransportModesEnumeration.COACH, coachStop.getTransportMode());
         assertEquals(CoachSubmodeEnumeration.INTERNATIONAL_COACH, coachStop.getCoachSubmode());
         assertEquals("internationalCoach", coachStop.getCoachSubmode().value());
 
-        StopPlace funicularStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(1).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.FUNICULAR, funicularStop.getTransportMode());
+        StopPlace funicularStop = siteFrame.getStopPlaces().getStopPlace().get(1);
+        assertEquals(AllPublicTransportModesEnumeration.FUNICULAR, funicularStop.getTransportMode());
         assertEquals(FunicularSubmodeEnumeration.FUNICULAR, funicularStop.getFunicularSubmode());
         assertEquals("funicular", funicularStop.getFunicularSubmode().value());
 
-        StopPlace telecabinStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(2).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.CABLEWAY, telecabinStop.getTransportMode());
+        StopPlace telecabinStop = siteFrame.getStopPlaces().getStopPlace().get(2);
+        assertEquals(AllPublicTransportModesEnumeration.CABLEWAY, telecabinStop.getTransportMode());
         assertEquals(TelecabinSubmodeEnumeration.TELECABIN, telecabinStop.getTelecabinSubmode());
         assertEquals("telecabin", telecabinStop.getTelecabinSubmode().value());
 
-        StopPlace airStop = (StopPlace) siteFrame.getStopPlaces().getStopPlace_().get(3).getValue();
-        assertEquals(AllVehicleModesOfTransportEnumeration.AIR, airStop.getTransportMode());
+        StopPlace airStop = siteFrame.getStopPlaces().getStopPlace().get(3);
+        assertEquals(AllPublicTransportModesEnumeration.AIR, airStop.getTransportMode());
         assertEquals(AirSubmodeEnumeration.DOMESTIC_FLIGHT, airStop.getAirSubmode());
         assertEquals("domesticFlight", airStop.getAirSubmode().value());
     }
