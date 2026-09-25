@@ -9,6 +9,11 @@
       "description": "Pin CXF XJC to 4.0.x - 4.1.x changes code generation for xsd:list with enum itemType (JAXB RI #1819)",
       "matchPackagePatterns": ["^org\\.apache\\.cxf"],
       "allowedVersions": "<4.1.0"
+    },
+    {
+      "description": "Pin JUnit to 5.x - JUnit 6 requires Java 17, this library targets Java 11",
+      "matchPackagePatterns": ["^org\\.junit"],
+      "allowedVersions": "<6.0.0"
     }
   ]
 }
