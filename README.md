@@ -103,7 +103,7 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 - Property name conflict resolution
 - Package mapping to `org.rutebanken.netex.model`
 
-**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 1.16.1.
+**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 1.16. A version is validated against its latest patch schema: documents declaring 1.16 are validated against the 1.16.1 schema, which is backward compatible with 1.16.
 
 **Note on GML types**: This library generates classes under `net.opengis.gml._3` as part of the NeTEx model.
 

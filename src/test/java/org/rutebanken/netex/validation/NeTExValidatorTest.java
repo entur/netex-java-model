@@ -55,7 +55,7 @@ class NeTExValidatorTest {
 
     /**
      * AssociatedContract / ContractRef on a ResponsibilityRoleAssignment was added in NeTEx 1.16.1
-     * (entur/NeTEx#63) and is therefore valid against the latest schema but not against 1.16.
+     * (entur/NeTEx#63). 1.16 is validated against the 1.16.1 schema, so it is valid against 1.16 too.
      */
     private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
@@ -80,8 +80,13 @@ class NeTExValidatorTest {
                 "</PublicationDelivery>";
 
     @Test
-    void latestVersionIs1_16_1() {
-        assertEquals(NeTExValidator.NetexVersion.v1_16_1, NeTExValidator.LATEST);
+    void latestVersionIs1_16() {
+        assertEquals(NeTExValidator.NetexVersion.v1_16, NeTExValidator.LATEST);
+    }
+
+    @Test
+    void version1_16IsNamed1_16() {
+        assertEquals("1.16", NeTExValidator.NetexVersion.v1_16.toString());
     }
 
     @Test
@@ -90,11 +95,16 @@ class NeTExValidatorTest {
     }
 
     @Test
-    void validationOfAssociatedContractFailsAgainstVersion1_16() throws IOException, SAXException {
+    void validateResponsibilitySetWithAssociatedContractAgainstVersion1_16() throws IOException, SAXException {
         NeTExValidator validator1_16 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16);
-        assertThatThrownBy(() -> validator1_16.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT))))
-                .isInstanceOf(SAXParseException.class)
-                .hasMessageContaining("AssociatedContract");
+        validator1_16.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void validateResponsibilitySetWithAssociatedContractAgainstDeprecatedVersion1_16_1() throws IOException, SAXException {
+        NeTExValidator validator1_16_1 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16_1);
+        validator1_16_1.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
 }
