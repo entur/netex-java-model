@@ -15,7 +15,7 @@ on:
 
 jobs:
   get-hotfix-version:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -41,7 +41,7 @@ jobs:
   create-tag:
     name: Create hotfix tag
     needs: get-hotfix-version
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -66,7 +66,7 @@ jobs:
   publish-hotfix:
     name: Publish to Maven Central
     needs: [get-hotfix-version, create-tag]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
       JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
@@ -122,7 +122,7 @@ jobs:
     name: Cherry-pick hotfix to master
     needs: [get-hotfix-version, publish-hotfix]
     if: inputs.merge_to_master == true
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7.0.1
         with:
