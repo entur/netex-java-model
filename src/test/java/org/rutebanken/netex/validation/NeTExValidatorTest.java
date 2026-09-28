@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NeTExValidatorTest {
 
@@ -50,6 +51,60 @@ class NeTExValidatorTest {
     void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
         neTExValidator.validate(new StreamSource(new StringReader(xml)));
 
+    }
+
+    /**
+     * AssociatedContract / ContractRef on a ResponsibilityRoleAssignment was added in NeTEx 1.16.1
+     * (entur/NeTEx#63). 1.16 is validated against the 1.16.1 schema, so it is valid against 1.16 too.
+     */
+    private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
+                "  <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>\n" +
+                "  <ParticipantRef>TST</ParticipantRef>\n" +
+                "  <dataObjects>\n" +
+                "    <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
+                "      <responsibilitySets>\n" +
+                "        <ResponsibilitySet version=\"1\" id=\"TST:ResponsibilitySet:1\">\n" +
+                "          <Name>Contracted operation</Name>\n" +
+                "          <roles>\n" +
+                "            <ResponsibilityRoleAssignment version=\"1\" id=\"TST:ResponsibilityRoleAssignment:1\">\n" +
+                "              <AssociatedContract>\n" +
+                "                <ContractRef ref=\"TST:Contract:1\" version=\"1\"/>\n" +
+                "              </AssociatedContract>\n" +
+                "            </ResponsibilityRoleAssignment>\n" +
+                "          </roles>\n" +
+                "        </ResponsibilitySet>\n" +
+                "      </responsibilitySets>\n" +
+                "    </ResourceFrame>\n" +
+                "  </dataObjects>\n" +
+                "</PublicationDelivery>";
+
+    @Test
+    void latestVersionIs1_16() {
+        assertEquals(NeTExValidator.NetexVersion.v1_16, NeTExValidator.LATEST);
+    }
+
+    @Test
+    void version1_16IsNamed1_16() {
+        assertEquals("1.16", NeTExValidator.NetexVersion.v1_16.toString());
+    }
+
+    @Test
+    void validateResponsibilitySetWithAssociatedContractAgainstLatestVersion() throws IOException, SAXException {
+        neTExValidator.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
+    }
+
+    @Test
+    void validateResponsibilitySetWithAssociatedContractAgainstVersion1_16() throws IOException, SAXException {
+        NeTExValidator validator1_16 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16);
+        validator1_16.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void validateResponsibilitySetWithAssociatedContractAgainstDeprecatedVersion1_16_1() throws IOException, SAXException {
+        NeTExValidator validator1_16_1 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16_1);
+        validator1_16_1.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
 }

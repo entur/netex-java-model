@@ -44,17 +44,36 @@ public class NeTExValidator {
 		v1_13 ("1.13"),
 		v1_14 ("1.14"),
 		v1_15 ("1.15"),
-		v1_16 ("1.16");
+		/**
+		 * NeTEx 1.16, validated against the latest 1.16 patch schema. Patch releases of the schema
+		 * are backward compatible, and documents only ever declare the minor version, so a document
+		 * declaring 1.16 is validated against the same schema the model is generated from.
+		 */
+		v1_16 ("1.16", "1.16.1"),
+		/**
+		 * @deprecated the 1.16.1 schema is what {@link #v1_16} validates against. Use {@link #v1_16}.
+		 */
+		@Deprecated
+		v1_16_1 ("1.16.1");
 
+		private final String version;
 		private final String folderName;
 
-		NetexVersion(String folderName) {
+		NetexVersion(String version) {
+			this(version, version);
+		}
+
+		NetexVersion(String version, String folderName) {
+			this.version = version;
 			this.folderName = folderName;
 		}
 
+		/**
+		 * @return the NeTEx version, which is not always the name of the folder holding its schema.
+		 */
 		@Override
 		public String toString() {
-			return folderName;
+			return version;
 		}
 	}
 	private final Schema neTExSchema;
@@ -102,7 +121,7 @@ public class NeTExValidator {
 	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-		String resourceName = "xsd/"+ version +"/NeTEx_publication.xsd";
+		String resourceName = "xsd/"+ version.folderName +"/NeTEx_publication.xsd";
 		LOGGER.info("Loading resource: {}", resourceName);
 		URL resource = getClass().getClassLoader().getResource(resourceName);
 		if(resource == null) {
