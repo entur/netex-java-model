@@ -146,4 +146,43 @@ public class LocalTimeISO8601XmlAdapterTest {
 
         parsed.forEach(time -> assertSame(first, time, "Same time value should return same instance"));
     }
+
+    @Test
+    public void testFastPathReturnsSameInstanceAsParsedEquivalent() {
+        // "10:20:30" is a plain "HH:mm:ss" string that hits the precomputed second-of-day cache
+        // directly, without ever going through the DateTimeFormatter parser. Values that must go
+        // through the parser (offset, fractional zero) should still resolve to that same cached
+        // instance rather than a freshly parsed, distinct object.
+        LocalTime fastPath = adapter.unmarshal("10:20:30");
+        LocalTime viaOffset = adapter.unmarshal("10:20:30+02:00");
+        LocalTime viaFraction = adapter.unmarshal("10:20:30.000");
+        LocalTime viaFractionAndOffset = adapter.unmarshal("10:20:30.000-05:00");
+
+        assertSame(fastPath, viaOffset);
+        assertSame(fastPath, viaFraction);
+        assertSame(fastPath, viaFractionAndOffset);
+    }
+
+    @Test
+    public void testEverySecondOfTheDayIsCachedAndConsistent() {
+        for (int secondOfDay = 0; secondOfDay < 24 * 60 * 60; secondOfDay += 37) {
+            LocalTime expected = LocalTime.ofSecondOfDay(secondOfDay);
+            String input = String.format("%02d:%02d:%02d", expected.getHour(), expected.getMinute(), expected.getSecond());
+
+            LocalTime first = adapter.unmarshal(input);
+            LocalTime second = adapter.unmarshal(input);
+
+            assertEquals(expected, first);
+            assertSame(first, second, "Repeated unmarshal of '" + input + "' should return the cached instance");
+        }
+    }
+
+    @Test
+    public void testSubSecondTimesAreNotCached() {
+        LocalTime first = adapter.unmarshal("18:00:00.001");
+        LocalTime second = adapter.unmarshal("18:00:00.001");
+
+        assertEquals(first, second);
+        assertNotSame(first, second, "Sub-second times should not be served from the whole-second cache");
+    }
 }
