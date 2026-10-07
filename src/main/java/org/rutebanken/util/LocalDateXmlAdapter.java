@@ -16,6 +16,7 @@
 package org.rutebanken.util;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +34,11 @@ public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDateTime> {
 
 	@Override
 	public LocalDateTime unmarshal(String inputDate) {
+		// fast path for the common forms, the formatter handles everything else
+		LocalDate fast = FastLocalDateTimeParser.parseDate(inputDate);
+		if (fast != null) {
+			return fast.atStartOfDay();
+		}
 		return LocalDateTime.parse(inputDate, formatter);
 	}
 
