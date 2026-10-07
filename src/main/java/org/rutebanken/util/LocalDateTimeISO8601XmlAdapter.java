@@ -34,6 +34,11 @@ public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDate
 
 	@Override
 	public LocalDateTime unmarshal(String inputDate) {
+		// fast path for the common forms, the formatter handles everything else
+		LocalDateTime fast = FastLocalDateTimeParser.parseDateTime(inputDate);
+		if (fast != null) {
+			return fast;
+		}
 		return LocalDateTime.parse(inputDate, formatter);
 
 	}
