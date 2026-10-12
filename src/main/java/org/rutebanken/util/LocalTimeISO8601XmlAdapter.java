@@ -21,7 +21,6 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
@@ -45,7 +44,11 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
 	@Override
 	public LocalTime unmarshal(String input) {
-		var key = LocalTime.parse(input, formatter);
+		// fast path for the common forms, the formatter handles everything else
+		var key = FastLocalDateTimeParser.parseTime(input);
+		if (key == null) {
+			key = LocalTime.parse(input, formatter);
+		}
 		// only cache if nano is zero
 		if(key.getNano() == 0){
 			return cache.computeIfAbsent(key, time -> time);
