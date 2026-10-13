@@ -7,7 +7,7 @@
 		<jxb:globalBindings underscoreBinding="asCharInWord">
 			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="org.entur.netex2.util.LocalDateTimeISO8601XmlAdapter" />
 			<xjc:javaType name="java.time.LocalTime" xmlType="xs:time" adapter="org.entur.netex2.util.LocalTimeISO8601XmlAdapter" />
-			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:date" adapter="org.entur.netex2.util.LocalDateXmlAdapter" />
+			<xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="org.entur.netex2.util.LocalDateXmlAdapter" />
 			<xjc:javaType name="java.time.Duration" xmlType="xs:duration" adapter="io.github.threetenjaxb.core.DurationXmlAdapter" />
         </jxb:globalBindings>
 	</jxb:bindings>
