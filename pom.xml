@@ -138,12 +138,6 @@
             <version>${glassfish-jaxb.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apache.cxf.xjc-utils</groupId>
-            <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf-xjc.version}</version>
-            <scope>runtime</scope>
-        </dependency>
 
         <!-- Other dependencies -->
         <dependency>
