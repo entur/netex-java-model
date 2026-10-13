@@ -14,7 +14,7 @@
 
 	<!-- See the script bin/version_updater.sh It updates version in schema locations-->
 
-|	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/NeTEx_publication.xsd">
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/NeTEx_publication.xsd">
 		<jxb:schemaBindings>
 			<jxb:package name="org.entur.netex2.model" />
 		</jxb:schemaBindings>
