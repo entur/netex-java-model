@@ -74,9 +74,9 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        StopPlace busStop = siteFrame.getStopPlaces().getStopPlace().get(0);
+        StopPlace busStop = siteFrame.getStopPlaces().getStopPlace().getFirst();
         assertEquals(AllPublicTransportModesEnumeration.BUS, busStop.getTransportMode());
         assertEquals(BusSubmodeEnumeration.EXPRESS_BUS, busStop.getBusSubmode());
         assertEquals("expressBus", busStop.getBusSubmode().value());
@@ -150,11 +150,11 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         ServiceJourney busSj = (ServiceJourney) timetableFrame.getVehicleJourneys()
-                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
         assertEquals(AllPublicTransportModesEnumeration.BUS, busSj.getTransportMode());
         assertNotNull(busSj.getTransportSubmode());
         assertEquals(BusSubmodeEnumeration.EXPRESS_BUS, busSj.getTransportSubmode().getBusSubmode());
@@ -211,10 +211,10 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().get(0).getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().getFirst().getValue();
         assertEquals("Main Route", getStringValue(route.getName()));
         assertNotNull(route.getLineRef());
         assertEquals("TST:Line:100", route.getLineRef().getValue().getRef());
@@ -262,9 +262,9 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        StopPlace coachStop = siteFrame.getStopPlaces().getStopPlace().get(0);
+        StopPlace coachStop = siteFrame.getStopPlaces().getStopPlace().getFirst();
         assertEquals(AllPublicTransportModesEnumeration.COACH, coachStop.getTransportMode());
         assertEquals(CoachSubmodeEnumeration.INTERNATIONAL_COACH, coachStop.getCoachSubmode());
         assertEquals("internationalCoach", coachStop.getCoachSubmode().value());

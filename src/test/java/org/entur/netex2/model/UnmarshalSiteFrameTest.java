@@ -120,22 +120,22 @@ class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().get(0);
+        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().getFirst();
         assertEquals("Krokstien", getStringValue(stopPlace.getName()));
         assertEquals(AllPublicTransportModesEnumeration.BUS, stopPlace.getTransportMode());
         assertEquals(StopTypeEnumeration.ONSTREET_BUS, stopPlace.getStopPlaceType());
-        assertEquals("BRA:TariffZone:311", stopPlace.getTariffZones().getTariffZoneRef_Dummy().get(0).getValue().getRef());
+        assertEquals("BRA:TariffZone:311", stopPlace.getTariffZones().getTariffZoneRef_Dummy().getFirst().getValue().getRef());
 
-        Quay quay = (Quay) stopPlace.getQuays().getQuayRefOrQuay().get(0).getValue();
+        Quay quay = (Quay) stopPlace.getQuays().getQuayRefOrQuay().getFirst().getValue();
         assertEquals(BigDecimal.valueOf(59.910579), quay.getCentroid().getLocation().getLatitude());
-        TariffZone tariffZone = (TariffZone) siteFrame.getTariffZones().getTariffZone().get(0).getValue();
+        TariffZone tariffZone = (TariffZone) siteFrame.getTariffZones().getTariffZone().getFirst().getValue();
         assertEquals("1", getStringValue(tariffZone.getName()));
 
-        GroupOfStopPlaces groupOfStopPlaces = siteFrame.getGroupsOfStopPlaces().getGroupOfStopPlaces().get(0);
+        GroupOfStopPlaces groupOfStopPlaces = siteFrame.getGroupsOfStopPlaces().getGroupOfStopPlaces().getFirst();
         assertEquals("Lillehammer", getStringValue(groupOfStopPlaces.getName()));
-        assertEquals("NSR:StopPlace:420", groupOfStopPlaces.getMembers().getStopPlaceRef().get(0).getValue().getRef());
+        assertEquals("NSR:StopPlace:420", groupOfStopPlaces.getMembers().getStopPlaceRef().getFirst().getValue().getRef());
     }
 
     @Test
@@ -173,9 +173,9 @@ class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        TopographicPlace topographicPlace = siteFrame.getTopographicPlaces().getTopographicPlace().get(0);
+        TopographicPlace topographicPlace = siteFrame.getTopographicPlaces().getTopographicPlace().getFirst();
         assertEquals("Oslo", getStringValue(topographicPlace.getDescriptor().getName()));
         assertEquals(TopographicPlaceTypeEnumeration.MUNICIPALITY, topographicPlace.getTopographicPlaceType());
         assertNotNull(topographicPlace.getPolygon());

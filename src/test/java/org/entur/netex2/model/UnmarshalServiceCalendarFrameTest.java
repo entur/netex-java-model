@@ -125,20 +125,20 @@ class UnmarshalServiceCalendarFrameTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceCalendarFrame serviceCalendarFrame = (ServiceCalendarFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceCalendarFrame serviceCalendarFrame = (ServiceCalendarFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType_Dummy().get(0).getValue();
-        assertEquals(DayOfWeekEnumeration.TUESDAY, dayType.getProperties().getPropertyOfDay().get(0).getDaysOfWeek().get(0));
+        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType_Dummy().getFirst().getValue();
+        assertEquals(DayOfWeekEnumeration.TUESDAY, dayType.getProperties().getPropertyOfDay().getFirst().getDaysOfWeek().getFirst());
 
-        OperatingDay operatingDay = serviceCalendarFrame.getOperatingDays().getOperatingDay().get(0);
+        OperatingDay operatingDay = serviceCalendarFrame.getOperatingDays().getOperatingDay().getFirst();
         assertEquals(LocalDate.of(2023, 10, 29), operatingDay.getCalendarDate());
 
-        OperatingPeriod operatingPeriod = (OperatingPeriod) serviceCalendarFrame.getOperatingPeriods().getOperatingPeriodOrUicOperatingPeriod().get(0);
+        OperatingPeriod operatingPeriod = (OperatingPeriod) serviceCalendarFrame.getOperatingPeriods().getOperatingPeriodOrUicOperatingPeriod().getFirst();
         assertEquals(LocalDateTime.of(2023,8,17,0,0), operatingPeriod.getFromDate());
 
-        DayTypeAssignment dayTypeAssignment = serviceCalendarFrame.getDayTypeAssignments().getDayTypeAssignment().get(0);
+        DayTypeAssignment dayTypeAssignment = serviceCalendarFrame.getDayTypeAssignments().getDayTypeAssignment().getFirst();
         assertEquals(LocalDate.of(2024, 5, 1), dayTypeAssignment.getDate());
 
 

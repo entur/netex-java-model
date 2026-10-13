@@ -61,11 +61,11 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().get(0).getValue();
+        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().getFirst().getValue();
         assertEquals("Test Authority", getStringValue(authority.getName()));
         assertEquals("+47 99887766", authority.getContactDetails().getPhone());
         assertEquals("https://www.testauthority.no", authority.getContactDetails().getUrl());
@@ -109,16 +109,16 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Branding branding = (Branding) resourceFrame.getTypesOfValue().getValueSetOrTypeOfValue().get(0).getValue();
+        Branding branding = (Branding) resourceFrame.getTypesOfValue().getValueSetOrTypeOfValue().getFirst().getValue();
         assertEquals("Test Brand", getStringValue(branding.getName()));
         assertEquals("https://www.testbrand.no", branding.getUrl());
         assertEquals("https://www.testbrand.no/logo.png", branding.getImage());
 
-        Operator operator = (Operator) resourceFrame.getOrganisations().getOrganisation_Dummy().get(0).getValue();
+        Operator operator = (Operator) resourceFrame.getOrganisations().getOrganisation_Dummy().getFirst().getValue();
         assertEquals("Test Operator", getStringValue(operator.getName()));
         assertNotNull(operator.getBrandingRef());
         assertEquals("TST:Branding:1", operator.getBrandingRef().getRef());
@@ -157,12 +157,12 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        ResourceFrame resourceFrame = (ResourceFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        ResourceFrame resourceFrame = (ResourceFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ResponsibilitySet responsibilitySet = resourceFrame.getResponsibilitySets().getResponsibilitySet().get(0);
+        ResponsibilitySet responsibilitySet = resourceFrame.getResponsibilitySets().getResponsibilitySet().getFirst();
         assertEquals("Contracted operation", getStringValue(responsibilitySet.getName()));
 
-        ResponsibilityRoleAssignment_VersionedChildStructure roleAssignment = responsibilitySet.getRoles().getResponsibilityRoleAssignment().get(0);
+        ResponsibilityRoleAssignment_VersionedChildStructure roleAssignment = responsibilitySet.getRoles().getResponsibilityRoleAssignment().getFirst();
 
         ContractRef_RelStructure associatedContract = roleAssignment.getAssociatedContract();
         assertNotNull(associatedContract);

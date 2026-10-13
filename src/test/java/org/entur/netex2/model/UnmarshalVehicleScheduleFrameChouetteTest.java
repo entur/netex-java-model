@@ -76,13 +76,13 @@ class UnmarshalVehicleScheduleFrameChouetteTest extends AbstractUnmarshalFrameTe
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-        VehicleScheduleFrame vsFrame = (VehicleScheduleFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+        VehicleScheduleFrame vsFrame = (VehicleScheduleFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         assertNotNull(vsFrame.getBlocks());
         assertEquals(1, vsFrame.getBlocks().getBlockOrCompoundBlockOrTrainBlock().size());
 
-        Block block = (Block) vsFrame.getBlocks().getBlockOrCompoundBlockOrTrainBlock().get(0);
+        Block block = (Block) vsFrame.getBlocks().getBlockOrCompoundBlockOrTrainBlock().getFirst();
         assertEquals("Morning Block", getStringValue(block.getName()));
         assertEquals("First block of the day", getStringValue(block.getDescription()));
         assertEquals("BLK001", block.getPrivateCode().getValue());
@@ -93,12 +93,12 @@ class UnmarshalVehicleScheduleFrameChouetteTest extends AbstractUnmarshalFrameTe
         assertEquals("TST:ScheduledStopPoint:Depot", block.getEndPointRef().getRef());
 
         assertNotNull(block.getDayTypes());
-        assertEquals("TST:DayType:Weekday", block.getDayTypes().getDayTypeRef().get(0).getValue().getRef());
+        assertEquals("TST:DayType:Weekday", block.getDayTypes().getDayTypeRef().getFirst().getValue().getRef());
 
         assertNotNull(block.getJourneys());
         assertEquals(4, block.getJourneys().getJourneyRefOrJourneyDesignatorOrServiceDesignator().size());
 
-        Object firstRef = block.getJourneys().getJourneyRefOrJourneyDesignatorOrServiceDesignator().get(0).getValue();
+        Object firstRef = block.getJourneys().getJourneyRefOrJourneyDesignatorOrServiceDesignator().getFirst().getValue();
         assertTrue(firstRef instanceof DeadRunRefStructure);
         assertEquals("TST:DeadRun:ToStart", ((DeadRunRefStructure) firstRef).getRef());
 

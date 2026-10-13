@@ -65,12 +65,12 @@ class UnmarshalTimetableFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         ServiceJourneyInterchange interchange = (ServiceJourneyInterchange) timetableFrame.getJourneyInterchanges()
-                .getServiceJourneyPatternInterchangeOrServiceJourneyInterchange().get(0);
+                .getServiceJourneyPatternInterchangeOrServiceJourneyInterchange().getFirst();
         assertEquals("TST:ScheduledStopPoint:1", interchange.getFromPointRef().getRef());
         assertEquals("TST:ScheduledStopPoint:2", interchange.getToPointRef().getRef());
         assertEquals("TST:ServiceJourney:1", interchange.getFromJourneyRef().getRef());
@@ -120,12 +120,12 @@ class UnmarshalTimetableFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         ServiceJourney serviceJourney = (ServiceJourney) timetableFrame.getVehicleJourneys()
-                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
         assertEquals("Flex Service", getStringValue(serviceJourney.getName()));
 
         FlexibleServiceProperties flexProps = serviceJourney.getFlexibleServiceProperties();

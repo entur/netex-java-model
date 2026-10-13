@@ -141,7 +141,7 @@ class LocalTimeISO8601XmlAdapterTest {
         var parsed = equalInputs.stream()
                 .map(adapter::unmarshal)
                 .toList();
-        var first = parsed.get(0);
+        var first = parsed.getFirst();
 
         parsed.forEach(time -> assertSame(first, time, "Same time value should return same instance"));
     }
