@@ -37,7 +37,7 @@ jobs:
 
       - uses: actions/setup-java@v6.0.1
         with:
-          java-version: 11
+          java-version: 21
           distribution: liberica
           cache: maven
 
