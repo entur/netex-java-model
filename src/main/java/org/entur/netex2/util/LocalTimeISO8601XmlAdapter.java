@@ -36,7 +36,7 @@ public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 	/**
 	 * We store a cache of parsed LocalTime instances to avoid wasting memory in immutable value
 	 * objects that strictly identical and interchangeable.
-	 *
+	 * <p>
 	 * We only cache times that are full seconds to avoid increasing the size of the cache unduly,
 	 * since there is a limited number of seconds in a single day.
 	 */
