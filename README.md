@@ -1,4 +1,4 @@
-# netex-java-model
+# netex2-java-model
 
 [![Build and push](https://github.com/entur/netex-java-model/actions/workflows/deploy.yml/badge.svg)](https://github.com/entur/netex-java-model/actions/workflows/deploy.yml)
 [![Maven Central](https://img.shields.io/maven-central/v/org.entur/netex2-java-model.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.entur/netex2-java-model)
@@ -10,12 +10,14 @@ Java model classes generated from [NeTEx](https://github.com/TransmodelEcosystem
 
 ## Overview
 
-This library downloads the NeTEx XSD files from the [NeTEx repository](https://github.com/TransmodelEcosystem/NeTEx) and compiles them into JAXB-annotated Java model classes at build time. The generated classes support full marshalling and unmarshalling of NeTEx XML documents, including schema validation against multiple NeTEx versions. Legacy schemas (1.08 - 1.15) are downloaded from the [Entur NeTEx fork](https://github.com/entur/NeTEx).
+This library downloads the NeTEx XSD files from the [NeTEx repository](https://github.com/TransmodelEcosystem/NeTEx) and compiles them into JAXB-annotated Java model classes at build time. The generated classes support full marshalling and unmarshalling of NeTEx XML documents, including schema validation against multiple NeTEx versions. The legacy schemas used only for validation (1.04beta - 1.16.1) are downloaded from the [Entur NeTEx fork](https://github.com/entur/NeTEx).
 
-- **NeTEx version**: 2.0 (model generation), with legacy validation support back to 1.07
+- **NeTEx version**: 2.0 (model generation), with legacy validation support back to 1.04beta
 - **JAXB**: Jakarta XML Bind 4.x (Jakarta EE 9+)
 - **Generated package**: `org.entur.netex2.model`
 - **GML types package**: `net.opengis.gml._3`
+- **SIRI types package**: `uk.org.siri.siri`
+- **JPMS module**: `org.entur.netex2`
 
 ## Usage
 
@@ -98,14 +100,14 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 ## Key Technical Details
 
 **JAXB customizations** (`bindings.xjb`):
-- Java 8 time type adapters (`LocalDateTime`, `LocalDate`, `LocalTime`, `Duration`) via `threeten-jaxb-core`
+- Java time type adapters: `LocalDateTime`, `LocalDate` and `LocalTime` via adapters in `org.entur.netex2.util`, `Duration` via `threeten-jaxb-core`
 - Fluent builder API (`withX()` methods) via `jaxb-fluent-api`
 - Property name conflict resolution
 - Package mapping to `org.entur.netex2.model`
 
-**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 2.0. A version is validated against its latest patch schema: documents declaring 1.16 are validated against the 1.16.1 schema, which is backward compatible with 1.16.
+**Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.04beta through 2.0. A version is validated against its latest patch schema: documents declaring 1.16 are validated against the 1.16.1 schema, which is backward compatible with 1.16.
 
-**Note on GML types**: This library generates classes under `net.opengis.gml._3` as part of the NeTEx model.
+**Note on GML and SIRI types**: This library generates classes under `net.opengis.gml._3` and `uk.org.siri.siri` as part of the NeTEx model. These packages are the same as in `netex-java-model` 2.x, so both libraries can share a classpath but not a module path.
 
 ## License
 
