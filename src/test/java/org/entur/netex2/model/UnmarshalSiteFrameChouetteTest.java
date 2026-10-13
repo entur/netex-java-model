@@ -55,9 +55,9 @@ class UnmarshalSiteFrameChouetteTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().get(0);
+        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().getFirst();
         assertEquals("Oslo S", getStringValue(stopPlace.getName()));
         assertEquals("Main train station", getStringValue(stopPlace.getDescription()));
         assertEquals("Central Station Clock Tower", getStringValue(stopPlace.getLandmark()));

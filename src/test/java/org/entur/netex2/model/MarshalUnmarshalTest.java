@@ -155,7 +155,7 @@ class MarshalUnmarshalTest {
 		assertThat(actual.getId()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getId());
 		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty().isEqualTo(timetableFrame.getName().getContent());
 		assertThat(actual.getVehicleModes()).isNotNull().isNotEmpty().hasSize(1);
-		assertThat(actual.getVehicleModes().get(0)).isNotNull().isEqualTo(AllPublicTransportModesEnumeration.AIR);
+		assertThat(actual.getVehicleModes().getFirst()).isNotNull().isEqualTo(AllPublicTransportModesEnumeration.AIR);
 	}
 
 	@Test
@@ -186,7 +186,7 @@ class MarshalUnmarshalTest {
 		assertThat(actual.getVersion()).isNotNull().isNotEmpty().isEqualTo(dayType.getVersion());
 		assertThat(actual.getId()).isNotNull().isNotEmpty().isEqualTo(dayType.getId());
 		assertThat(actual.getName().getContent()).isNotNull().isNotEmpty().isEqualTo(dayType.getName().getContent());
-		assertThat(actual.getProperties().getPropertyOfDay().get(0).getDaysOfWeek()).isNotNull().isNotEmpty().hasSize(5)
+		assertThat(actual.getProperties().getPropertyOfDay().getFirst().getDaysOfWeek()).isNotNull().isNotEmpty().hasSize(5)
 				.hasOnlyElementsOfType(DayOfWeekEnumeration.class).hasSameElementsAs(daysOfWeek);
 	}
 
@@ -272,9 +272,9 @@ class MarshalUnmarshalTest {
 				.unmarshal(Files.newInputStream(Paths.get("src/test/resources/date_time_examples.xml")));
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
 		CompositeFrame compositeFrame = (CompositeFrame) actual.dataObjects.compositeFrameOrCommonFrame
-				.get(0).getValue();
+				.getFirst().getValue();
 		ValidityConditions_RelStructure validityConditions = compositeFrame.getValidityConditions();
-		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().get(0);
+		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().getFirst();
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).hasToString("2017-01-01T11:00");
@@ -287,12 +287,12 @@ class MarshalUnmarshalTest {
 
 		Timetable_VersionFrameStructure timetableFrame = (Timetable_VersionFrameStructure) compositeFrame.getFrames().getCommonFrame().get(1).getValue();
 		ServiceJourney_VersionStructure serviceJourney = (ServiceJourney_VersionStructure) timetableFrame.getVehicleJourneys()
-				.getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+				.getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
 		assertThat(serviceJourney.getDepartureTime()).isNotNull();
 		// Specified as local time
 		assertThat(serviceJourney.getDepartureTime()).hasToString("07:55");
 
-		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime();
+		LocalTime departureTimeZulu = serviceJourney.getPassingTimes().getTimetabledPassingTime().getFirst().getDepartureTime();
 		assertThat(departureTimeZulu).isNotNull().hasToString("07:55");
 
 		LocalTime departureTimeOffset = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime();
@@ -335,8 +335,8 @@ class MarshalUnmarshalTest {
 				.unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
 		PublicationDeliveryStructure actual = jaxbElement.getValue();
-		CompositeFrame compositeFrame = (CompositeFrame) actual.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+		CompositeFrame compositeFrame = (CompositeFrame) actual.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+		ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 		Network actualNetwork = serviceFrame.getNetwork();
 
 		assertThat(actualNetwork.getName().getContent()).isNotNull().isNotEmpty();

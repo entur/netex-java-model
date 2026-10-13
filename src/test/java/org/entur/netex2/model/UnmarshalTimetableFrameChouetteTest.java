@@ -73,22 +73,22 @@ class UnmarshalTimetableFrameChouetteTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         DeadRun deadRun = (DeadRun) timetableFrame.getVehicleJourneys()
-                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
         assertEquals("Dead Run to Depot", getStringValue(deadRun.getName()));
         assertEquals(AllPublicTransportModesEnumeration.BUS, deadRun.getTransportMode());
 
         assertNotNull(deadRun.getDayTypes());
-        assertEquals("TST:DayType:Weekday", deadRun.getDayTypes().getDayTypeRef().get(0).getValue().getRef());
+        assertEquals("TST:DayType:Weekday", deadRun.getDayTypes().getDayTypeRef().getFirst().getValue().getRef());
 
         assertEquals("TST:JourneyPattern:DR1", deadRun.getJourneyPatternRef().getValue().getRef());
 
         assertNotNull(deadRun.getPassingTimes());
         assertEquals(2, deadRun.getPassingTimes().getTimetabledPassingTime().size());
-        assertEquals(LocalTime.of(23, 30), deadRun.getPassingTimes().getTimetabledPassingTime().get(0).getDepartureTime());
+        assertEquals(LocalTime.of(23, 30), deadRun.getPassingTimes().getTimetabledPassingTime().getFirst().getDepartureTime());
         assertEquals(LocalTime.of(23, 55), deadRun.getPassingTimes().getTimetabledPassingTime().get(1).getArrivalTime());
     }
 
@@ -135,11 +135,11 @@ class UnmarshalTimetableFrameChouetteTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         ServiceJourney sj = (ServiceJourney) timetableFrame.getVehicleJourneys()
-                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+                .getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
 
         FlexibleServiceProperties fsp = sj.getFlexibleServiceProperties();
         assertNotNull(fsp);
@@ -150,7 +150,7 @@ class UnmarshalTimetableFrameChouetteTest extends AbstractUnmarshalFrameTest {
         assertEquals(PurchaseWhenEnumeration.UNTIL_PREVIOUS_DAY, fsp.getBookWhen());
 
         assertEquals(2, fsp.getBuyWhen().size());
-        assertEquals(PurchaseMomentEnumeration.BEFORE_BOARDING, fsp.getBuyWhen().get(0));
+        assertEquals(PurchaseMomentEnumeration.BEFORE_BOARDING, fsp.getBuyWhen().getFirst());
         assertEquals(PurchaseMomentEnumeration.ON_BOARDING, fsp.getBuyWhen().get(1));
 
         assertEquals("Advanced booking required", getStringValue(fsp.getBookingNote()));

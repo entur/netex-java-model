@@ -108,10 +108,10 @@ class UnmarshalResourceFrameTest extends  AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().get(0).getValue();
+        ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
+        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().getFirst().getValue();
         assertEquals("Vy", getStringValue(authority.getName()));
 
 

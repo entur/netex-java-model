@@ -57,9 +57,9 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
         Network network = serviceFrame.getNetwork();
         assertNotNull(network);
         assertEquals("Test Network", getStringValue(network.getName()));
@@ -104,15 +104,15 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        DestinationDisplay destinationDisplay = serviceFrame.getDestinationDisplays().getDestinationDisplay().get(0);
+        DestinationDisplay destinationDisplay = serviceFrame.getDestinationDisplays().getDestinationDisplay().getFirst();
         assertEquals("Oslo S", getStringValue(destinationDisplay.getFrontText()));
 
         assertEquals(2, serviceFrame.getScheduledStopPoints().getScheduledStopPoint().size());
-        ScheduledStopPoint ssp1 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(0);
+        ScheduledStopPoint ssp1 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().getFirst();
         assertEquals("Jernbanetorget", getStringValue(ssp1.getName()));
         ScheduledStopPoint ssp2 = serviceFrame.getScheduledStopPoints().getScheduledStopPoint().get(1);
         assertEquals("Majorstuen", getStringValue(ssp2.getName()));
@@ -150,12 +150,12 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         assertEquals(1, serviceFrame.getServiceLinks().getServiceLink().size());
-        ServiceLink serviceLink = serviceFrame.getServiceLinks().getServiceLink().get(0);
+        ServiceLink serviceLink = serviceFrame.getServiceLinks().getServiceLink().getFirst();
         assertEquals("TST:ScheduledStopPoint:1", serviceLink.getFromPointRef().getRef());
         assertEquals("TST:ScheduledStopPoint:2", serviceLink.getToPointRef().getRef());
         assertEquals(new BigDecimal("1234.5"), serviceLink.getDistance());
@@ -202,19 +202,19 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        FlexibleLine flexibleLine = (FlexibleLine) serviceFrame.getLines().getLine_Dummy().get(0).getValue();
+        FlexibleLine flexibleLine = (FlexibleLine) serviceFrame.getLines().getLine_Dummy().getFirst().getValue();
         assertEquals("Flex Route 1", getStringValue(flexibleLine.getName()));
         assertEquals(AllPublicTransportModesEnumeration.BUS, flexibleLine.getTransportMode());
         assertEquals(FlexibleLineTypeEnumeration.FLEXIBLE_AREAS_ONLY, flexibleLine.getFlexibleLineType());
 
-        GroupOfLines groupOfLines = serviceFrame.getGroupsOfLines().getGroupOfLines().get(0);
+        GroupOfLines groupOfLines = serviceFrame.getGroupsOfLines().getGroupOfLines().getFirst();
         assertEquals("Line Group A", getStringValue(groupOfLines.getName()));
         assertEquals(2, groupOfLines.getMembers().getLineRef().size());
-        assertEquals("TST:Line:1", groupOfLines.getMembers().getLineRef().get(0).getValue().getRef());
+        assertEquals("TST:Line:1", groupOfLines.getMembers().getLineRef().getFirst().getValue().getRef());
         assertEquals("TST:Line:2", groupOfLines.getMembers().getLineRef().get(1).getValue().getRef());
     }
 
@@ -255,16 +255,16 @@ class UnmarshalServiceFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
         assertEquals(1, serviceFrame.getNotices().getNotice().size());
-        Notice notice = serviceFrame.getNotices().getNotice().get(0);
+        Notice notice = serviceFrame.getNotices().getNotice().getFirst();
         assertEquals("Does not stop at all stops", getStringValue(notice.getText()));
         assertEquals("A", notice.getPublicCode().getValue());
 
-        NoticeAssignment noticeAssignment = (NoticeAssignment) serviceFrame.getNoticeAssignments().getNoticeAssignment_Dummy().get(0).getValue();
+        NoticeAssignment noticeAssignment = (NoticeAssignment) serviceFrame.getNoticeAssignments().getNoticeAssignment_Dummy().getFirst().getValue();
         assertEquals("TST:Notice:1", noticeAssignment.getNoticeRef().getRef());
         assertEquals("TST:ServiceJourney:1", noticeAssignment.getNoticedObjectRef().getRef());
     }

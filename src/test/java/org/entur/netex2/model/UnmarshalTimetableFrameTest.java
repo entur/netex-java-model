@@ -115,21 +115,21 @@ class UnmarshalTimetableFrameTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        ServiceJourney serviceJourney = (ServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(0);
+        TimetableFrame timetableFrame = (TimetableFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
+        ServiceJourney serviceJourney = (ServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().getFirst();
         assertEquals("96", getStringValue(serviceJourney.getName()));
         assertEquals("96", serviceJourney.getPrivateCode().getValue());
         assertEquals("rail", serviceJourney.getTransportMode().value());
 
-        TimetabledPassingTime timetabledPassingTime = serviceJourney.getPassingTimes().getTimetabledPassingTime().get(0);
+        TimetabledPassingTime timetabledPassingTime = serviceJourney.getPassingTimes().getTimetabledPassingTime().getFirst();
         assertEquals(LocalTime.of(14,55), timetabledPassingTime.getDepartureTime());
 
         DatedServiceJourney dsj = (DatedServiceJourney) timetableFrame.getVehicleJourneys().getVehicleJourneyOrDatedVehicleJourneyOrNormalDatedVehicleJourney().get(1);
         assertEquals("VYG:OperatingDay:2023-12-09", dsj.getOperatingDayRef().getRef());
         assertEquals("VYG:ServiceJourney:96-KMB_87815-R", dsj.getJourneyRef().getValue().getRef());
-        assertEquals("VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19", dsj.getReplacedJourneys().getDatedVehicleJourneyRefOrNormalDatedVehicleJourneyRef().get(0).getValue().getRef());
+        assertEquals("VYG:DatedServiceJourney:8916_KVG-DEG_23-10-19", dsj.getReplacedJourneys().getDatedVehicleJourneyRefOrNormalDatedVehicleJourneyRef().getFirst().getValue().getRef());
         assertEquals("cancellation", dsj.getServiceAlteration().value());
 
 

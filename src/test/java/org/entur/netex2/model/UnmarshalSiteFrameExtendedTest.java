@@ -63,9 +63,9 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().get(0);
+        StopPlace stopPlace = siteFrame.getStopPlaces().getStopPlace().getFirst();
         assertEquals("Accessible Stop", getStringValue(stopPlace.getName()));
 
         AccessibilityAssessment assessment = stopPlace.getAccessibilityAssessment();
@@ -103,9 +103,9 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        FlexibleStopPlace flexibleStopPlace = siteFrame.getFlexibleStopPlaces().getFlexibleStopPlace().get(0);
+        FlexibleStopPlace flexibleStopPlace = siteFrame.getFlexibleStopPlaces().getFlexibleStopPlace().getFirst();
         assertEquals("Flexible Area North", getStringValue(flexibleStopPlace.getName()));
         assertEquals(AllPublicTransportModesEnumeration.BUS, flexibleStopPlace.getTransportMode());
     }
@@ -137,9 +137,9 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        Parking parking = (Parking) siteFrame.getParkings().getParking_Dummy().get(0).getValue();
+        Parking parking = (Parking) siteFrame.getParkings().getParking_Dummy().getFirst().getValue();
         assertEquals("Central Parking", getStringValue(parking.getName()));
         assertEquals(ParkingTypeEnumeration.PARK_AND_RIDE, parking.getParkingType());
         assertEquals(BigInteger.valueOf(250), parking.getTotalCapacity());

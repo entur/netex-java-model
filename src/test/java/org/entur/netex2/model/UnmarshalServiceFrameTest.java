@@ -144,35 +144,35 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
                 .unmarshal(new ByteArrayInputStream(xml.getBytes()));
 
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
-        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
+        CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        Line line = (Line) serviceFrame.getLines().getLine_Dummy().get(0).getValue();
+        ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
+        Line line = (Line) serviceFrame.getLines().getLine_Dummy().getFirst().getValue();
         assertEquals("Narvik-Riksgränsen (Sverige)", getStringValue(line.getName()));
         assertEquals("F8", line.getPublicCode().getValue());
         assertEquals("F8", line.getPrivateCode().getValue());
         assertEquals("rail", line.getTransportMode().value());
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().get(0).getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().getFirst().getValue();
         assertEquals("Riksgränsen-Narvik  Ofotbanen", getStringValue(route.getName()));
         assertEquals("KJ-NK", getStringValue(route.getShortName()));
 
-        PointOnRoute pointOnRoute = route.getPointsInSequence().getPointOnRoute().get(0);
+        PointOnRoute pointOnRoute = route.getPointsInSequence().getPointOnRoute().getFirst();
         assertEquals("VYG:RoutePoint:KJ", pointOnRoute.getPointRef().getValue().getRef());
 
-        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_Dummy().get(0).getValue();
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_Dummy().getFirst().getValue();
         assertEquals("KMB-NK", getStringValue(journeyPattern.getName()));
         assertEquals("VYG:Route:F8-R", journeyPattern.getRouteRef().getRef());
 
-        StopPointInJourneyPattern stopPointInJourneyPattern = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence().getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().get(0);
+        StopPointInJourneyPattern stopPointInJourneyPattern = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence().getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().getFirst();
         assertEquals("VYG:ScheduledStopPoint:KMB-1", stopPointInJourneyPattern.getScheduledStopPointRef().getValue().getRef());
         assertFalse(stopPointInJourneyPattern.isForAlighting());
         assertEquals("VYG:DestinationDisplay:F8-NK", stopPointInJourneyPattern.getDestinationDisplayRef().getRef());
 
-        ServiceLinkInJourneyPattern_VersionedChildStructure serviceLinkInJourneyPattern = (ServiceLinkInJourneyPattern_VersionedChildStructure) journeyPattern.getLinksInSequence().getServiceLinkInJourneyPatternOrTimingLinkInJourneyPattern().get(0);
+        ServiceLinkInJourneyPattern_VersionedChildStructure serviceLinkInJourneyPattern = (ServiceLinkInJourneyPattern_VersionedChildStructure) journeyPattern.getLinksInSequence().getServiceLinkInJourneyPatternOrTimingLinkInJourneyPattern().getFirst();
         assertEquals("VYG:ServiceLink:KMB-1_ABOe-1_NULL",serviceLinkInJourneyPattern.getServiceLinkRef().getRef());
 
-        PassengerStopAssignment passengerStopAssignment = (PassengerStopAssignment) serviceFrame.getStopAssignments().getStopAssignment().get(0).getValue();
+        PassengerStopAssignment passengerStopAssignment = (PassengerStopAssignment) serviceFrame.getStopAssignments().getStopAssignment().getFirst().getValue();
         assertEquals("NSR:Quay:111", passengerStopAssignment.getQuayRef().getValue().getRef());
         assertEquals("VYG:ScheduledStopPoint:HAL-1", passengerStopAssignment.getScheduledStopPointRef().getValue().getRef());
 
