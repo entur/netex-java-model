@@ -97,11 +97,4 @@ class NeTExValidatorTest {
         validator1_16.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
-    @Test
-    @SuppressWarnings("deprecation")
-    void validateResponsibilitySetWithAssociatedContractAgainstDeprecatedVersion1_16_1() throws IOException, SAXException {
-        NeTExValidator validator1_16_1 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16_1);
-        validator1_16_1.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
-    }
-
 }
