@@ -5,7 +5,6 @@ module org.entur.netex2 {
     requires io.github.threetenjaxb.core;
     requires org.slf4j;
 
-    exports org.entur.netex2;
     exports org.entur.netex2.client;
     exports org.entur.netex2.validation;
     exports org.entur.netex2.model;
