@@ -4,12 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**netex-java-model** is a Java library that generates JAXB model classes from NeTEx (Network Timetable Exchange) XML Schema Definition (XSD) files. The XSD files are downloaded from https://github.com/entur/NeTEx and compiled into Java classes at build time.
+**netex-java-model** (Maven coordinates `org.entur:netex-java-model`, 1.x line) is a Java library that generates JAXB model classes from NeTEx (Network Timetable Exchange) XML Schema Definition (XSD) files. The NeTEx 2.0 XSD is downloaded from https://github.com/TransmodelEcosystem/NeTEx and compiled into Java classes at build time. The legacy schemas used only for validation (1.04beta - 1.16.1) are downloaded from the Entur fork at https://github.com/entur/NeTEx.
+
+The 1.x branch targets Java 8 and Java EE 8 (`javax.xml.bind`, JAXB 2.3); the Jakarta EE line of the library lives on `master`.
 
 - **Organization**: Entur AS (Norwegian public transport data provider)
 - **License**: EUPL-1.2
-- **Java Version**: 8 (builds on 8 in CI)
-- **Package**: `org.rutebanken.netex.model` (generated), `org.rutebanken.netex` and `org.rutebanken.util` (source)
+- **Java Version**: 8 (builds and publishes on 8 in CI)
+- **Package**: `org.rutebanken.netex.model` (generated), `org.rutebanken.netex`, `org.rutebanken.netex.client`, `org.rutebanken.netex.validation` and `org.rutebanken.util` (source). GML and SIRI types are generated in `net.opengis.gml._3` and `uk.org.siri.siri`.
 
 ## Build Commands
 
@@ -48,20 +50,20 @@ mvn validate
 ## Key Technical Details
 
 - **JAXB Bindings**: The `bindings.xjb` file customizes code generation, including:
-  - Java 8 time type adapters (`LocalDateTime`, `LocalTime`, `Duration`)
+  - Java 8 time type adapters (`LocalDateTime`, `LocalDate`, `LocalTime`, `Duration`)
   - Property name conflict resolution
   - Package naming (`org.rutebanken.netex.model`)
 
 - **Generated Code**: Model classes are generated in `target/generated-sources/` during build. Do not manually edit generated code.
 
-- **NeTEx Version**: Configured in `pom.xml` via `<netexVersion>` property (currently 1.16).
+- **NeTEx Version**: Configured in `pom.xml` via `<netexVersion>` property (currently 2.0).
 
-- **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD.
+- **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD, for versions 1.04beta through 2.0. Documents declaring 1.16 are validated against the 1.16.1 schema.
 
 ## CI/CD
 
 GitHub Actions workflows in `.github/workflows/`:
-- `deploy.yml`: Main build, test, Sonar scan, and snapshot publishing (triggers on `1.x` branch)
+- `deploy.yml`: Main build, test, and snapshot publishing (temporarily triggered from the `upgrade-netex-2.0_for_1.x` branch until the merge into `1.x`)
 - Release workflows: GitFlow-based release management
 - Publishes to Maven Central via JReleaser
 
