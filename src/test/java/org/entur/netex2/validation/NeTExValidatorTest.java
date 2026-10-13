@@ -15,6 +15,7 @@
 
 package org.entur.netex2.validation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -28,29 +29,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NeTExValidatorTest {
 
-    private final NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
-    
-    public NeTExValidatorTest() throws IOException, SAXException {    }
+    private static final String MINIMAL_PUBLICATION_DELIVERY = """
+        <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        <PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:ns2="http://www.opengis.net/gml/3.2" xmlns:ns3="http://www.siri.org.uk/siri" version="any">
+            <PublicationTimestamp>2016-11-29T13:32:06.869+01:00</PublicationTimestamp>
+            <ParticipantRef>NSR</ParticipantRef>
+        </PublicationDelivery>""";
 
-    public static final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-            "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\" version=\"any\">\n" +
-            "    <PublicationTimestamp>2016-11-29T13:32:06.869+01:00</PublicationTimestamp>\n" +
-            "    <ParticipantRef>NSR</ParticipantRef>\n" +
-            "</PublicationDelivery>";
+    private NeTExValidator neTExValidator;
 
-    
+    @BeforeEach
+    void setUp() throws IOException, SAXException {
+        neTExValidator = NeTExValidator.getNeTExValidator();
+    }
+
     @Test
     void validationFailsForInvalidXml() {
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\"></PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:ns2="http://www.opengis.net/gml/3.2" xmlns:ns3="http://www.siri.org.uk/siri"></PublicationDelivery>""";
 
         assertThatThrownBy(() -> neTExValidator.validate(new StreamSource(new StringReader(xml)))).isInstanceOf(SAXParseException.class);
     }
 
     @Test
     void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
-        neTExValidator.validate(new StreamSource(new StringReader(xml)));
-
+        neTExValidator.validate(new StreamSource(new StringReader(MINIMAL_PUBLICATION_DELIVERY)));
     }
 
     /**
@@ -59,27 +63,28 @@ class NeTExValidatorTest {
      * It is not validated against 2.0 here: 2.0 enforces a key reference from ContractRef to a Contract
      * declared in the same document, which 1.16.1 has no place for in a ResourceFrame.
      */
-    private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
-                "  <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>\n" +
-                "  <ParticipantRef>TST</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
-                "      <responsibilitySets>\n" +
-                "        <ResponsibilitySet version=\"1\" id=\"TST:ResponsibilitySet:1\">\n" +
-                "          <Name>Contracted operation</Name>\n" +
-                "          <roles>\n" +
-                "            <ResponsibilityRoleAssignment version=\"1\" id=\"TST:ResponsibilityRoleAssignment:1\">\n" +
-                "              <AssociatedContract>\n" +
-                "                <ContractRef ref=\"TST:Contract:1\" version=\"1\"/>\n" +
-                "              </AssociatedContract>\n" +
-                "            </ResponsibilityRoleAssignment>\n" +
-                "          </roles>\n" +
-                "        </ResponsibilitySet>\n" +
-                "      </responsibilitySets>\n" +
-                "    </ResourceFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+    private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.0">
+          <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>
+          <ParticipantRef>TST</ParticipantRef>
+          <dataObjects>
+            <ResourceFrame version="1" id="TST:ResourceFrame:1">
+              <responsibilitySets>
+                <ResponsibilitySet version="1" id="TST:ResponsibilitySet:1">
+                  <Name>Contracted operation</Name>
+                  <roles>
+                    <ResponsibilityRoleAssignment version="1" id="TST:ResponsibilityRoleAssignment:1">
+                      <AssociatedContract>
+                        <ContractRef ref="TST:Contract:1" version="1"/>
+                      </AssociatedContract>
+                    </ResponsibilityRoleAssignment>
+                  </roles>
+                </ResponsibilitySet>
+              </responsibilitySets>
+            </ResourceFrame>
+          </dataObjects>
+        </PublicationDelivery>""";
 
     @Test
     void latestVersionIs2_0() {
@@ -93,8 +98,8 @@ class NeTExValidatorTest {
 
     @Test
     void validateResponsibilitySetWithAssociatedContractAgainstVersion1_16() throws IOException, SAXException {
-        NeTExValidator validator1_16 = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16);
-        validator1_16.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
+        NeTExValidator validator = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16);
+        validator.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
 }

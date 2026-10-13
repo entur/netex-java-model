@@ -105,42 +105,43 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalServiceJourneyWithTransportSubmode() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <TimetableFrame version=\"1\" id=\"TST:TimetableFrame:1\">\n" +
-                "          <vehicleJourneys>\n" +
-                "            <ServiceJourney version=\"1\" id=\"TST:ServiceJourney:1\">\n" +
-                "              <Name>Express Bus 100</Name>\n" +
-                "              <TransportMode>bus</TransportMode>\n" +
-                "              <TransportSubmode>\n" +
-                "                <BusSubmode>expressBus</BusSubmode>\n" +
-                "              </TransportSubmode>\n" +
-                "            </ServiceJourney>\n" +
-                "            <ServiceJourney version=\"1\" id=\"TST:ServiceJourney:2\">\n" +
-                "              <Name>Regional Rail 200</Name>\n" +
-                "              <TransportMode>rail</TransportMode>\n" +
-                "              <TransportSubmode>\n" +
-                "                <RailSubmode>regionalRail</RailSubmode>\n" +
-                "              </TransportSubmode>\n" +
-                "            </ServiceJourney>\n" +
-                "            <ServiceJourney version=\"1\" id=\"TST:ServiceJourney:3\">\n" +
-                "              <Name>Local Ferry</Name>\n" +
-                "              <TransportMode>water</TransportMode>\n" +
-                "              <TransportSubmode>\n" +
-                "                <WaterSubmode>localPassengerFerry</WaterSubmode>\n" +
-                "              </TransportSubmode>\n" +
-                "            </ServiceJourney>\n" +
-                "          </vehicleJourneys>\n" +
-                "        </TimetableFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <TimetableFrame version="1" id="TST:TimetableFrame:1">
+                      <vehicleJourneys>
+                        <ServiceJourney version="1" id="TST:ServiceJourney:1">
+                          <Name>Express Bus 100</Name>
+                          <TransportMode>bus</TransportMode>
+                          <TransportSubmode>
+                            <BusSubmode>expressBus</BusSubmode>
+                          </TransportSubmode>
+                        </ServiceJourney>
+                        <ServiceJourney version="1" id="TST:ServiceJourney:2">
+                          <Name>Regional Rail 200</Name>
+                          <TransportMode>rail</TransportMode>
+                          <TransportSubmode>
+                            <RailSubmode>regionalRail</RailSubmode>
+                          </TransportSubmode>
+                        </ServiceJourney>
+                        <ServiceJourney version="1" id="TST:ServiceJourney:3">
+                          <Name>Local Ferry</Name>
+                          <TransportMode>water</TransportMode>
+                          <TransportSubmode>
+                            <WaterSubmode>localPassengerFerry</WaterSubmode>
+                          </TransportSubmode>
+                        </ServiceJourney>
+                      </vehicleJourneys>
+                    </TimetableFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -177,30 +178,31 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalRouteWithLineRef() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <routes>\n" +
-                "            <Route version=\"1\" id=\"TST:Route:1\">\n" +
-                "              <Name>Main Route</Name>\n" +
-                "              <LineRef ref=\"TST:Line:100\" version=\"1\"/>\n" +
-                "              <pointsInSequence>\n" +
-                "                <PointOnRoute order=\"1\" version=\"1\" id=\"TST:PointOnRoute:1\">\n" +
-                "                  <RoutePointRef ref=\"TST:RoutePoint:1\"/>\n" +
-                "                </PointOnRoute>\n" +
-                "              </pointsInSequence>\n" +
-                "            </Route>\n" +
-                "          </routes>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <routes>
+                        <Route version="1" id="TST:Route:1">
+                          <Name>Main Route</Name>
+                          <LineRef ref="TST:Line:100" version="1"/>
+                          <pointsInSequence>
+                            <PointOnRoute order="1" version="1" id="TST:PointOnRoute:1">
+                              <RoutePointRef ref="TST:RoutePoint:1"/>
+                            </PointOnRoute>
+                          </pointsInSequence>
+                        </Route>
+                      </routes>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

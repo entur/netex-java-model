@@ -32,30 +32,31 @@ class UnmarshalTimetableFrameExtendedTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalServiceJourneyInterchange() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <TimetableFrame version=\"1\" id=\"TST:TimetableFrame:1\">\n" +
-                "          <journeyInterchanges>\n" +
-                "            <ServiceJourneyInterchange version=\"1\" id=\"TST:ServiceJourneyInterchange:1\">\n" +
-                "              <StaySeated>true</StaySeated>\n" +
-                "              <Guaranteed>true</Guaranteed>\n" +
-                "              <MaximumWaitTime>PT5M</MaximumWaitTime>\n" +
-                "              <FromPointRef ref=\"TST:ScheduledStopPoint:1\"/>\n" +
-                "              <ToPointRef ref=\"TST:ScheduledStopPoint:2\"/>\n" +
-                "              <FromJourneyRef ref=\"TST:ServiceJourney:1\"/>\n" +
-                "              <ToJourneyRef ref=\"TST:ServiceJourney:2\"/>\n" +
-                "            </ServiceJourneyInterchange>\n" +
-                "          </journeyInterchanges>\n" +
-                "        </TimetableFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <TimetableFrame version="1" id="TST:TimetableFrame:1">
+                      <journeyInterchanges>
+                        <ServiceJourneyInterchange version="1" id="TST:ServiceJourneyInterchange:1">
+                          <StaySeated>true</StaySeated>
+                          <Guaranteed>true</Guaranteed>
+                          <MaximumWaitTime>PT5M</MaximumWaitTime>
+                          <FromPointRef ref="TST:ScheduledStopPoint:1"/>
+                          <ToPointRef ref="TST:ScheduledStopPoint:2"/>
+                          <FromJourneyRef ref="TST:ServiceJourney:1"/>
+                          <ToJourneyRef ref="TST:ServiceJourney:2"/>
+                        </ServiceJourneyInterchange>
+                      </journeyInterchanges>
+                    </TimetableFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -82,34 +83,35 @@ class UnmarshalTimetableFrameExtendedTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalServiceJourneyWithFlexibleServiceProperties() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <TimetableFrame version=\"1\" id=\"TST:TimetableFrame:1\">\n" +
-                "          <vehicleJourneys>\n" +
-                "            <ServiceJourney version=\"1\" id=\"TST:ServiceJourney:Flex1\">\n" +
-                "              <Name>Flex Service</Name>\n" +
-                "              <TransportMode>bus</TransportMode>\n" +
-                "              <FlexibleServiceProperties version=\"1\" id=\"TST:FlexibleServiceProperties:1\">\n" +
-                "                <BookingAccess>public</BookingAccess>\n" +
-                "                <BookWhen>dayOfTravelOnly</BookWhen>\n" +
-                "                <LatestBookingTime>12:00:00</LatestBookingTime>\n" +
-                "                <BookingContact>\n" +
-                "                  <Phone>+47 12345678</Phone>\n" +
-                "                  <Url>https://booking.example.com</Url>\n" +
-                "                </BookingContact>\n" +
-                "              </FlexibleServiceProperties>\n" +
-                "            </ServiceJourney>\n" +
-                "          </vehicleJourneys>\n" +
-                "        </TimetableFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <TimetableFrame version="1" id="TST:TimetableFrame:1">
+                      <vehicleJourneys>
+                        <ServiceJourney version="1" id="TST:ServiceJourney:Flex1">
+                          <Name>Flex Service</Name>
+                          <TransportMode>bus</TransportMode>
+                          <FlexibleServiceProperties version="1" id="TST:FlexibleServiceProperties:1">
+                            <BookingAccess>public</BookingAccess>
+                            <BookWhen>dayOfTravelOnly</BookWhen>
+                            <LatestBookingTime>12:00:00</LatestBookingTime>
+                            <BookingContact>
+                              <Phone>+47 12345678</Phone>
+                              <Url>https://booking.example.com</Url>
+                            </BookingContact>
+                          </FlexibleServiceProperties>
+                        </ServiceJourney>
+                      </vehicleJourneys>
+                    </TimetableFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

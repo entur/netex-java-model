@@ -19,19 +19,19 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class VersionXmlAdapterTest {
+class VersionXmlAdapterTest {
 
     private final VersionXmlAdapter adapter = new VersionXmlAdapter();
 
     @Test
-    public void testUnmarshalReturnsValue() {
+    void testUnmarshalReturnsValue() {
         String version = "1.0";
         String result = adapter.unmarshal(version);
         assertEquals("1.0", result);
     }
 
     @Test
-    public void testUnmarshalDeduplicates() {
+    void testUnmarshalDeduplicates() {
         String version1 = new String("any");
         String version2 = new String("any");
 
@@ -46,14 +46,14 @@ public class VersionXmlAdapterTest {
     }
 
     @Test
-    public void testMarshalReturnsInput() {
+    void testMarshalReturnsInput() {
         String version = "1.07:NO-NeTEx-networktimetable:1.0";
         String result = adapter.marshal(version);
         assertEquals(version, result);
     }
 
     @Test
-    public void testMarshalNull() {
+    void testMarshalNull() {
         String result = adapter.marshal(null);
         assertNull(result);
     }
