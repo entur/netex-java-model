@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Organization**: Entur AS (Norwegian public transport data provider)
 - **License**: EUPL-1.2
 - **Java Version**: 11+ (builds on 17 in CI)
-- **Package**: `org.rutebanken.netex.model` (generated), `org.rutebanken.netex` and `org.rutebanken.netex.util` (source)
+- **Package**: `org.entur.netex2.model` (generated), `org.entur.netex2` and `org.entur.netex2.util` (source)
 
 ## Build Commands
 
@@ -38,8 +38,8 @@ mvn validate
 │   └── version_updater.sh         # Updates version references
 ├── bindings.xjb               # JAXB customization bindings
 ├── src/main/java/
-│   ├── module-info.java       # JPMS module descriptor (org.entur.netex.java.model)
-│   └── org/rutebanken/netex/  # Utilities (validation, client, toString style)
+│   ├── module-info.java       # JPMS module descriptor (org.entur.netex2)
+│   └── org/entur/netex2/      # Utilities (validation, client, toString style)
 │       └── util/              # XML adapters for Java 8 time types
 ├── src/main/resources/xsd/    # NeTEx XSD files (downloaded at build time)
 ├── src/test/                  # JUnit 5 tests for marshalling/unmarshalling
@@ -51,7 +51,7 @@ mvn validate
 - **JAXB Bindings**: The `bindings.xjb` file customizes code generation, including:
   - Java 8 time type adapters (`LocalDateTime`, `LocalTime`, `Duration`)
   - Property name conflict resolution
-  - Package naming (`org.rutebanken.netex.model`)
+  - Package naming (`org.entur.netex2.model`)
 
 - **Generated Code**: Model classes are generated in `target/generated-sources/` during build. Do not manually edit generated code.
 
