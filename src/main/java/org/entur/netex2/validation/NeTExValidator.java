@@ -105,16 +105,10 @@ public class NeTExValidator {
 
 
 	/**
-	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 * Validators are cached per version; use {@link #getNeTExValidator(NetexVersion)} or
+	 * {@link #getNeTExValidator()}.
 	 */
-	public NeTExValidator() throws IOException, SAXException {
-		this(LATEST);
-	}
-
-	/**
-	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
-	 */
-	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
+	private NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
 		String resourceName = "xsd/"+ version.folderName +"/NeTEx_publication.xsd";
