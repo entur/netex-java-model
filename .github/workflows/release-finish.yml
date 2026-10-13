@@ -277,7 +277,7 @@ jobs:
 
           - **Released Version:** $VERSION
           - **Git Tag:** \`v${VERSION}\`
-          - **Maven Central (netex-java-model):** https://central.sonatype.com/artifact/org.entur/netex-java-model/${VERSION}
+          - **Maven Central (netex2-java-model):** https://central.sonatype.com/artifact/org.entur/netex2-java-model/${VERSION}
           - **Next Development Version ($BASE_BRANCH):** ${{ steps.next_version.outputs.next_version }}
           - **Release Branch:** Merged to $BASE_BRANCH and deleted
 
