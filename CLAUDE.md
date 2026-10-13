@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**netex-java-model** is a Java library that generates JAXB model classes from NeTEx (Network Timetable Exchange) XML Schema Definition (XSD) files. The XSD files are downloaded from https://github.com/entur/NeTEx and compiled into Java classes at build time.
+**netex2-java-model** (Maven coordinates `org.entur:netex2-java-model`) is a Java library that generates JAXB model classes from NeTEx (Network Timetable Exchange) XML Schema Definition (XSD) files. The NeTEx 2.0 XSD is downloaded from https://github.com/TransmodelEcosystem/NeTEx and compiled into Java classes at build time. The legacy schemas used only for validation (1.04beta - 1.16.1) are downloaded from the Entur fork at https://github.com/entur/NeTEx.
 
 - **Organization**: Entur AS (Norwegian public transport data provider)
 - **License**: EUPL-1.2
-- **Java Version**: 11+ (builds on 17 in CI)
-- **Package**: `org.entur.netex2.model` (generated), `org.entur.netex2` and `org.entur.netex2.util` (source)
+- **Java Version**: 21+ (builds and publishes on 21 in CI)
+- **Package**: `org.entur.netex2.model` (generated), `org.entur.netex2`, `org.entur.netex2.client`, `org.entur.netex2.validation` and `org.entur.netex2.util` (source). GML and SIRI types are generated in `net.opengis.gml._3` and `uk.org.siri.siri`.
 
 ## Build Commands
 
@@ -57,7 +57,7 @@ mvn validate
 
 - **NeTEx Version**: Configured in `pom.xml` via `<netexVersion>` property (currently 2.0).
 
-- **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD.
+- **Validation**: `NeTExValidator` class provides XML schema validation against NeTEx XSD, for versions 1.04beta through 2.0. Documents declaring 1.16 are validated against the 1.16.1 schema.
 
 ## CI/CD
 
