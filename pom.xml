@@ -175,6 +175,14 @@
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>${maven-clean-plugin.version}</version>
+                    <configuration>
+                        <!-- The XSD files are downloaded at build time; remove stale versions as well -->
+                        <filesets>
+                            <fileset>
+                                <directory>src/main/resources/xsd</directory>
+                            </fileset>
+                        </filesets>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
