@@ -15,6 +15,7 @@
 
 package org.rutebanken.netex.validation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -28,17 +29,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NeTExValidatorTest {
 
-    private final NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
-    
-    public NeTExValidatorTest() throws IOException, SAXException {    }
-
-    public static final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+    private static final String MINIMAL_PUBLICATION_DELIVERY = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\" version=\"any\">\n" +
             "    <PublicationTimestamp>2016-11-29T13:32:06.869+01:00</PublicationTimestamp>\n" +
             "    <ParticipantRef>NSR</ParticipantRef>\n" +
             "</PublicationDelivery>";
 
-    
+    private NeTExValidator neTExValidator;
+
+    @BeforeEach
+    void setUp() throws IOException, SAXException {
+        neTExValidator = NeTExValidator.getNeTExValidator();
+    }
+
     @Test
     void validationFailsForInvalidXml() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
@@ -49,8 +52,7 @@ class NeTExValidatorTest {
 
     @Test
     void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
-        neTExValidator.validate(new StreamSource(new StringReader(xml)));
-
+        neTExValidator.validate(new StreamSource(new StringReader(MINIMAL_PUBLICATION_DELIVERY)));
     }
 
     /**

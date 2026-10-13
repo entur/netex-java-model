@@ -51,7 +51,7 @@ public class PublicationDeliveryClient {
         this.jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
         this.validateAgainstSchema = validateAgainstSchema;
         if(validateAgainstSchema) {
-            neTExValidator = new NeTExValidator();
+            neTExValidator = NeTExValidator.getNeTExValidator();
         }
     }
 
