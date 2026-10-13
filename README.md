@@ -98,7 +98,7 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 ## Key Technical Details
 
 **JAXB customizations** (`bindings.xjb`):
-- Java 8 time type adapters (`LocalDateTime`, `LocalTime`, `Duration`) via `threeten-jaxb-core`
+- Java 8 time type adapters (`LocalDateTime`, `LocalDate`, `LocalTime`, `Duration`) via `threeten-jaxb-core`
 - Fluent builder API (`withX()` methods) via `jaxb-fluent-api`
 - Property name conflict resolution
 - Package mapping to `org.entur.netex2.model`
