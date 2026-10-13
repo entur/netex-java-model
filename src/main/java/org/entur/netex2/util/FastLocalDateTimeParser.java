@@ -80,10 +80,10 @@ final class FastLocalDateTimeParser {
 	 * @return the parsed date, or {@code null} if {@code text} is null or not in the supported form
 	 */
 	static LocalDate parseDate(String text) {
-		if (text == null || text.length() < DATE_LENGTH || !hasValidZoneSuffix(text, DATE_LENGTH)) {
+		if (text == null || text.length() < DATE_LENGTH || hasInvalidZoneSuffix(text, DATE_LENGTH)) {
 			return null;
 		}
-		return readDate(text, 0);
+		return readDate(text);
 	}
 
 	/**
@@ -108,7 +108,7 @@ final class FastLocalDateTimeParser {
 		if (text == null || text.length() <= DATE_TIME_SEPARATOR || text.charAt(DATE_TIME_SEPARATOR) != 'T') {
 			return null;
 		}
-		LocalDate date = readDate(text, 0);
+		LocalDate date = readDate(text);
 		if (date == null) {
 			return null;
 		}
@@ -129,20 +129,20 @@ final class FastLocalDateTimeParser {
 			return null;
 		}
 		int fractionEnd = readFractionEnd(text, timeEnd);
-		if (fractionEnd == INVALID || !hasValidZoneSuffix(text, fractionEnd)) {
+		if (fractionEnd == INVALID || hasInvalidZoneSuffix(text, fractionEnd)) {
 			return null;
 		}
 		return readTime(text, start, readNanos(text, timeEnd, fractionEnd));
 	}
 
-	/** Reads {@code yyyy-MM-dd} at {@code start}; {@code null} if malformed or out of range. */
-	private static LocalDate readDate(String text, int start) {
-		if (text.charAt(start + 4) != '-' || text.charAt(start + 7) != '-') {
+	/** Reads {@code yyyy-MM-dd} at the start of the text; {@code null} if malformed or out of range. */
+	private static LocalDate readDate(String text) {
+		if (text.charAt(4) != '-' || text.charAt(7) != '-') {
 			return null;
 		}
-		int year = readDigits(text, start, 4);
-		int month = readDigits(text, start + 5, 2);
-		int day = readDigits(text, start + 8, 2);
+		int year = readDigits(text, 0, 4);
+		int month = readDigits(text, 5, 2);
+		int day = readDigits(text, 8, 2);
 		// year 0000 is not a valid year-of-era for the 'yyyy' pattern: leave it to the formatter
 		if (year <= 0 || month == INVALID || day == INVALID) {
 			return null;
@@ -210,30 +210,30 @@ final class FastLocalDateTimeParser {
 	}
 
 	/**
-	 * Checks that the text either ends at {@code start} or continues with exactly a zone designator:
-	 * {@code Z} or {@code ±HH:MM} within the ±18:00 range.
+	 * Returns {@code true} unless the text ends at {@code start} or continues with exactly a zone
+	 * designator: {@code Z} or {@code ±HH:MM} within the ±18:00 range.
 	 */
-	private static boolean hasValidZoneSuffix(String text, int start) {
+	private static boolean hasInvalidZoneSuffix(String text, int start) {
 		int length = text.length();
 		if (start == length) {
-			return true;
+			return false;
 		}
 		char designator = text.charAt(start);
 		if (designator == 'Z') {
-			return start + 1 == length;
+			return start + 1 != length;
 		}
 		if (designator != '+' && designator != '-') {
-			return false;
+			return true;
 		}
 		if (start + OFFSET_LENGTH != length || text.charAt(start + 3) != ':') {
-			return false;
+			return true;
 		}
 		int hours = readDigits(text, start + 1, 2);
 		int minutes = readDigits(text, start + 4, 2);
 		if (hours == INVALID || minutes == INVALID || minutes >= 60) {
-			return false;
+			return true;
 		}
-		return hours < MAX_OFFSET_HOURS || (hours == MAX_OFFSET_HOURS && minutes == 0);
+		return hours > MAX_OFFSET_HOURS || (hours == MAX_OFFSET_HOURS && minutes != 0);
 	}
 
 	/** Reads exactly {@code count} ASCII digits starting at {@code start}, or {@link #INVALID}. */
