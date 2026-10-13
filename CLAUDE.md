@@ -49,7 +49,7 @@ mvn validate
 ## Key Technical Details
 
 - **JAXB Bindings**: The `bindings.xjb` file customizes code generation, including:
-  - Java 8 time type adapters (`LocalDateTime`, `LocalTime`, `Duration`)
+  - Java 8 time type adapters (`LocalDateTime`, `LocalDate`, `LocalTime`, `Duration`)
   - Property name conflict resolution
   - Package naming (`org.entur.netex2.model`)
 

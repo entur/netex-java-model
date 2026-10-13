@@ -16,30 +16,30 @@
 package org.entur.netex2.util;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.ChronoField;
 
-public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDateTime> {
-	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd")
+/**
+ * Maps xs:date to {@link LocalDate}. An optional trailing time zone offset (allowed by xs:date) is
+ * accepted when unmarshalling and ignored; dates are always marshalled without an offset.
+ */
+public class LocalDateXmlAdapter extends XmlAdapter<String, LocalDate> {
+
+	private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
+			.append(DateTimeFormatter.ISO_LOCAL_DATE)
 			.optionalStart().appendPattern("XXXXX").optionalEnd()
-            .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
-            .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
-            .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
-            .parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) )
-            .toFormatter();
+			.toFormatter();
 
 	@Override
-	public LocalDateTime unmarshal(String inputDate) {
-		return LocalDateTime.parse(inputDate, formatter);
+	public LocalDate unmarshal(String inputDate) {
+		return LocalDate.parse(inputDate, PARSER);
 	}
 
 	@Override
-	public String marshal(LocalDateTime inputDate) {
-		if(inputDate != null) {
-			return formatter.format(inputDate);
+	public String marshal(LocalDate inputDate) {
+		if (inputDate != null) {
+			return DateTimeFormatter.ISO_LOCAL_DATE.format(inputDate);
 		} else {
 			return null;
 		}
