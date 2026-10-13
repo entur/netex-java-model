@@ -50,11 +50,6 @@ public class NeTExValidator {
 		 * declaring 1.16 is validated against the 1.16.1 schema.
 		 */
 		v1_16 ("1.16", "1.16.1"),
-		/**
-		 * @deprecated the 1.16.1 schema is what {@link #v1_16} validates against. Use {@link #v1_16}.
-		 */
-		@Deprecated
-		v1_16_1 ("1.16.1"),
 		v2_0 ("2.0");
 
 		private final String version;
