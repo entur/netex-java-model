@@ -31,41 +31,42 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalBookingArrangementsOnStopPointInJourneyPattern() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <journeyPatterns>\n" +
-                "            <JourneyPattern version=\"1\" id=\"TST:JourneyPattern:1\">\n" +
-                "              <pointsInSequence>\n" +
-                "                <StopPointInJourneyPattern order=\"1\" version=\"1\" id=\"TST:StopPointInJourneyPattern:1\">\n" +
-                "                  <ScheduledStopPointRef ref=\"TST:ScheduledStopPoint:1\"/>\n" +
-                "                  <BookingArrangements>\n" +
-                "                    <BookingAccess>public</BookingAccess>\n" +
-                "                    <BookWhen>dayOfTravelOnly</BookWhen>\n" +
-                "                    <BuyWhen>beforeBoarding</BuyWhen>\n" +
-                "                    <BookingMethods>callOffice online</BookingMethods>\n" +
-                "                    <LatestBookingTime>14:00:00</LatestBookingTime>\n" +
-                "                    <MinimumBookingPeriod>PT2H</MinimumBookingPeriod>\n" +
-                "                    <BookingContact>\n" +
-                "                      <Phone>+47 55551234</Phone>\n" +
-                "                      <Url>https://booking.example.com</Url>\n" +
-                "                    </BookingContact>\n" +
-                "                    <BookingNote>Call to book</BookingNote>\n" +
-                "                  </BookingArrangements>\n" +
-                "                </StopPointInJourneyPattern>\n" +
-                "              </pointsInSequence>\n" +
-                "            </JourneyPattern>\n" +
-                "          </journeyPatterns>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <journeyPatterns>
+                        <JourneyPattern version="1" id="TST:JourneyPattern:1">
+                          <pointsInSequence>
+                            <StopPointInJourneyPattern order="1" version="1" id="TST:StopPointInJourneyPattern:1">
+                              <ScheduledStopPointRef ref="TST:ScheduledStopPoint:1"/>
+                              <BookingArrangements>
+                                <BookingAccess>public</BookingAccess>
+                                <BookWhen>dayOfTravelOnly</BookWhen>
+                                <BuyWhen>beforeBoarding</BuyWhen>
+                                <BookingMethods>callOffice online</BookingMethods>
+                                <LatestBookingTime>14:00:00</LatestBookingTime>
+                                <MinimumBookingPeriod>PT2H</MinimumBookingPeriod>
+                                <BookingContact>
+                                  <Phone>+47 55551234</Phone>
+                                  <Url>https://booking.example.com</Url>
+                                </BookingContact>
+                                <BookingNote>Call to book</BookingNote>
+                              </BookingArrangements>
+                            </StopPointInJourneyPattern>
+                          </pointsInSequence>
+                        </JourneyPattern>
+                      </journeyPatterns>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -100,32 +101,33 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalDestinationDisplayWithVias() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <destinationDisplays>\n" +
-                "            <DestinationDisplay version=\"1\" id=\"TST:DestinationDisplay:1\">\n" +
-                "              <FrontText>Bergen</FrontText>\n" +
-                "              <vias>\n" +
-                "                <Via>\n" +
-                "                  <DestinationDisplayRef ref=\"TST:DestinationDisplay:Via1\"/>\n" +
-                "                </Via>\n" +
-                "                <Via>\n" +
-                "                  <DestinationDisplayRef ref=\"TST:DestinationDisplay:Via2\"/>\n" +
-                "                </Via>\n" +
-                "              </vias>\n" +
-                "            </DestinationDisplay>\n" +
-                "          </destinationDisplays>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <destinationDisplays>
+                        <DestinationDisplay version="1" id="TST:DestinationDisplay:1">
+                          <FrontText>Bergen</FrontText>
+                          <vias>
+                            <Via>
+                              <DestinationDisplayRef ref="TST:DestinationDisplay:Via1"/>
+                            </Via>
+                            <Via>
+                              <DestinationDisplayRef ref="TST:DestinationDisplay:Via2"/>
+                            </Via>
+                          </vias>
+                        </DestinationDisplay>
+                      </destinationDisplays>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -151,42 +153,43 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalDirectionAndRouteDirectionType() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <directions>\n" +
-                "            <Direction version=\"1\" id=\"TST:Direction:Outbound\">\n" +
-                "              <Name>Outbound</Name>\n" +
-                "              <DirectionType>outbound</DirectionType>\n" +
-                "            </Direction>\n" +
-                "            <Direction version=\"1\" id=\"TST:Direction:Inbound\">\n" +
-                "              <Name>Inbound</Name>\n" +
-                "              <DirectionType>inbound</DirectionType>\n" +
-                "            </Direction>\n" +
-                "          </directions>\n" +
-                "          <routes>\n" +
-                "            <Route version=\"1\" id=\"TST:Route:1\">\n" +
-                "              <Name>Main Route</Name>\n" +
-                "              <DirectionType>outbound</DirectionType>\n" +
-                "              <DirectionRef ref=\"TST:Direction:Outbound\"/>\n" +
-                "              <InverseRouteRef ref=\"TST:Route:2\"/>\n" +
-                "              <pointsInSequence>\n" +
-                "                <PointOnRoute order=\"1\" version=\"1\" id=\"TST:PointOnRoute:1\">\n" +
-                "                  <RoutePointRef ref=\"TST:RoutePoint:1\"/>\n" +
-                "                </PointOnRoute>\n" +
-                "              </pointsInSequence>\n" +
-                "            </Route>\n" +
-                "          </routes>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <directions>
+                        <Direction version="1" id="TST:Direction:Outbound">
+                          <Name>Outbound</Name>
+                          <DirectionType>outbound</DirectionType>
+                        </Direction>
+                        <Direction version="1" id="TST:Direction:Inbound">
+                          <Name>Inbound</Name>
+                          <DirectionType>inbound</DirectionType>
+                        </Direction>
+                      </directions>
+                      <routes>
+                        <Route version="1" id="TST:Route:1">
+                          <Name>Main Route</Name>
+                          <DirectionType>outbound</DirectionType>
+                          <DirectionRef ref="TST:Direction:Outbound"/>
+                          <InverseRouteRef ref="TST:Route:2"/>
+                          <pointsInSequence>
+                            <PointOnRoute order="1" version="1" id="TST:PointOnRoute:1">
+                              <RoutePointRef ref="TST:RoutePoint:1"/>
+                            </PointOnRoute>
+                          </pointsInSequence>
+                        </Route>
+                      </routes>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -214,29 +217,30 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalRoutePointWithProjection() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <routePoints>\n" +
-                "            <RoutePoint version=\"1\" id=\"TST:RoutePoint:1\">\n" +
-                "              <projections>\n" +
-                "                <PointProjection version=\"1\" id=\"TST:PointProjection:1\">\n" +
-                "                  <ProjectToPointRef ref=\"TST:ScheduledStopPoint:1\"/>\n" +
-                "                </PointProjection>\n" +
-                "              </projections>\n" +
-                "              <BorderCrossing>true</BorderCrossing>\n" +
-                "            </RoutePoint>\n" +
-                "          </routePoints>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <routePoints>
+                        <RoutePoint version="1" id="TST:RoutePoint:1">
+                          <projections>
+                            <PointProjection version="1" id="TST:PointProjection:1">
+                              <ProjectToPointRef ref="TST:ScheduledStopPoint:1"/>
+                            </PointProjection>
+                          </projections>
+                          <BorderCrossing>true</BorderCrossing>
+                        </RoutePoint>
+                      </routePoints>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -259,29 +263,30 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalScheduledStopPointWithTimingPointStatus() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <scheduledStopPoints>\n" +
-                "            <ScheduledStopPoint version=\"1\" id=\"TST:ScheduledStopPoint:1\">\n" +
-                "              <Name>Timing Stop</Name>\n" +
-                "              <TimingPointStatus>timingPoint</TimingPointStatus>\n" +
-                "            </ScheduledStopPoint>\n" +
-                "            <ScheduledStopPoint version=\"1\" id=\"TST:ScheduledStopPoint:2\">\n" +
-                "              <Name>Non-Timing Stop</Name>\n" +
-                "              <TimingPointStatus>notTimingPoint</TimingPointStatus>\n" +
-                "            </ScheduledStopPoint>\n" +
-                "          </scheduledStopPoints>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <scheduledStopPoints>
+                        <ScheduledStopPoint version="1" id="TST:ScheduledStopPoint:1">
+                          <Name>Timing Stop</Name>
+                          <TimingPointStatus>timingPoint</TimingPointStatus>
+                        </ScheduledStopPoint>
+                        <ScheduledStopPoint version="1" id="TST:ScheduledStopPoint:2">
+                          <Name>Non-Timing Stop</Name>
+                          <TimingPointStatus>notTimingPoint</TimingPointStatus>
+                        </ScheduledStopPoint>
+                      </scheduledStopPoints>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -304,30 +309,31 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalLinePresentationAndPrivateCode() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <lines>\n" +
-                "            <Line version=\"1\" id=\"TST:Line:1\">\n" +
-                "              <Name>Line One</Name>\n" +
-                "              <TransportMode>bus</TransportMode>\n" +
-                "              <PrivateCode>PRIV001</PrivateCode>\n" +
-                "              <Presentation>\n" +
-                "                <Colour>0054A6</Colour>\n" +
-                "                <TextColour>FFFFFF</TextColour>\n" +
-                "              </Presentation>\n" +
-                "            </Line>\n" +
-                "          </lines>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <lines>
+                        <Line version="1" id="TST:Line:1">
+                          <Name>Line One</Name>
+                          <TransportMode>bus</TransportMode>
+                          <PrivateCode>PRIV001</PrivateCode>
+                          <Presentation>
+                            <Colour>0054A6</Colour>
+                            <TextColour>FFFFFF</TextColour>
+                          </Presentation>
+                        </Line>
+                      </lines>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -352,33 +358,34 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalNoticeWithAlternativeTexts() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <notices>\n" +
-                "            <Notice version=\"1\" id=\"TST:Notice:1\">\n" +
-                "              <Text lang=\"no\">Stopper ikke alle holdeplasser</Text>\n" +
-                "              <PublicCode>A</PublicCode>\n" +
-                "              <alternativeTexts>\n" +
-                "                <AlternativeText version=\"1\" id=\"TST:AlternativeText:1\">\n" +
-                "                  <Text lang=\"en\">Does not stop at all stops</Text>\n" +
-                "                </AlternativeText>\n" +
-                "                <AlternativeText version=\"1\" id=\"TST:AlternativeText:2\">\n" +
-                "                  <Text lang=\"sv\">Stannar inte vid alla hallplatser</Text>\n" +
-                "                </AlternativeText>\n" +
-                "              </alternativeTexts>\n" +
-                "            </Notice>\n" +
-                "          </notices>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <notices>
+                        <Notice version="1" id="TST:Notice:1">
+                          <Text lang="no">Stopper ikke alle holdeplasser</Text>
+                          <PublicCode>A</PublicCode>
+                          <alternativeTexts>
+                            <AlternativeText version="1" id="TST:AlternativeText:1">
+                              <Text lang="en">Does not stop at all stops</Text>
+                            </AlternativeText>
+                            <AlternativeText version="1" id="TST:AlternativeText:2">
+                              <Text lang="sv">Stannar inte vid alla hallplatser</Text>
+                            </AlternativeText>
+                          </alternativeTexts>
+                        </Notice>
+                      </notices>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -409,32 +416,33 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalServiceLinkWithLinkSequenceProjection() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:gis=\"http://www.opengis.net/gml/3.2\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\">\n" +
-                "          <serviceLinks>\n" +
-                "            <ServiceLink version=\"1\" id=\"TST:ServiceLink:1\">\n" +
-                "              <FromPointRef ref=\"TST:ScheduledStopPoint:1\"/>\n" +
-                "              <ToPointRef ref=\"TST:ScheduledStopPoint:2\"/>\n" +
-                "              <projections>\n" +
-                "                <LinkSequenceProjection version=\"1\" id=\"TST:LinkSequenceProjection:1\">\n" +
-                "                  <gis:LineString gis:id=\"GEN-LineString-1\">\n" +
-                "                    <gis:posList>59.91 10.75 59.92 10.76</gis:posList>\n" +
-                "                  </gis:LineString>\n" +
-                "                </LinkSequenceProjection>\n" +
-                "              </projections>\n" +
-                "            </ServiceLink>\n" +
-                "          </serviceLinks>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:gis="http://www.opengis.net/gml/3.2" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1">
+                      <serviceLinks>
+                        <ServiceLink version="1" id="TST:ServiceLink:1">
+                          <FromPointRef ref="TST:ScheduledStopPoint:1"/>
+                          <ToPointRef ref="TST:ScheduledStopPoint:2"/>
+                          <projections>
+                            <LinkSequenceProjection version="1" id="TST:LinkSequenceProjection:1">
+                              <gis:LineString gis:id="GEN-LineString-1">
+                                <gis:posList>59.91 10.75 59.92 10.76</gis:posList>
+                              </gis:LineString>
+                            </LinkSequenceProjection>
+                          </projections>
+                        </ServiceLink>
+                      </serviceLinks>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -459,28 +467,29 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalCodespace() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <codespaces>\n" +
-                "        <Codespace id=\"tst\">\n" +
-                "          <Xmlns>TST</Xmlns>\n" +
-                "          <XmlnsUrl>http://www.rutebanken.org/ns/tst</XmlnsUrl>\n" +
-                "        </Codespace>\n" +
-                "        <Codespace id=\"nsr\">\n" +
-                "          <Xmlns>NSR</Xmlns>\n" +
-                "          <XmlnsUrl>http://www.rutebanken.org/ns/nsr</XmlnsUrl>\n" +
-                "        </Codespace>\n" +
-                "      </codespaces>\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"TST:ServiceFrame:1\"/>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <codespaces>
+                    <Codespace id="tst">
+                      <Xmlns>TST</Xmlns>
+                      <XmlnsUrl>http://www.rutebanken.org/ns/tst</XmlnsUrl>
+                    </Codespace>
+                    <Codespace id="nsr">
+                      <Xmlns>NSR</Xmlns>
+                      <XmlnsUrl>http://www.rutebanken.org/ns/nsr</XmlnsUrl>
+                    </Codespace>
+                  </codespaces>
+                  <frames>
+                    <ServiceFrame version="1" id="TST:ServiceFrame:1"/>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

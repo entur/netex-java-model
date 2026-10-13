@@ -25,7 +25,7 @@ abstract class AbstractUnmarshalFrameTest {
 
 
     @BeforeAll
-    public static void initContext() throws JAXBException {
+    static void initContext() throws JAXBException {
         jaxbContext = JAXBContext.newInstance(PublicationDeliveryStructure.class);
 
     }

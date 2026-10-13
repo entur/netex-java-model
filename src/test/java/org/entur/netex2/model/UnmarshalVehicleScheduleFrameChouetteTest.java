@@ -33,40 +33,41 @@ class UnmarshalVehicleScheduleFrameChouetteTest extends AbstractUnmarshalFrameTe
     @Test
     void unmarshalBlockInVehicleScheduleFrame() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <VehicleScheduleFrame version=\"1\" id=\"TST:VehicleScheduleFrame:1\">\n" +
-                "          <blocks>\n" +
-                "            <Block version=\"1\" id=\"TST:Block:1\">\n" +
-                "              <Name>Morning Block</Name>\n" +
-                "              <Description>First block of the day</Description>\n" +
-                "              <PrivateCode>BLK001</PrivateCode>\n" +
-                "              <StartTime>05:30:00</StartTime>\n" +
-                "              <EndTime>12:00:00</EndTime>\n" +
-                "              <EndTimeDayOffset>0</EndTimeDayOffset>\n" +
-                "              <StartPointRef ref=\"TST:ScheduledStopPoint:Depot\"/>\n" +
-                "              <EndPointRef ref=\"TST:ScheduledStopPoint:Depot\"/>\n" +
-                "              <dayTypes>\n" +
-                "                <DayTypeRef ref=\"TST:DayType:Weekday\"/>\n" +
-                "              </dayTypes>\n" +
-                "              <journeys>\n" +
-                "                <DeadRunRef ref=\"TST:DeadRun:ToStart\"/>\n" +
-                "                <VehicleJourneyRef ref=\"TST:ServiceJourney:1\"/>\n" +
-                "                <VehicleJourneyRef ref=\"TST:ServiceJourney:2\"/>\n" +
-                "                <DeadRunRef ref=\"TST:DeadRun:ToDepot\"/>\n" +
-                "              </journeys>\n" +
-                "            </Block>\n" +
-                "          </blocks>\n" +
-                "        </VehicleScheduleFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <VehicleScheduleFrame version="1" id="TST:VehicleScheduleFrame:1">
+                      <blocks>
+                        <Block version="1" id="TST:Block:1">
+                          <Name>Morning Block</Name>
+                          <Description>First block of the day</Description>
+                          <PrivateCode>BLK001</PrivateCode>
+                          <StartTime>05:30:00</StartTime>
+                          <EndTime>12:00:00</EndTime>
+                          <EndTimeDayOffset>0</EndTimeDayOffset>
+                          <StartPointRef ref="TST:ScheduledStopPoint:Depot"/>
+                          <EndPointRef ref="TST:ScheduledStopPoint:Depot"/>
+                          <dayTypes>
+                            <DayTypeRef ref="TST:DayType:Weekday"/>
+                          </dayTypes>
+                          <journeys>
+                            <DeadRunRef ref="TST:DeadRun:ToStart"/>
+                            <VehicleJourneyRef ref="TST:ServiceJourney:1"/>
+                            <VehicleJourneyRef ref="TST:ServiceJourney:2"/>
+                            <DeadRunRef ref="TST:DeadRun:ToDepot"/>
+                          </journeys>
+                        </Block>
+                      </blocks>
+                    </VehicleScheduleFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

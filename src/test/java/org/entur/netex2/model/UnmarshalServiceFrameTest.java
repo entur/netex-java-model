@@ -30,111 +30,112 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
     @Test
     void unmarshalServiceFrame() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:gis=\"http://www.opengis.net/gml/3.2\" xmlns:siri=\"http://www.siri.org.uk/siri\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <Description>Narvik-Riksgränsen (Sverige)</Description>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame created=\"2023-07-13T11:42:43.27\" version=\"1\" id=\"VYG:CompositeFrame:24806950\">\n" +
-                "      <validityConditions>\n" +
-                "        <AvailabilityCondition version=\"1\" id=\"VYG:AvailabilityCondition:24806862\">\n" +
-                "          <FromDate>2023-07-31T00:00:00</FromDate>\n" +
-                "          <ToDate>2024-08-01T00:00:00</ToDate>\n" +
-                "        </AvailabilityCondition>\n" +
-                "      </validityConditions>\n" +
-                "      <codespaces>\n" +
-                "        <Codespace id=\"vyg\">\n" +
-                "          <Xmlns>VYG</Xmlns>\n" +
-                "          <XmlnsUrl>http://www.rutebanken.org/ns/vyg</XmlnsUrl>\n" +
-                "        </Codespace>\n" +
-                "        <Codespace id=\"pen\">\n" +
-                "          <Xmlns>PEN</Xmlns>\n" +
-                "          <XmlnsUrl>http://www.rutebanken.org/ns/pen</XmlnsUrl>\n" +
-                "        </Codespace>\n" +
-                "        <Codespace id=\"nsr\">\n" +
-                "          <Xmlns>NSR</Xmlns>\n" +
-                "          <XmlnsUrl>http://www.rutebanken.org/ns/nsr</XmlnsUrl>\n" +
-                "        </Codespace>\n" +
-                "      </codespaces>\n" +
-                "      <FrameDefaults>\n" +
-                "        <DefaultLocale>\n" +
-                "          <TimeZone>Europe/Oslo</TimeZone>\n" +
-                "          <DefaultLanguage>no</DefaultLanguage>\n" +
-                "        </DefaultLocale>\n" +
-                "      </FrameDefaults>\n" +
-                "      <frames>\n" +
-                "        <ServiceFrame version=\"1\" id=\"VYG:ServiceFrame:24806951\">\n" +
-                "          <routes>\n" +
-                "            <Route version=\"0\" id=\"VYG:Route:F8-R\">\n" +
-                "              <Name>Riksgränsen-Narvik  Ofotbanen</Name>\n" +
-                "              <ShortName>KJ-NK</ShortName>\n" +
-                "              <LineRef ref=\"VYG:Line:F8\" version=\"3\"></LineRef>\n" +
-                "              <pointsInSequence>\n" +
-                "                <PointOnRoute order=\"1\" version=\"1\" id=\"VYG:PointOnRoute:24806875\">\n" +
-                "                  <RoutePointRef ref=\"VYG:RoutePoint:KJ\"></RoutePointRef>\n" +
-                "                </PointOnRoute>\n" +
-                "                <PointOnRoute order=\"12\" version=\"1\" id=\"VYG:PointOnRoute:24806886\">\n" +
-                "                  <RoutePointRef ref=\"VYG:RoutePoint:NK\"></RoutePointRef>\n" +
-                "                </PointOnRoute>\n" +
-                "              </pointsInSequence>\n" +
-                "              <InverseRouteRef ref=\"VYG:Route:F8-F\" version=\"0\"></InverseRouteRef>\n" +
-                "            </Route>\n" +
-                "          </routes>\n" +
-                "          <lines>\n" +
-                "            <Line version=\"3\" id=\"VYG:Line:F8\">\n" +
-                "              <Name>Narvik-Riksgränsen (Sverige)</Name>\n" +
-                "              <TransportMode>rail</TransportMode>\n" +
-                "              <PublicCode>F8</PublicCode>\n" +
-                "              <PrivateCode>F8</PrivateCode>\n" +
-                "              <OperatorRef ref=\"VYG:Operator:TAG\"></OperatorRef>\n" +
-                "              <RepresentedByGroupRef ref=\"VYG:Network:TAG\"></RepresentedByGroupRef>\n" +
-                "              <Presentation>\n" +
-                "                <Colour>0054A6</Colour>\n" +
-                "                <TextColour>FFFFFF</TextColour>\n" +
-                "              </Presentation>\n" +
-                "            </Line>\n" +
-                "          </lines>\n" +
-                "          <journeyPatterns>\n" +
-                "            <JourneyPattern version=\"0\" id=\"VYG:JourneyPattern:F8-1089\">\n" +
-                "              <Name>KMB-NK</Name>\n" +
-                "              <RouteRef ref=\"VYG:Route:F8-R\" version=\"0\"></RouteRef>\n" +
-                "              <pointsInSequence>\n" +
-                "                <StopPointInJourneyPattern order=\"1\" version=\"0\" id=\"VYG:StopPointInJourneyPattern:F8-1089-1\">\n" +
-                "                  <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:KMB-1\"></ScheduledStopPointRef>\n" +
-                "                  <ForAlighting>false</ForAlighting>\n" +
-                "                  <DestinationDisplayRef ref=\"VYG:DestinationDisplay:F8-NK\"></DestinationDisplayRef>\n" +
-                "                </StopPointInJourneyPattern>\n" +
-                "                <StopPointInJourneyPattern order=\"12\" version=\"0\" id=\"VYG:StopPointInJourneyPattern:F8-1089-12\">\n" +
-                "                  <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:NK-1\"></ScheduledStopPointRef>\n" +
-                "                  <ForBoarding>false</ForBoarding>\n" +
-                "                </StopPointInJourneyPattern>\n" +
-                "              </pointsInSequence>\n" +
-                "              <linksInSequence>\n" +
-                "                <ServiceLinkInJourneyPattern order=\"1\" version=\"1\" id=\"VYG:ServiceLinkInJourneyPattern:24806921\">\n" +
-                "                  <ServiceLinkRef ref=\"VYG:ServiceLink:KMB-1_ABOe-1_NULL\"></ServiceLinkRef>\n" +
-                "                </ServiceLinkInJourneyPattern>\n" +
-                "                <ServiceLinkInJourneyPattern order=\"11\" version=\"1\" id=\"VYG:ServiceLinkInJourneyPattern:24806935\">\n" +
-                "                  <ServiceLinkRef ref=\"VYG:ServiceLink:ROM-1_NK-1_-860902437\"></ServiceLinkRef>\n" +
-                "                </ServiceLinkInJourneyPattern>\n" +
-                "              </linksInSequence>\n" +
-                "            </JourneyPattern>\n" +
-                "          </journeyPatterns>\n" +
-                "          <stopAssignments>\n" +
-                "            <PassengerStopAssignment order=\"34\" version=\"1\" id=\"VYG:PassengerStopAssignment:HAL-1\">\n" +
-                "              <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:HAL-1\" version=\"1\"></ScheduledStopPointRef>\n" +
-                "              <QuayRef ref=\"NSR:Quay:111\"></QuayRef>\n" +
-                "            </PassengerStopAssignment>\n" +
-                "            <PassengerStopAssignment order=\"64\" version=\"1\" id=\"VYG:PassengerStopAssignment:HAL-2\">\n" +
-                "              <ScheduledStopPointRef ref=\"VYG:ScheduledStopPoint:HAL-2\" version=\"1\"></ScheduledStopPointRef>\n" +
-                "              <QuayRef ref=\"NSR:Quay:110\"></QuayRef>\n" +
-                "            </PassengerStopAssignment>\n" +
-                "          </stopAssignments>\n" +
-                "        </ServiceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" xmlns:gis="http://www.opengis.net/gml/3.2" xmlns:siri="http://www.siri.org.uk/siri" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.337</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <Description>Narvik-Riksgränsen (Sverige)</Description>
+              <dataObjects>
+                <CompositeFrame created="2023-07-13T11:42:43.27" version="1" id="VYG:CompositeFrame:24806950">
+                  <validityConditions>
+                    <AvailabilityCondition version="1" id="VYG:AvailabilityCondition:24806862">
+                      <FromDate>2023-07-31T00:00:00</FromDate>
+                      <ToDate>2024-08-01T00:00:00</ToDate>
+                    </AvailabilityCondition>
+                  </validityConditions>
+                  <codespaces>
+                    <Codespace id="vyg">
+                      <Xmlns>VYG</Xmlns>
+                      <XmlnsUrl>http://www.rutebanken.org/ns/vyg</XmlnsUrl>
+                    </Codespace>
+                    <Codespace id="pen">
+                      <Xmlns>PEN</Xmlns>
+                      <XmlnsUrl>http://www.rutebanken.org/ns/pen</XmlnsUrl>
+                    </Codespace>
+                    <Codespace id="nsr">
+                      <Xmlns>NSR</Xmlns>
+                      <XmlnsUrl>http://www.rutebanken.org/ns/nsr</XmlnsUrl>
+                    </Codespace>
+                  </codespaces>
+                  <FrameDefaults>
+                    <DefaultLocale>
+                      <TimeZone>Europe/Oslo</TimeZone>
+                      <DefaultLanguage>no</DefaultLanguage>
+                    </DefaultLocale>
+                  </FrameDefaults>
+                  <frames>
+                    <ServiceFrame version="1" id="VYG:ServiceFrame:24806951">
+                      <routes>
+                        <Route version="0" id="VYG:Route:F8-R">
+                          <Name>Riksgränsen-Narvik  Ofotbanen</Name>
+                          <ShortName>KJ-NK</ShortName>
+                          <LineRef ref="VYG:Line:F8" version="3"></LineRef>
+                          <pointsInSequence>
+                            <PointOnRoute order="1" version="1" id="VYG:PointOnRoute:24806875">
+                              <RoutePointRef ref="VYG:RoutePoint:KJ"></RoutePointRef>
+                            </PointOnRoute>
+                            <PointOnRoute order="12" version="1" id="VYG:PointOnRoute:24806886">
+                              <RoutePointRef ref="VYG:RoutePoint:NK"></RoutePointRef>
+                            </PointOnRoute>
+                          </pointsInSequence>
+                          <InverseRouteRef ref="VYG:Route:F8-F" version="0"></InverseRouteRef>
+                        </Route>
+                      </routes>
+                      <lines>
+                        <Line version="3" id="VYG:Line:F8">
+                          <Name>Narvik-Riksgränsen (Sverige)</Name>
+                          <TransportMode>rail</TransportMode>
+                          <PublicCode>F8</PublicCode>
+                          <PrivateCode>F8</PrivateCode>
+                          <OperatorRef ref="VYG:Operator:TAG"></OperatorRef>
+                          <RepresentedByGroupRef ref="VYG:Network:TAG"></RepresentedByGroupRef>
+                          <Presentation>
+                            <Colour>0054A6</Colour>
+                            <TextColour>FFFFFF</TextColour>
+                          </Presentation>
+                        </Line>
+                      </lines>
+                      <journeyPatterns>
+                        <JourneyPattern version="0" id="VYG:JourneyPattern:F8-1089">
+                          <Name>KMB-NK</Name>
+                          <RouteRef ref="VYG:Route:F8-R" version="0"></RouteRef>
+                          <pointsInSequence>
+                            <StopPointInJourneyPattern order="1" version="0" id="VYG:StopPointInJourneyPattern:F8-1089-1">
+                              <ScheduledStopPointRef ref="VYG:ScheduledStopPoint:KMB-1"></ScheduledStopPointRef>
+                              <ForAlighting>false</ForAlighting>
+                              <DestinationDisplayRef ref="VYG:DestinationDisplay:F8-NK"></DestinationDisplayRef>
+                            </StopPointInJourneyPattern>
+                            <StopPointInJourneyPattern order="12" version="0" id="VYG:StopPointInJourneyPattern:F8-1089-12">
+                              <ScheduledStopPointRef ref="VYG:ScheduledStopPoint:NK-1"></ScheduledStopPointRef>
+                              <ForBoarding>false</ForBoarding>
+                            </StopPointInJourneyPattern>
+                          </pointsInSequence>
+                          <linksInSequence>
+                            <ServiceLinkInJourneyPattern order="1" version="1" id="VYG:ServiceLinkInJourneyPattern:24806921">
+                              <ServiceLinkRef ref="VYG:ServiceLink:KMB-1_ABOe-1_NULL"></ServiceLinkRef>
+                            </ServiceLinkInJourneyPattern>
+                            <ServiceLinkInJourneyPattern order="11" version="1" id="VYG:ServiceLinkInJourneyPattern:24806935">
+                              <ServiceLinkRef ref="VYG:ServiceLink:ROM-1_NK-1_-860902437"></ServiceLinkRef>
+                            </ServiceLinkInJourneyPattern>
+                          </linksInSequence>
+                        </JourneyPattern>
+                      </journeyPatterns>
+                      <stopAssignments>
+                        <PassengerStopAssignment order="34" version="1" id="VYG:PassengerStopAssignment:HAL-1">
+                          <ScheduledStopPointRef ref="VYG:ScheduledStopPoint:HAL-1" version="1"></ScheduledStopPointRef>
+                          <QuayRef ref="NSR:Quay:111"></QuayRef>
+                        </PassengerStopAssignment>
+                        <PassengerStopAssignment order="64" version="1" id="VYG:PassengerStopAssignment:HAL-2">
+                          <ScheduledStopPointRef ref="VYG:ScheduledStopPoint:HAL-2" version="1"></ScheduledStopPointRef>
+                          <QuayRef ref="NSR:Quay:110"></QuayRef>
+                        </PassengerStopAssignment>
+                      </stopAssignments>
+                    </ServiceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 

@@ -32,7 +32,6 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -168,7 +167,7 @@ class MarshalUnmarshalTest {
 		PropertyOfDay propertyOfDay = factory.createPropertyOfDay().withDescription(factory.createMultilingualString().withContent("PropertyOfDay"))
 				.withName(factory.createMultilingualString().withContent("PropertyOfDay")).withDaysOfWeek(daysOfWeek);
 		PropertiesOfDay_RelStructure propertiesOfDay = factory.createPropertiesOfDay_RelStructure().withPropertyOfDay(propertyOfDay);
-		DayType dayType = factory.createDayType().withVersion("any").withId(String.format("%s:dt:weekday", "SK4488"))
+		DayType dayType = factory.createDayType().withVersion("any").withId("SK4488:dt:weekday")
 				.withName(factory.createMultilingualString().withContent("Ukedager (mandag til fredag)")).withProperties(propertiesOfDay);
 
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);

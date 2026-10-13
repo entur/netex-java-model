@@ -30,28 +30,29 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalAuthorityWithContactDetails() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.505</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
-                "          <organisations>\n" +
-                "            <Authority version=\"1\" id=\"TST:Authority:1\">\n" +
-                "              <Name>Test Authority</Name>\n" +
-                "              <ContactDetails>\n" +
-                "                <Phone>+47 99887766</Phone>\n" +
-                "                <Url>https://www.testauthority.no</Url>\n" +
-                "              </ContactDetails>\n" +
-                "            </Authority>\n" +
-                "          </organisations>\n" +
-                "        </ResourceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.505</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ResourceFrame version="1" id="TST:ResourceFrame:1">
+                      <organisations>
+                        <Authority version="1" id="TST:Authority:1">
+                          <Name>Test Authority</Name>
+                          <ContactDetails>
+                            <Phone>+47 99887766</Phone>
+                            <Url>https://www.testauthority.no</Url>
+                          </ContactDetails>
+                        </Authority>
+                      </organisations>
+                    </ResourceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -73,32 +74,33 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalOperatorWithBrandingRef() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.13:NO-NeTEx-networktimetable:1.3\">\n" +
-                "  <PublicationTimestamp>2023-08-03T00:20:33.505</PublicationTimestamp>\n" +
-                "  <ParticipantRef>RB</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <CompositeFrame version=\"1\" id=\"TST:CompositeFrame:1\">\n" +
-                "      <frames>\n" +
-                "        <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
-                "          <typesOfValue>\n" +
-                "            <Branding version=\"1\" id=\"TST:Branding:1\">\n" +
-                "              <Name>Test Brand</Name>\n" +
-                "              <Url>https://www.testbrand.no</Url>\n" +
-                "              <Image>https://www.testbrand.no/logo.png</Image>\n" +
-                "            </Branding>\n" +
-                "          </typesOfValue>\n" +
-                "          <organisations>\n" +
-                "            <Operator version=\"1\" id=\"TST:Operator:1\">\n" +
-                "              <BrandingRef ref=\"TST:Branding:1\"/>\n" +
-                "              <Name>Test Operator</Name>\n" +
-                "            </Operator>\n" +
-                "          </organisations>\n" +
-                "        </ResourceFrame>\n" +
-                "      </frames>\n" +
-                "    </CompositeFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.13:NO-NeTEx-networktimetable:1.3">
+              <PublicationTimestamp>2023-08-03T00:20:33.505</PublicationTimestamp>
+              <ParticipantRef>RB</ParticipantRef>
+              <dataObjects>
+                <CompositeFrame version="1" id="TST:CompositeFrame:1">
+                  <frames>
+                    <ResourceFrame version="1" id="TST:ResourceFrame:1">
+                      <typesOfValue>
+                        <Branding version="1" id="TST:Branding:1">
+                          <Name>Test Brand</Name>
+                          <Url>https://www.testbrand.no</Url>
+                          <Image>https://www.testbrand.no/logo.png</Image>
+                        </Branding>
+                      </typesOfValue>
+                      <organisations>
+                        <Operator version="1" id="TST:Operator:1">
+                          <BrandingRef ref="TST:Branding:1"/>
+                          <Name>Test Operator</Name>
+                        </Operator>
+                      </organisations>
+                    </ResourceFrame>
+                  </frames>
+                </CompositeFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -125,27 +127,28 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
     @Test
     void unmarshalResponsibilitySetWithAssociatedContract() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
-                "  <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>\n" +
-                "  <ParticipantRef>TST</ParticipantRef>\n" +
-                "  <dataObjects>\n" +
-                "    <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
-                "      <responsibilitySets>\n" +
-                "        <ResponsibilitySet version=\"1\" id=\"TST:ResponsibilitySet:1\">\n" +
-                "          <Name>Contracted operation</Name>\n" +
-                "          <roles>\n" +
-                "            <ResponsibilityRoleAssignment version=\"1\" id=\"TST:ResponsibilityRoleAssignment:1\">\n" +
-                "              <AssociatedContract>\n" +
-                "                <ContractRef ref=\"TST:Contract:1\" version=\"1\"/>\n" +
-                "              </AssociatedContract>\n" +
-                "            </ResponsibilityRoleAssignment>\n" +
-                "          </roles>\n" +
-                "        </ResponsibilitySet>\n" +
-                "      </responsibilitySets>\n" +
-                "    </ResourceFrame>\n" +
-                "  </dataObjects>\n" +
-                "</PublicationDelivery>";
+        String xml = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <PublicationDelivery xmlns="http://www.netex.org.uk/netex" version="1.0">
+              <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>
+              <ParticipantRef>TST</ParticipantRef>
+              <dataObjects>
+                <ResourceFrame version="1" id="TST:ResourceFrame:1">
+                  <responsibilitySets>
+                    <ResponsibilitySet version="1" id="TST:ResponsibilitySet:1">
+                      <Name>Contracted operation</Name>
+                      <roles>
+                        <ResponsibilityRoleAssignment version="1" id="TST:ResponsibilityRoleAssignment:1">
+                          <AssociatedContract>
+                            <ContractRef ref="TST:Contract:1" version="1"/>
+                          </AssociatedContract>
+                        </ResponsibilityRoleAssignment>
+                      </roles>
+                    </ResponsibilitySet>
+                  </responsibilitySets>
+                </ResourceFrame>
+              </dataObjects>
+            </PublicationDelivery>""";
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
