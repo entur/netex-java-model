@@ -14,7 +14,7 @@ This library downloads the NeTEx XSD files from the [NeTEx repository](https://g
 
 - **NeTEx version**: 2.0 (model generation), with legacy validation support back to 1.07
 - **JAXB**: Jakarta XML Bind 4.x (Jakarta EE 9+)
-- **Generated package**: `org.rutebanken.netex.model`
+- **Generated package**: `org.entur.netex2.model`
 - **GML types package**: `net.opengis.gml._3`
 
 ## Usage
@@ -88,9 +88,9 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 │   ├── annotation-replacer.sh      # Post-processes generated Java files
 │   └── version_updater.sh          # Updates version references in bindings
 ├── bindings.xjb                    # JAXB customization bindings
-├── src/main/java/org/rutebanken/
-│   ├── netex/                      # NeTEx utilities (validation, toString style)
-│   └── util/                       # XML adapters for Java time types
+├── src/main/java/org/entur/
+│   └── netex2/                     # NeTEx utilities (validation, client, toString style)
+│       └── util/                   # XML adapters for Java time types
 ├── src/main/resources/xsd/         # Downloaded NeTEx XSD files (build artifact)
 └── src/test/                       # JUnit 5 marshalling/unmarshalling tests
 ```
@@ -101,7 +101,7 @@ The XSD files are downloaded from GitHub during the `generate-sources` phase and
 - Java 8 time type adapters (`LocalDateTime`, `LocalTime`, `Duration`) via `threeten-jaxb-core`
 - Fluent builder API (`withX()` methods) via `jaxb-fluent-api`
 - Property name conflict resolution
-- Package mapping to `org.rutebanken.netex.model`
+- Package mapping to `org.entur.netex2.model`
 
 **Schema validation**: `NeTExValidator` supports validation against NeTEx versions 1.07 through 2.0. A version is validated against its latest patch schema: documents declaring 1.16 are validated against the 1.16.1 schema, which is backward compatible with 1.16.
 
