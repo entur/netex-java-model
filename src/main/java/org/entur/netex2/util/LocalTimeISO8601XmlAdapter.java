@@ -17,21 +17,22 @@ package org.entur.netex2.util;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Maps xs:time to {@link LocalTime}. An optional trailing time zone offset (allowed by xs:time) is
+ * accepted when unmarshalling and ignored: the wall-clock time is kept as written. Times are always
+ * marshalled without an offset.
+ */
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
 	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
 			.optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd()
-			.optionalStart().appendPattern("XXXXX")
-            .optionalEnd()
-
-//
-	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
+			.optionalStart().appendPattern("XXXXX").optionalEnd()
+			.toFormatter();
 
 	/**
 	 * We store a cache of parsed LocalTime instances to avoid wasting memory in immutable value

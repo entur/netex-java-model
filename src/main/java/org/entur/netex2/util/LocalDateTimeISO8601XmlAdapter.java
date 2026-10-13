@@ -17,20 +17,21 @@ package org.entur.netex2.util;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
+/**
+ * Maps xs:dateTime to {@link LocalDateTime}. An optional trailing time zone offset (allowed by
+ * xs:dateTime) is accepted when unmarshalling and ignored: the wall-clock time is kept as written.
+ * Date-times are always marshalled without an offset.
+ */
 public class LocalDateTimeISO8601XmlAdapter extends XmlAdapter<String, LocalDateTime> {
 
 	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH:mm:ss")
 			.optionalStart().appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).optionalEnd()
-			.optionalStart().appendPattern("XXXXX")
-            .optionalEnd()
-			
-//
-	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
+			.optionalStart().appendPattern("XXXXX").optionalEnd()
+			.toFormatter();
 
 	@Override
 	public LocalDateTime unmarshal(String inputDate) {
