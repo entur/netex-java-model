@@ -9,7 +9,7 @@ module org.entur.netex2 {
     exports org.entur.netex2.client;
     exports org.entur.netex2.validation;
     exports org.entur.netex2.model;
-    exports org.entur.netex2.util;
+    exports org.entur.netex2.util to jakarta.xml.bind, org.glassfish.jaxb.core, org.glassfish.jaxb.runtime;
     exports net.opengis.gml._3;
     exports uk.org.siri.siri;
 
