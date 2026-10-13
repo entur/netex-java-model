@@ -3,14 +3,5 @@
     "github>entur/ror-renovate-config",
     "github>entur/ror-renovate-config:groupNonMajorWeekly"
   ],
-  "separateMinorPatch": true,
-  "packageRules": [
-    {
-      "description": "Pin CXF XJC to 4.0.x - 4.1.x changes code generation for xsd:list with enum itemType (JAXB RI #1819)",
-      "allowedVersions": "<4.1.0",
-      "matchPackageNames": [
-        "/^org\\.apache\\.cxf/"
-      ]
-    }
-  ]
+  "separateMinorPatch": true
 }
