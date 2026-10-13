@@ -19,13 +19,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.io.Serial;
 
-public class OmitNullsToStringStyle extends ToStringStyle {
+public final class OmitNullsToStringStyle extends ToStringStyle {
 
 	@Serial
 	private static final long serialVersionUID = 7043613680114711384L;
 	public static final ToStringStyle INSTANCE = new OmitNullsToStringStyle();
 
-    public OmitNullsToStringStyle() {
+    private OmitNullsToStringStyle() {
         this.setUseClassName(false);
         this.setUseIdentityHashCode(false);
         this.setUseFieldNames(true);
