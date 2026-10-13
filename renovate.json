@@ -11,13 +11,6 @@
       "matchPackageNames": [
         "/^org\\.apache\\.cxf/"
       ]
-    },
-    {
-      "description": "Pin JUnit to 5.x - JUnit 6 requires Java 17, this library targets Java 11",
-      "allowedVersions": "<6.0.0",
-      "matchPackageNames": [
-        "/^org\\.junit/"
-      ]
     }
   ]
 }
