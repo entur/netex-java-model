@@ -17,15 +17,12 @@ package org.rutebanken.netex;
 
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class OmitNullsToStringStyle extends org.apache.commons.lang3.builder.ToStringStyle {
+public final class OmitNullsToStringStyle extends ToStringStyle {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 7043613680114711384L;
 	public static final ToStringStyle INSTANCE = new OmitNullsToStringStyle();
 
-    public OmitNullsToStringStyle() {
+    private OmitNullsToStringStyle() {
         this.setUseClassName(false);
         this.setUseIdentityHashCode(false);
         this.setUseFieldNames(true);
