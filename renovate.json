@@ -1,5 +1,21 @@
 {
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "description": "Pin CXF XJC to 3.x - 4.x generates Jakarta XML Binding (jakarta.xml.bind) code, this branch targets Java EE 8 (javax.xml.bind)",
+      "allowedVersions": "<4.0.0",
+      "matchPackageNames": [
+        "/^org\\.apache\\.cxf/"
+      ]
+    },
+    {
+      "description": "Pin JUnit to 5.x - JUnit 6 requires Java 17, this branch targets Java 8",
+      "allowedVersions": "<6.0.0",
+      "matchPackageNames": [
+        "/^org\\.junit/"
+      ]
+    }
   ]
 }
