@@ -1,8 +1,8 @@
 # netex-java-model
 
 [![Build and push](https://github.com/entur/netex-java-model/actions/workflows/deploy.yml/badge.svg)](https://github.com/entur/netex-java-model/actions/workflows/deploy.yml)
-[![Maven Central](https://img.shields.io/maven-central/v/org.entur/netex-java-model.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.entur/netex-java-model)
-[![Maven Snapshots](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Forg%2Fentur%2Fnetex-java-model%2Fmaven-metadata.xml&label=Snapshot)](https://central.sonatype.com/repository/maven-snapshots)
+[![Maven Central](https://img.shields.io/maven-central/v/org.entur/netex2-java-model.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.entur/netex2-java-model)
+[![Maven Snapshots](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Forg%2Fentur%2Fnetex2-java-model%2Fmaven-metadata.xml&label=Snapshot)](https://central.sonatype.com/repository/maven-snapshots)
 [![License: EUPL-1.2](https://img.shields.io/badge/License-EUPL--1.2-blue.svg)](https://joinup.ec.europa.eu/software/page/eupl)
 [![Java 21+](https://img.shields.io/badge/Java-21%2B-orange)](https://adoptium.net/)
 
@@ -24,12 +24,12 @@ This library downloads the NeTEx XSD files from the [NeTEx repository](https://g
 ```xml
 <dependency>
     <groupId>org.entur</groupId>
-    <artifactId>netex-java-model</artifactId>
+    <artifactId>netex2-java-model</artifactId>
     <version>LATEST</version>
 </dependency>
 ```
 
-See [Maven Central](https://central.sonatype.com/artifact/org.entur/netex-java-model) for the latest released version.
+See [Maven Central](https://central.sonatype.com/artifact/org.entur/netex2-java-model) for the latest released version.
 
 ### Snapshot
 
@@ -52,7 +52,7 @@ Then add the dependency with the snapshot version:
 ```xml
 <dependency>
     <groupId>org.entur</groupId>
-    <artifactId>netex-java-model</artifactId>
+    <artifactId>netex2-java-model</artifactId>
     <version>LATEST-SNAPSHOT</version>
 </dependency>
 ```

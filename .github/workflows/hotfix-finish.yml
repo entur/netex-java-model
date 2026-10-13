@@ -174,7 +174,7 @@ jobs:
 
           - **Hotfix Version:** $VERSION
           - **Git Tag:** \`v${VERSION}\`
-          - **Maven Central (netex-java-model):** https://central.sonatype.com/artifact/org.entur/netex-java-model/${VERSION}
+          - **Maven Central (netex2-java-model):** https://central.sonatype.com/artifact/org.entur/netex2-java-model/${VERSION}
           - **Hotfix Branch:** Deleted
           - **Merged to master:** ${{ inputs.merge_to_master }}
 
