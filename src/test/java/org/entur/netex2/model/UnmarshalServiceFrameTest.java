@@ -147,20 +147,20 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
-        Line line = (Line) serviceFrame.getLines().getLine_Dummy().getFirst().getValue();
+        Line line = (Line) serviceFrame.getLines().getLine().getFirst().getValue();
         assertEquals("Narvik-Riksgränsen (Sverige)", getStringValue(line.getName()));
         assertEquals("F8", line.getPublicCode().getValue());
         assertEquals("F8", line.getPrivateCode().getValue());
         assertEquals("rail", line.getTransportMode().value());
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().getFirst().getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute().getFirst().getValue();
         assertEquals("Riksgränsen-Narvik  Ofotbanen", getStringValue(route.getName()));
         assertEquals("KJ-NK", getStringValue(route.getShortName()));
 
         PointOnRoute pointOnRoute = route.getPointsInSequence().getPointOnRoute().getFirst();
         assertEquals("VYG:RoutePoint:KJ", pointOnRoute.getPointRef().getValue().getRef());
 
-        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_Dummy().getFirst().getValue();
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern().getFirst().getValue();
         assertEquals("KMB-NK", getStringValue(journeyPattern.getName()));
         assertEquals("VYG:Route:F8-R", journeyPattern.getRouteRef().getRef());
 
