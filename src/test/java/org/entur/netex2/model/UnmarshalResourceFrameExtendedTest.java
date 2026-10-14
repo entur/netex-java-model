@@ -65,7 +65,7 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
 
         ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().getFirst().getValue();
+        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation().getFirst().getValue();
         assertEquals("Test Authority", getStringValue(authority.getName()));
         assertEquals("+47 99887766", authority.getContactDetails().getPhone());
         assertEquals("https://www.testauthority.no", authority.getContactDetails().getUrl());
@@ -118,7 +118,7 @@ class UnmarshalResourceFrameExtendedTest extends AbstractUnmarshalFrameTest {
         assertEquals("https://www.testbrand.no", branding.getUrl());
         assertEquals("https://www.testbrand.no/logo.png", branding.getImage());
 
-        Operator operator = (Operator) resourceFrame.getOrganisations().getOrganisation_Dummy().getFirst().getValue();
+        Operator operator = (Operator) resourceFrame.getOrganisations().getOrganisation().getFirst().getValue();
         assertEquals("Test Operator", getStringValue(operator.getName()));
         assertNotNull(operator.getBrandingRef());
         assertEquals("TST:Branding:1", operator.getBrandingRef().getRef());

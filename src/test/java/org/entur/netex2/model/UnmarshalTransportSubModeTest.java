@@ -214,7 +214,7 @@ class UnmarshalTransportSubModeTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().getFirst().getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute().getFirst().getValue();
         assertEquals("Main Route", getStringValue(route.getName()));
         assertNotNull(route.getLineRef());
         assertEquals("TST:Line:100", route.getLineRef().getValue().getRef());

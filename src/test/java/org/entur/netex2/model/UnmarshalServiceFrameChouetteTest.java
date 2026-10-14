@@ -78,7 +78,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_Dummy().getFirst().getValue();
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern().getFirst().getValue();
         StopPointInJourneyPattern stopPoint = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence()
                 .getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().getFirst();
 
@@ -208,7 +208,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         Direction inbound = serviceFrame.getDirections().getDirection().get(1);
         assertEquals(DirectionTypeEnumeration.INBOUND, inbound.getDirectionType());
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_Dummy().getFirst().getValue();
+        Route route = (Route) serviceFrame.getRoutes().getRoute().getFirst().getValue();
         assertEquals(DirectionTypeEnumeration.OUTBOUND, route.getDirectionType());
         assertEquals("TST:Direction:Outbound", route.getDirectionRef().getRef());
         assertEquals("TST:Route:2", route.getInverseRouteRef().getRef());
@@ -345,7 +345,7 @@ class UnmarshalServiceFrameChouetteTest extends AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().getFirst().getValue();
 
-        Line line = (Line) serviceFrame.getLines().getLine_Dummy().getFirst().getValue();
+        Line line = (Line) serviceFrame.getLines().getLine().getFirst().getValue();
         assertEquals("Line One", getStringValue(line.getName()));
         assertEquals("PRIV001", line.getPrivateCode().getValue());
 

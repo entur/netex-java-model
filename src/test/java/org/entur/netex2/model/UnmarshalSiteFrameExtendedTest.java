@@ -139,7 +139,7 @@ class UnmarshalSiteFrameExtendedTest extends AbstractUnmarshalFrameTest {
         PublicationDeliveryStructure publicationDeliveryStructure = jaxbElement.getValue();
         SiteFrame siteFrame = (SiteFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().getFirst().getValue();
 
-        Parking parking = (Parking) siteFrame.getParkings().getParking_Dummy().getFirst().getValue();
+        Parking parking = (Parking) siteFrame.getParkings().getParking().getFirst().getValue();
         assertEquals("Central Parking", getStringValue(parking.getName()));
         assertEquals(ParkingTypeEnumeration.PARK_AND_RIDE, parking.getParkingType());
         assertEquals(BigInteger.valueOf(250), parking.getTotalCapacity());
