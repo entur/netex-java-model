@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex2-java-model</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1-SNAPSHOT</version>
 
     <name>netex2-java-model</name>
     <description>Generates Java model from NeTEx XSDs using JAXB.</description>
@@ -58,7 +58,7 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Do not edit, this is automatically updated by the Maven release plugin -->
-        <project.build.outputTimestamp>2026-10-15T12:47:25Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-10-15T13:10:11Z</project.build.outputTimestamp>
         <jdk.version>21</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
