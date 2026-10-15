@@ -161,7 +161,7 @@ class UnmarshalSiteFrameTest extends AbstractUnmarshalFrameTest {
         assertEquals("Krokstien", getStringValue(stopPlace.getName()));
         assertEquals(AllPublicTransportModesEnumeration.BUS, stopPlace.getTransportMode());
         assertEquals(StopTypeEnumeration.ONSTREET_BUS, stopPlace.getStopPlaceType());
-        assertEquals("BRA:TariffZone:311", stopPlace.getTariffZones().getTariffZoneRef_Dummy().get(0).getValue().getRef());
+        assertEquals("BRA:TariffZone:311", stopPlace.getTariffZones().getTariffZoneRef().get(0).getValue().getRef());
 
         Quay quay = (Quay) stopPlace.getQuays().getQuayRefOrQuay().get(0).getValue();
         assertEquals(BigDecimal.valueOf(59.910579), quay.getCentroid().getLocation().getLatitude());

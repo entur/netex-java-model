@@ -110,7 +110,7 @@ class UnmarshalResourceFrameTest extends  AbstractUnmarshalFrameTest {
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
         ResourceFrame resourceFrame = (ResourceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation_Dummy().get(0).getValue();
+        Authority authority = (Authority) resourceFrame.getOrganisations().getOrganisation().get(0).getValue();
         assertEquals("Vy", getStringValue(authority.getName()));
 
 

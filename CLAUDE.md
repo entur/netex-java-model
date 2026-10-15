@@ -53,6 +53,7 @@ mvn validate
   - Java 8 time type adapters (`LocalDateTime`, `LocalDate`, `LocalTime`, `Duration`)
   - Property name conflict resolution
   - Package naming (`org.rutebanken.netex.model`)
+  - A generated block (between `BEGIN/END generated _Dummy bindings` markers) that hides the `_Dummy` suffix of the abstract substitution-group heads: `getDayType()` instead of `getDayType_Dummy()`, `createDayType_(...)` in `ObjectFactory`. Do not edit the block by hand; rerun `bin/generate-dummy-bindings.py src/main/resources/xsd/<version>/NeTEx_publication.xsd bindings.xjb` after a schema upgrade.
 
 - **Generated Code**: Model classes are generated in `target/generated-sources/` during build. Do not manually edit generated code.
 

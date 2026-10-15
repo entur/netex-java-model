@@ -273,12 +273,12 @@ class MarshalUnmarshalTest {
 		CompositeFrame compositeFrame = (CompositeFrame) actual.dataObjects.compositeFrameOrCommonFrame
 				.get(0).getValue();
 		ValidityConditions_RelStructure validityConditions = compositeFrame.getValidityConditions();
-		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().get(0);
+		ValidBetween validBetweenWithTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition().get(0);
 		assertThat(validBetweenWithTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).isNotNull();
 		assertThat(validBetweenWithTimezone.getToDate()).hasToString("2017-01-01T11:00");
 
-		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition_Dummy().get(1);
+		ValidBetween validBetweenWithoutTimezone = (ValidBetween) validityConditions.getValidityConditionRefOrValidBetweenOrValidityCondition().get(1);
 		assertThat(validBetweenWithoutTimezone.getFromDate()).isNotNull();
 		assertThat(validBetweenWithoutTimezone.getToDate()).isNotNull();
 
