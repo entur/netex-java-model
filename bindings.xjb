@@ -8,21 +8,21 @@
 			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="org.rutebanken.util.LocalDateTimeISO8601XmlAdapter" />
 <!--			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:dateTime" adapter="com.migesok.jaxb.adapter.javatime.LocalDateTimeXmlAdapter" />-->
 			<xjc:javaType name="java.time.LocalTime" xmlType="xs:time" adapter="org.rutebanken.util.LocalTimeISO8601XmlAdapter" />
-			<xjc:javaType name="java.time.LocalDateTime" xmlType="xs:date" adapter="org.rutebanken.util.LocalDateXmlAdapter" />
+			<xjc:javaType name="java.time.LocalDate" xmlType="xs:date" adapter="org.rutebanken.util.LocalDateXmlAdapter" />
 			<xjc:javaType name="java.time.Duration" xmlType="xs:duration" adapter="com.migesok.jaxb.adapter.javatime.DurationXmlAdapter" />
         </jxb:globalBindings>
 	</jxb:bindings>
 
 	<!-- See the script bin/version_updater.sh It updates version in schema locations-->
 
-	<jxb:bindings schemaLocation="./src/main/resources/xsd/1.16/NeTEx_publication.xsd">
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/NeTEx_publication.xsd">
 		<jxb:schemaBindings>
 			<jxb:package name="org.rutebanken.netex.model" />
 		</jxb:schemaBindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_genericFramework/netex_organisation_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_organisation_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusOrganisationGroup" />
 		</jxb:bindings>
@@ -31,35 +31,28 @@
 		</jxb:bindings>
 	</jxb:bindings>
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
 		<jxb:bindings node="//xsd:element[@ref = 'ResponsibilitySetRef']">
 			<jxb:property name="ResponsibilitySetRefDistributionByGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_2/part2_journeyTimes/netex_vehicleJourneyFrequency_version.xsd">
-		<jxb:bindings node="//xsd:group[@name= 'HeadwayJourneyGroupGroup']/xsd:sequence/xsd:element[@name = 'Description']">
-			<jxb:property name="DescriptionHeadwayJourneyGroupGroup" />
-		</jxb:bindings>
-	</jxb:bindings>
-
-	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_salesTransactions/netex_salesContract_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_salesContract_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusPassengerContractGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_part_3/part3_salesTransactions/netex_retailConsortium_version.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_retailConsortium_version.xsd">
 		<jxb:bindings node="//xsd:element[@name = 'Status']">
 			<jxb:property name="StatusRetailDeviceGroup" />
 		</jxb:bindings>
 	</jxb:bindings>
 
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_responsibility/netex_version_support.xsd">
+		schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_responsibility/netex_version_support.xsd">
 		<jxb:bindings node="//xsd:attributeGroup[@name = 'BasicModificationDetailsGroup']/xsd:attribute[@name = 'status']">
 			<jxb:property name="status_BasicModificationDetailsGroup" />
 		</jxb:bindings>
@@ -68,15 +61,685 @@
 		</jxb:bindings>
 	</jxb:bindings>
 
+
+	<!-- NeTEx 2.0: Resolve ObjectFactory collisions for bookingArrangements vs BookingArrangements -->
 	<jxb:bindings
-		schemaLocation="./src/main/resources/xsd/1.16/netex_framework/netex_genericFramework/netex_zone_version.xsd">
-		<jxb:bindings node="//xsd:complexType[@name = 'tariffZonesInFrame_RelStructure']/xsd:complexContent/xsd:extension[@base = 'containmentAggregationStructure']/xsd:sequence/xsd:element[@ref = 'TariffZone_']">
-			<jxb:property name="tariffZone" />
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_tacticalPlanning/netex_servicePattern_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'StopPointInPatternPropertiesGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructure" />
 		</jxb:bindings>
 	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_rc/netex_nm_mobilityService_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'MobilityServiceGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'serviceBookingArrangements']">
+			<jxb:property name="serviceBookingArrangementsRelStructure" />
+		</jxb:bindings>
+	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_usageParameterBooking_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'ReservingGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureReserving" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'CancellingGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureCancelling" />
+		</jxb:bindings>
+	</jxb:bindings>
 
+	<jxb:bindings
+		schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_ifopt/netex_assistanceBooking_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'AssistanceBookingServiceGroup']/xsd:sequence/xsd:choice/xsd:element[@name = 'bookingArrangements']">
+			<jxb:property name="bookingArrangementsRelStructureAssistance" />
+		</jxb:bindings>
+	</jxb:bindings>
 
+	<!-- BEGIN generated _Dummy bindings (bin/generate-dummy-bindings.py) - do not edit by hand -->
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_assignment_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'Assignment_Dummy']">
+			<jxb:factoryMethod name="Assignment_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'Assignment_VersionStructure_Dummy']">
+			<jxb:class name="Assignment_VersionStructure_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_grouping_support.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'GroupOfEntitiesRef_Dummy']">
+			<jxb:factoryMethod name="GroupOfEntitiesRef_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'GroupOfEntitiesRefStructure_Dummy']">
+			<jxb:class name="GroupOfEntitiesRefStructure_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_organisation_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'organisationsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="organisation" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'organisationParts_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="organisationPartRefOrOrganisationPart" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'OrganisationPartGroup']/xsd:sequence/xsd:element[8]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'RelatedOrganisationGroup']/xsd:sequence/xsd:element[3]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'administrativeZones_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="administrativeZoneRefOrAdministrativeZone" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'AdministrativeZoneGroup']/xsd:sequence/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'Organisation_DerivedViewStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element[1]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Organisation_Dummy']">
+			<jxb:factoryMethod name="Organisation_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'OrganisationPart_Dummy']">
+			<jxb:factoryMethod name="OrganisationPart_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'AdministrativeZone_Dummy']">
+			<jxb:factoryMethod name="AdministrativeZone_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_place_support.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'dummyPlaceRefs_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="placeRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PlaceRef_Dummy']">
+			<jxb:factoryMethod name="PlaceRef_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_pointAndLink_support.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'GroupOfPointsRef_Dummy']">
+			<jxb:factoryMethod name="GroupOfPointsRef_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'PointOnLinkRefStructure_Dummy']">
+			<jxb:class name="PointOnLinkRefStructure_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_pointAndLink_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'groupMembershipRefs_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="groupOfPointsRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_section_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'pointsOnSection_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="pointOnSection" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'SectionInSequenceGroup']/xsd:sequence/xsd:choice/xsd:element[2]">
+			<jxb:property name="section" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Section_Dummy']">
+			<jxb:factoryMethod name="Section_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PointOnSection_Dummy']">
+			<jxb:factoryMethod name="PointOnSection_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_zone_support.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'tariffZoneRefs_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="tariffZoneRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'TariffZoneRef_Dummy']">
+			<jxb:factoryMethod name="TariffZoneRef_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_genericFramework/netex_zone_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'tariffZonesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="tariffZone" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'TariffZone_Dummy']">
+			<jxb:factoryMethod name="TariffZone_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_responsibility/netex_responsibility_support.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'organisationRefs_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'OneOrAllOrganisationsRefGroup']/xsd:choice/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'OrganisationRef_Dummy']">
+			<jxb:factoryMethod name="OrganisationRef_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_responsibility/netex_validityCondition_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'validityConditions_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="validityConditionRefOrValidBetweenOrValidityCondition" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ValidityCondition_Dummy']">
+			<jxb:factoryMethod name="ValidityCondition_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_dayType_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'dayTypesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="dayType" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'dayTypes_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="dayTypeRefOrDayType" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'DayType_Dummy']">
+			<jxb:factoryMethod name="DayType_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_deckPlan_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'deckSpaces_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="deckSpaceRefOrDeckSpace" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'deckEntrances_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="deckEntranceRefOrDeckEntrance" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'DeckSpace_Dummy']">
+			<jxb:factoryMethod name="DeckSpace_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'DeckEntrance_Dummy']">
+			<jxb:factoryMethod name="DeckEntrance_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_modeOfOperation_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'modesOfOperationRelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="modeOfOperation" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ModeOfOperation_Dummy']">
+			<jxb:factoryMethod name="ModeOfOperation_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ConventionalModeOfOperation_Dummy']">
+			<jxb:factoryMethod name="ConventionalModeOfOperation_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'AlternativeModeOfOperation_Dummy']">
+			<jxb:factoryMethod name="AlternativeModeOfOperation_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_noticeAssignment_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'noticeAssignmentsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="noticeAssignment" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'noticeAssignments_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="noticeAssignmentOrNoticeAssignmentView" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'NoticeAssignment_Dummy']">
+			<jxb:factoryMethod name="NoticeAssignment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_securityList_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'SecurityListGroup']/xsd:sequence/xsd:element[4]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'securityListings_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="securityListing" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'SecurityListing_Dummy']">
+			<jxb:factoryMethod name="SecurityListing_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_sensorEquipment_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'SensorEquipment_Dummy']">
+			<jxb:class name="SensorEquipment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_serviceCalendar_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'OperatingPeriod_Dummy']">
+			<jxb:factoryMethod name="OperatingPeriod_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_spotEquipment_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'SpotEquipment_Dummy']">
+			<jxb:class name="SpotEquipment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_trainElement_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'vehicleTypesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice/xsd:element">
+			<jxb:property name="transportType" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'TrainInCompoundTrainGroup']/xsd:sequence/xsd:choice/xsd:element[2]">
+			<jxb:property name="train" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'TrainInCompoundTrainGroup']/xsd:sequence/xsd:choice/xsd:element[3]">
+			<jxb:property name="trainElementType" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Train_Dummy']">
+			<jxb:factoryMethod name="Train_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'TrainElementType_Dummy']">
+			<jxb:class name="TrainElementType_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_transportOrganisation_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'TransportOrganisation_Dummy']">
+			<jxb:factoryMethod name="TransportOrganisation_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_vehicleType_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'TransportType_Dummy']">
+			<jxb:factoryMethod name="TransportType_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_framework/netex_reusableComponents/netex_vehicle_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'rollingStockItems_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="rollingStockItemRefOrRollingStockItem" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'RollingStockItem_Dummy']">
+			<jxb:factoryMethod name="RollingStockItem_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_ifopt/netex_ifopt_parking_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="parking" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingAreas_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="parkingAreaRefOrParkingArea" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingBays_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="parkingBayRefOrParkingBay" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_ifopt/netex_ifopt_site_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'SiteGroup']/xsd:sequence/xsd:choice[2]/xsd:element[1]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ParkingBay_Dummy']">
+			<jxb:factoryMethod name="ParkingBay_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ParkingArea_Dummy']">
+			<jxb:factoryMethod name="ParkingArea_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'StopPlace_Dummy']">
+			<jxb:factoryMethod name="StopPlace_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Quay_Dummy']">
+			<jxb:factoryMethod name="Quay_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Parking_Dummy']">
+			<jxb:factoryMethod name="Parking_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_networkDescription/netex_activation_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'activationPointsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="activationPoint" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ActivationPoint_Dummy']">
+			<jxb:factoryMethod name="ActivationPoint_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_networkDescription/netex_line_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'linesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="line" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Line_Dummy']">
+			<jxb:factoryMethod name="Line_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_networkDescription/netex_networkInfrastructure_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'InfrastructureLink_Dummy']">
+			<jxb:factoryMethod name="InfrastructureLink_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_networkDescription/netex_route_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'routesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="route" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Route_Dummy']">
+			<jxb:factoryMethod name="Route_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_networkDescription/netex_vehicleAndCrewPoint_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'reliefPointsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="reliefPoint" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'GarageGroup']/xsd:sequence/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ReliefPoint_Dummy']">
+			<jxb:factoryMethod name="ReliefPoint_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ParkingPoint_Dummy']">
+			<jxb:factoryMethod name="ParkingPoint_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_tacticalPlanning/netex_journeyPattern_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'journeyPatternsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="journeyPattern" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'JourneyPattern_Dummy']">
+			<jxb:factoryMethod name="JourneyPattern_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_tacticalPlanning/netex_stopAssignment_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'passengerBoardingPositionAssignments_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="passengerBoardingPositionAssignmentRefOrPassengerBoardingPositionAssignmentOrPassengerBoardingPositionAssignment" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PassengerBoardingPositionAssignment_Dummy']">
+			<jxb:factoryMethod name="PassengerBoardingPositionAssignment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_1/part1_tacticalPlanning/netex_timingPattern_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'timingPoints_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="timingPoint" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'TimingPoint_Dummy']">
+			<jxb:factoryMethod name="TimingPoint_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_2/part2_journeyTimes/netex_interchange_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'Interchange_Dummy']">
+			<jxb:factoryMethod name="Interchange_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_2/part2_journeyTimes/netex_journeyAccounting_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'JourneyAccountingGroup']/xsd:sequence/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_2/part2_journeyTimes/netex_journey_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'Journey_Dummy']">
+			<jxb:factoryMethod name="Journey_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_2/part2_journeyTimes/netex_serviceJourney_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'ServiceJourney_Dummy']">
+			<jxb:factoryMethod name="ServiceJourney_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_2/part2_journeyTimes/netex_vehicleJourney_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'VehicleJourney_Dummy']">
+			<jxb:factoryMethod name="VehicleJourney_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_accessRightParameter_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'accessRightParameterAssignmentsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice/xsd:element">
+			<jxb:property name="accessRightParameterAssignment" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'accessRightParameterAssignments_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="accessRightParameterAssignment" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'validityParameterAssignments_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="accessRightParameterAssignment" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'AccessRightParameterAssignment_Dummy']">
+			<jxb:factoryMethod name="AccessRightParameterAssignment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_calculationParameters_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'pricingRules_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="pricingRule" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'PricingServiceGroup']/xsd:sequence/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PricingRule_Dummy']">
+			<jxb:factoryMethod name="PricingRule_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_distanceMatrixElement_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'distanceMatrixElementPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="distanceMatrixElementPriceRefOrDistanceMatrixElementPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'DistanceMatrixElement_Dummy']">
+			<jxb:factoryMethod name="DistanceMatrixElement_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_farePrice_support.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'CellRef_Dummy']">
+			<jxb:factoryMethod name="CellRef_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_farePrice_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'farePricesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="priceGroup" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'fareTables_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="fareTableRefOrFareTable" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'farePrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="farePriceRefOrCellRefOrFarePrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'FarePriceCalculationGroup']/xsd:sequence/xsd:choice/xsd:element[2]">
+			<jxb:property name="pricingRule" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'compositePrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="farePriceRefOrPriceGroupRefOrFarePrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'priceGroups_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="priceGroupRefOrPriceGroup" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PriceableObject_Dummy']">
+			<jxb:factoryMethod name="PriceableObject_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'FareTable_Dummy']">
+			<jxb:factoryMethod name="FareTable_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'FarePrice_Dummy']">
+			<jxb:factoryMethod name="FarePrice_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'PriceGroup_Dummy']">
+			<jxb:factoryMethod name="PriceGroup_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_fareProduct_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'fareProductsInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="fareProduct" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'FareProductDescriptionGroup']/xsd:sequence/xsd:element[3]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'fareProductPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="fareProductPriceRefOrCellRefOrFareProductPrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'cappingRulePrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="cappingRulePriceRefOrCellRefOrCappingRulePrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ServiceAccessRight_Dummy']">
+			<jxb:factoryMethod name="ServiceAccessRight_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'FareProduct_Dummy']">
+			<jxb:factoryMethod name="FareProduct_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_fareSeries_support.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'SeriesConstraintRefStructure_Dummy']">
+			<jxb:class name="SeriesConstraintRefStructure_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_fareSeries_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'seriesConstraintPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="seriesConstraintPriceRefOrSeriesConstraintPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'ZoneInSeriesGroup']/xsd:sequence/xsd:element[1]">
+			<jxb:property name="tariffZoneRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_fareStructureElement_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'TariffOrganisationGroup']/xsd:choice/xsd:element[1]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'fareStructureElementPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="fareStructureElementPriceRefOrFareStructureElementPriceOrCellRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_fareTable_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'fareTablesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="fareTable" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'FareTableReferencesGroup']/xsd:sequence/xsd:element[4]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'cells_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="cellOrCellInContextOrFarePrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'CellGroup']/xsd:sequence/xsd:choice/xsd:element[3]">
+			<jxb:property name="farePrice" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'Cell_Dummy']">
+			<jxb:factoryMethod name="Cell_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_geographicStructureFactor_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'geographicalUnitPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="geographicalUnitPriceRefOrGeographicalUnitPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'geographicalIntervalPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="geographicalIntervalPriceRefOrGeographicalIntervalPriceOrCellRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_qualityStructureFactor_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'qualityStructureFactors_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="qualityStructureFactorRefOrQualityStructureFactor" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'qualityStructureFactorPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="qualityStructureFactorPriceRefOrQualityStructureFactorPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'QualityStructureFactor_Dummy']">
+			<jxb:factoryMethod name="QualityStructureFactor_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_salesDistribution_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'DistributionChannelGroup']/xsd:sequence/xsd:element[6]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'fulfilmentMethodPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="fulfilmentMethodPriceRefOrFulfilmentMethodPriceOrCellRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_salesOfferPackage_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'salesOfferPackagePrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="salesOfferPackagePriceRefOrSalesOfferPackagePriceOrCellRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_timeStructureFactor_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'timeUnitPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="timeUnitPriceRefOrTimeUnitPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'timeIntervalPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="timeIntervalPriceRefOrTimeIntervalPriceOrCellRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_usageParameter_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'usageParametersInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="usageParameter" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'usageParameters_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="usageParameterRefOrUsageParameter" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'UsageParameter_Dummy']">
+			<jxb:factoryMethod name="UsageParameter_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_fares/netex_validableElement_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'validableElementPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="validableElementPriceRefOrValidableElementPriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'controllableElementPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="controllableElementPriceRefOrCellRefOrControllableElementPrice" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_parkingTariff/netex_parkingTariff_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingPrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="parkingPriceRefOrCellRefOrParkingPrice" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_customerEligibility_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'customerEligibilities_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="customerEligibility" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'CustomerEligibility_Dummy']">
+			<jxb:factoryMethod name="CustomerEligibility_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_customerPurchasePackage_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'travelSpecifications_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="travelSpecificationRefOrTravelSpecification" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'TravelSpecificationPriceGroup']/xsd:sequence/xsd:choice/xsd:element[2]">
+			<jxb:property name="cellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'customerPurchasePackagePrices_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="customerPurchasePackagePriceRefOrCustomerPurchasePackagePriceOrCellRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'TravelSpecification_Dummy']">
+			<jxb:factoryMethod name="TravelSpecification_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_fareDebit_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'FareDebit_Dummy']">
+			<jxb:factoryMethod name="FareDebit_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_mediumApplication_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'MediumAccessDevice_Dummy']">
+			<jxb:class name="MediumAccessDevice_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_retailConsortium_version.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'RetailDeviceGroup']/xsd:sequence/xsd:element[2]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_3/part3_salesTransactions/netex_salesContract_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'fareContractEntries_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="fareContractEntryRefOrFareContractEntry" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'FareContractEntry_Dummy']">
+			<jxb:factoryMethod name="FareContractEntry_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_nd/netex_nm_vehicleMeetingPlace_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'vehicleMeetingPlaces_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="vehicleMeetingPlace" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'VehicleMeetingPlace_Dummy']">
+			<jxb:factoryMethod name="VehicleMeetingPlace_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_nd/netex_nm_vehicleMeetingPointAssignment_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'VehicleMeetingPointAssignment_Dummy']">
+			<jxb:class name="VehicleMeetingPointAssignment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_nd/netex_nm_vehicleParkingAreaInformation_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingLogEntries_RelStructure']/xsd:complexContent/xsd:extension/xsd:choice">
+			<jxb:property name="parkingBayConditionRefOrRentalAvailabilityRefOrParkingLogEntry" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:complexType[@name = 'parkingLogEntriesInFrame_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="parkingLogEntry" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'ParkingLogEntry_Dummy']">
+			<jxb:factoryMethod name="ParkingLogEntry_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_nd/netex_nm_vehicleServicePlaceAssignment_version.xsd">
+		<jxb:bindings node="//xsd:element[@name = 'VehicleServicePlaceAssignment_Dummy']">
+			<jxb:class name="VehicleServicePlaceAssignment_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_part_5/part5_rc/netex_nm_mobilityService_version.xsd">
+		<jxb:bindings node="//xsd:complexType[@name = 'mobilityServices_RelStructure']/xsd:complexContent/xsd:extension/xsd:sequence/xsd:element">
+			<jxb:property name="mobilityService" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:group[@name = 'MobilityServiceGroup']/xsd:sequence/xsd:element[4]">
+			<jxb:property name="organisationRef" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'MobilityService_Dummy']">
+			<jxb:factoryMethod name="MobilityService_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'CommonVehicleService_Dummy']">
+			<jxb:factoryMethod name="CommonVehicleService_" />
+		</jxb:bindings>
+		<jxb:bindings node="//xsd:element[@name = 'VehiclePoolingService_Dummy']">
+			<jxb:factoryMethod name="VehiclePoolingService_" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_service/netex_filter_frame.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'NetworkFilterByValueGroup']/xsd:sequence/xsd:element[2]/xsd:complexType/xsd:sequence/xsd:element">
+			<jxb:property name="placeRef" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<jxb:bindings schemaLocation="./src/main/resources/xsd/2.0/netex_service/netex_filter_object.xsd">
+		<jxb:bindings node="//xsd:group[@name = 'TopicTemporalScopeGroup']/xsd:choice/xsd:element[5]/xsd:complexType/xsd:choice">
+			<jxb:property name="validityCondition" />
+		</jxb:bindings>
+	</jxb:bindings>
+	<!-- END generated _Dummy bindings -->
 
 </jxb:bindings>

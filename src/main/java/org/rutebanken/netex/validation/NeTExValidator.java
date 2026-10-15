@@ -44,22 +44,37 @@ public class NeTExValidator {
 		v1_13 ("1.13"),
 		v1_14 ("1.14"),
 		v1_15 ("1.15"),
-		v1_16 ("1.16");
+		/**
+		 * NeTEx 1.16, validated against the latest 1.16 patch schema. Patch releases of the schema
+		 * are backward compatible, and documents only ever declare the minor version, so a document
+		 * declaring 1.16 is validated against the 1.16.1 schema.
+		 */
+		v1_16 ("1.16", "1.16.1"),
+		v2_0 ("2.0");
 
+		private final String version;
 		private final String folderName;
 
-		NetexVersion(String folderName) {
+		NetexVersion(String version) {
+			this(version, version);
+		}
+
+		NetexVersion(String version, String folderName) {
+			this.version = version;
 			this.folderName = folderName;
 		}
 
+		/**
+		 * @return the NeTEx version, which is not always the name of the folder holding its schema.
+		 */
 		@Override
 		public String toString() {
-			return folderName;
+			return version;
 		}
 	}
 	private final Schema neTExSchema;
 
-	public static final NetexVersion LATEST = NetexVersion.v1_16;
+	public static final NetexVersion LATEST = NetexVersion.v2_0;
 
 	private static final Map<NetexVersion, NeTExValidator> VALIDATORS_PER_VERSION = new EnumMap<>(NetexVersion.class);
 
@@ -90,19 +105,13 @@ public class NeTExValidator {
 
 
 	/**
-	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
+	 * Validators are cached per version; use {@link #getNeTExValidator(NetexVersion)} or
+	 * {@link #getNeTExValidator()}.
 	 */
-	public NeTExValidator() throws IOException, SAXException {
-		this(LATEST);
-	}
-
-	/**
-	 * Use static getNeTExValidator to avoid initializing more schemas than needed.
-	 */
-	public NeTExValidator(NetexVersion version) throws IOException, SAXException {
+	private NeTExValidator(NetexVersion version) throws IOException, SAXException {
 		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-		String resourceName = "xsd/"+ version +"/NeTEx_publication.xsd";
+		String resourceName = "xsd/"+ version.folderName +"/NeTEx_publication.xsd";
 		LOGGER.info("Loading resource: {}", resourceName);
 		URL resource = getClass().getClassLoader().getResource(resourceName);
 		if(resource == null) {

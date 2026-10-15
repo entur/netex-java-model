@@ -146,21 +146,21 @@ class UnmarshalServiceFrameTest extends AbstractUnmarshalFrameTest{
         CompositeFrame compositeFrame = (CompositeFrame) publicationDeliveryStructure.getDataObjects().getCompositeFrameOrCommonFrame().get(0).getValue();
 
         ServiceFrame serviceFrame = (ServiceFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
-        Line line = (Line) serviceFrame.getLines().getLine_().get(0).getValue();
-        assertEquals("Narvik-Riksgränsen (Sverige)", line.getName().getValue());
-        assertEquals("F8", line.getPublicCode());
+        Line line = (Line) serviceFrame.getLines().getLine().get(0).getValue();
+        assertEquals("Narvik-Riksgränsen (Sverige)", getStringValue(line.getName()));
+        assertEquals("F8", line.getPublicCode().getValue());
         assertEquals("F8", line.getPrivateCode().getValue());
         assertEquals("rail", line.getTransportMode().value());
 
-        Route route = (Route) serviceFrame.getRoutes().getRoute_().get(0).getValue();
-        assertEquals("Riksgränsen-Narvik  Ofotbanen", route.getName().getValue());
-        assertEquals("KJ-NK", route.getShortName().getValue());
+        Route route = (Route) serviceFrame.getRoutes().getRoute().get(0).getValue();
+        assertEquals("Riksgränsen-Narvik  Ofotbanen", getStringValue(route.getName()));
+        assertEquals("KJ-NK", getStringValue(route.getShortName()));
 
         PointOnRoute pointOnRoute = route.getPointsInSequence().getPointOnRoute().get(0);
         assertEquals("VYG:RoutePoint:KJ", pointOnRoute.getPointRef().getValue().getRef());
 
-        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern_OrJourneyPatternView().get(0).getValue();
-        assertEquals("KMB-NK", journeyPattern.getName().getValue());
+        JourneyPattern journeyPattern = (JourneyPattern) serviceFrame.getJourneyPatterns().getJourneyPattern().get(0).getValue();
+        assertEquals("KMB-NK", getStringValue(journeyPattern.getName()));
         assertEquals("VYG:Route:F8-R", journeyPattern.getRouteRef().getRef());
 
         StopPointInJourneyPattern stopPointInJourneyPattern = (StopPointInJourneyPattern) journeyPattern.getPointsInSequence().getPointInJourneyPatternOrStopPointInJourneyPatternOrTimingPointInJourneyPattern().get(0);

@@ -15,6 +15,7 @@
 
 package org.rutebanken.netex.validation;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -24,20 +25,23 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class NeTExValidatorTest {
 
-    private final NeTExValidator neTExValidator = NeTExValidator.getNeTExValidator();
-    
-    public NeTExValidatorTest() throws IOException, SAXException {    }
-
-    public static final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+    private static final String MINIMAL_PUBLICATION_DELIVERY = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
             "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" xmlns:ns2=\"http://www.opengis.net/gml/3.2\" xmlns:ns3=\"http://www.siri.org.uk/siri\" version=\"any\">\n" +
             "    <PublicationTimestamp>2016-11-29T13:32:06.869+01:00</PublicationTimestamp>\n" +
             "    <ParticipantRef>NSR</ParticipantRef>\n" +
             "</PublicationDelivery>";
 
-    
+    private NeTExValidator neTExValidator;
+
+    @BeforeEach
+    void setUp() throws IOException, SAXException {
+        neTExValidator = NeTExValidator.getNeTExValidator();
+    }
+
     @Test
     void validationFailsForInvalidXml() {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
@@ -48,8 +52,51 @@ class NeTExValidatorTest {
 
     @Test
     void validatePublicationDeliveryWithLatestVersion() throws IOException, SAXException {
-        neTExValidator.validate(new StreamSource(new StringReader(xml)));
+        neTExValidator.validate(new StreamSource(new StringReader(MINIMAL_PUBLICATION_DELIVERY)));
+    }
 
+    /**
+     * AssociatedContract / ContractRef on a ResponsibilityRoleAssignment was added in NeTEx 1.16.1
+     * (entur/NeTEx#63). 1.16 is validated against the 1.16.1 schema, so it is valid against 1.16 too.
+     * It is not validated against 2.0 here: 2.0 enforces a key reference from ContractRef to a Contract
+     * declared in the same document, which 1.16.1 has no place for in a ResourceFrame.
+     */
+    private static final String RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            "<PublicationDelivery xmlns=\"http://www.netex.org.uk/netex\" version=\"1.0\">\n" +
+            "  <PublicationTimestamp>2026-09-10T10:00:00</PublicationTimestamp>\n" +
+            "  <ParticipantRef>TST</ParticipantRef>\n" +
+            "  <dataObjects>\n" +
+            "    <ResourceFrame version=\"1\" id=\"TST:ResourceFrame:1\">\n" +
+            "      <responsibilitySets>\n" +
+            "        <ResponsibilitySet version=\"1\" id=\"TST:ResponsibilitySet:1\">\n" +
+            "          <Name>Contracted operation</Name>\n" +
+            "          <roles>\n" +
+            "            <ResponsibilityRoleAssignment version=\"1\" id=\"TST:ResponsibilityRoleAssignment:1\">\n" +
+            "              <AssociatedContract>\n" +
+            "                <ContractRef ref=\"TST:Contract:1\" version=\"1\"/>\n" +
+            "              </AssociatedContract>\n" +
+            "            </ResponsibilityRoleAssignment>\n" +
+            "          </roles>\n" +
+            "        </ResponsibilitySet>\n" +
+            "      </responsibilitySets>\n" +
+            "    </ResourceFrame>\n" +
+            "  </dataObjects>\n" +
+            "</PublicationDelivery>";
+
+    @Test
+    void latestVersionIs2_0() {
+        assertEquals(NeTExValidator.NetexVersion.v2_0, NeTExValidator.LATEST);
+    }
+
+    @Test
+    void version1_16IsNamed1_16() {
+        assertEquals("1.16", NeTExValidator.NetexVersion.v1_16.toString());
+    }
+
+    @Test
+    void validateResponsibilitySetWithAssociatedContractAgainstVersion1_16() throws IOException, SAXException {
+        NeTExValidator validator = NeTExValidator.getNeTExValidator(NeTExValidator.NetexVersion.v1_16);
+        validator.validate(new StreamSource(new StringReader(RESPONSIBILITY_SET_WITH_ASSOCIATED_CONTRACT)));
     }
 
 }

@@ -17,7 +17,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.entur</groupId>
     <artifactId>netex-java-model</artifactId>
-    <version>1.0.16-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <name>netex-java-model</name>
     <description>Generates Java model from NeTEx xsds using jaxb.</description>
@@ -53,13 +53,6 @@
         <url>https://github.com/entur/netex-java-model/tree/master</url>
         <tag>HEAD</tag>
     </scm>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>entur2-snapshots</name>
-            <url>https://entur2.jfrog.io/entur2/libs-snapshot-local</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <properties>
 
@@ -67,9 +60,10 @@
         <jdk.version>1.8</jdk.version>
 
         <netexRepoName>NeTEx</netexRepoName>
-        <netexBranch>master</netexBranch>
-        <netexGithubUrl>https://github.com/entur/${netexRepoName}</netexGithubUrl>
-        <netexVersion>1.16</netexVersion>
+        <netexBranch>v2.0</netexBranch>
+        <cenNetexGithubUrl>https://github.com/TransmodelEcosystem/${netexRepoName}</cenNetexGithubUrl>
+        <enturNetexGithubUrl>https://github.com/entur/${netexRepoName}</enturNetexGithubUrl>
+        <netexVersion>2.0</netexVersion>
 
         <!-- JAXB components versions -->
         <jakarta-xml-bind.version>2.3.3</jakarta-xml-bind.version>
@@ -90,14 +84,10 @@
         <junit.version>5.9.1</junit.version>
 
         <!-- Maven plugin versions  -->
-        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <maven-exec-plugin.version>1.6.0</maven-exec-plugin.version>
         <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-        <maven-dependency-plugin.version>3.1.2</maven-dependency-plugin.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
         <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
@@ -113,10 +103,6 @@
 
         <!-- empty argLine property, the value is set up by Jacoco during unit tests execution -->
         <argLine />
-
-        <!-- GPG configuration for jar signing-->
-        <gpg.executable>gpg</gpg.executable>
-        <gpg.keyname>${env.GPG_KEY_NAME}</gpg.keyname>
 
     </properties>
 
@@ -137,12 +123,6 @@
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <version>${glassfish-jaxb.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf.xjc-utils</groupId>
-            <artifactId>cxf-xjc-runtime</artifactId>
-            <version>${cxf-xjc.version}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -186,15 +166,6 @@
     </dependencies>
 
     <build>
-        <extensions>
-            <!-- maven3 will need wagon-ssh extension in order to be able to release,
-            Using external variant in order to retain keys, etc -->
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-ssh-external</artifactId>
-                <version>2.10</version>
-            </extension>
-        </extensions>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -204,6 +175,14 @@
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>${maven-clean-plugin.version}</version>
+                    <configuration>
+                        <!-- The XSD files are downloaded at build time; remove stale versions as well -->
+                        <filesets>
+                            <fileset>
+                                <directory>src/main/resources/xsd</directory>
+                            </fileset>
+                        </filesets>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
@@ -272,9 +251,9 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
+                                <GITHUB_URL>${cenNetexGithubUrl}/archive/${netexBranch}.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/${netexVersion}</DESTINATION_PATH>
-                                <ZIP_PATH_TO_EXTRACT>NeTEx-${netexBranch}/xsd/*</ZIP_PATH_TO_EXTRACT>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-${netexVersion}/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
                             <executable>./bin/netex-download-extract.sh</executable>
                         </configuration>
@@ -295,6 +274,22 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <!-- This downloads 1.16.1 for validation needs. This is not used to generate the model -->
+                        <id>download-extract-legacy-1.16</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <environmentVariables>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.16.1.zip</GITHUB_URL>
+                                <DESTINATION_PATH>src/main/resources/xsd/1.16.1</DESTINATION_PATH>
+                                <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.16.1/xsd/*</ZIP_PATH_TO_EXTRACT>
+                            </environmentVariables>
+                            <executable>./bin/netex-download-extract.sh</executable>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <!-- This downloads 1.15 for validation needs. This is not used to generate the model -->
                         <id>download-extract-legacy-1.15</id>
                         <phase>generate-resources</phase>
@@ -303,7 +298,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.15.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.15</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.15/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -319,7 +314,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.14.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.14</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.14/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -335,7 +330,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.13.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.13.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.13</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.13/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -351,7 +346,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.12.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.12</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.12/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -367,7 +362,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.11.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.11</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.11/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -383,7 +378,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.10-entur.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.10</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.10-entur/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -399,7 +394,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.9.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.09</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.9/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -415,7 +410,7 @@
                         </goals>
                         <configuration>
                             <environmentVariables>
-                                <GITHUB_URL>${netexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
+                                <GITHUB_URL>${enturNetexGithubUrl}/archive/tags/v1.0.8.zip</GITHUB_URL>
                                 <DESTINATION_PATH>src/main/resources/xsd/1.08</DESTINATION_PATH>
                                 <ZIP_PATH_TO_EXTRACT>NeTEx-tags-v1.0.8/xsd/*</ZIP_PATH_TO_EXTRACT>
                             </environmentVariables>
@@ -551,24 +546,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven-release-plugin.version}</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release,sign,!noPublicDeploy</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.9.2</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>${maven-enforcer-plugin.version}</version>
                 <executions>
@@ -632,106 +609,6 @@
     </build>
 
     <profiles>
-
-        <profile>
-            <id>sign</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-surefire-plugin</artifactId>
-                            <version>${maven-surefire-plugin.version}</version>
-                            <configuration>
-                                <useSystemClassLoader>false</useSystemClassLoader>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${maven-gpg-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>${maven-source-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>${maven-javadoc-plugin.version}</version>
-                        <configuration>
-                            <doclint>none</doclint>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>${nexus-staging-maven-plugin.version}</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <!-- Set this to true and the release will automatically proceed and sync to Central Repository will follow  -->
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>release</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <distributionManagement>
-                <!--snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-                </snapshotRepository-->
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-        </profile>
 
         <profile>
             <id>sonar</id>

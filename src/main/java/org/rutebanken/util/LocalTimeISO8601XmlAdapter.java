@@ -17,20 +17,20 @@ package org.rutebanken.util;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalTime;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 
+/**
+ * Maps xs:time to {@link LocalTime}. An optional trailing zone offset or UTC designator is accepted
+ * and ignored when unmarshalling, so the local time is taken as written in the document.
+ */
 public class LocalTimeISO8601XmlAdapter extends XmlAdapter<String, LocalTime> {
 
 	private static final DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss")
 			.optionalStart().appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true).optionalEnd()
-			.optionalStart().appendPattern("XXXXX")
-            .optionalEnd()
-			
-//
-	.parseDefaulting(ChronoField.OFFSET_SECONDS,OffsetDateTime.now().getLong(ChronoField.OFFSET_SECONDS) ).toFormatter();
+			.optionalStart().appendPattern("XXXXX").optionalEnd()
+			.toFormatter();
 
 	@Override
 	public LocalTime unmarshal(String inputDate) {

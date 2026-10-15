@@ -21,6 +21,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -128,17 +129,17 @@ class UnmarshalServiceCalendarFrameTest extends AbstractUnmarshalFrameTest {
 
         ServiceCalendarFrame serviceCalendarFrame = (ServiceCalendarFrame) compositeFrame.getFrames().getCommonFrame().get(0).getValue();
 
-        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType_().get(0).getValue();
+        DayType dayType = (DayType) serviceCalendarFrame.getDayTypes().getDayType().get(0).getValue();
         assertEquals(DayOfWeekEnumeration.TUESDAY, dayType.getProperties().getPropertyOfDay().get(0).getDaysOfWeek().get(0));
 
         OperatingDay operatingDay = serviceCalendarFrame.getOperatingDays().getOperatingDay().get(0);
-        assertEquals(LocalDateTime.of(2023,10,29,0,0), operatingDay.getCalendarDate());
+        assertEquals(LocalDate.of(2023, 10, 29), operatingDay.getCalendarDate());
 
         OperatingPeriod operatingPeriod = (OperatingPeriod) serviceCalendarFrame.getOperatingPeriods().getOperatingPeriodOrUicOperatingPeriod().get(0);
         assertEquals(LocalDateTime.of(2023,8,17,0,0), operatingPeriod.getFromDate());
 
         DayTypeAssignment dayTypeAssignment = serviceCalendarFrame.getDayTypeAssignments().getDayTypeAssignment().get(0);
-        assertEquals(LocalDateTime.of(2024,5,1,0,0), dayTypeAssignment.getDate());
+        assertEquals(LocalDate.of(2024, 5, 1), dayTypeAssignment.getDate());
 
 
     }
