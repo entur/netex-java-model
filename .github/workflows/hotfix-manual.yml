@@ -19,7 +19,7 @@ on:
 jobs:
   publish-hotfix:
     name: Publish hotfix to Maven Central
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       JRELEASER_MAVENCENTRAL_URL: "https://central.sonatype.com/api/v1/publisher"
       JRELEASER_DEPLOY_MAVEN_MAVENCENTRAL_ACTIVE: "RELEASE"
