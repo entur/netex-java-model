@@ -45,7 +45,7 @@ jobs:
       - uses: actions/setup-java@v6.1.0
         with:
           java-version: 21
-          distribution: liberica
+          distribution: temurin
 
       - name: Get release version
         id: get_version
@@ -107,7 +107,7 @@ jobs:
       - uses: actions/setup-java@v6.1.0
         with:
           java-version: 21
-          distribution: liberica
+          distribution: temurin
           cache: maven
 
       - name: Install xmlstarlet
@@ -199,7 +199,7 @@ jobs:
       - uses: actions/setup-java@v6.1.0
         with:
           java-version: 21
-          distribution: liberica
+          distribution: temurin
 
       - name: Calculate next development version
         id: next_version
