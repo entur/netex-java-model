@@ -20,8 +20,8 @@ on:
       java_version:
         description: "Java Runtime Version"
         required: false
-        type: number
-        default: 21
+        type: string
+        default: "21.0.13"
       java_distribution:
         description: "Java distribution for Setup-Java"
         required: false

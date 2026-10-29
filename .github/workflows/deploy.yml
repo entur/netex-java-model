@@ -22,7 +22,7 @@ jobs:
           sudo apt-get -y install xmlstarlet
       - uses: actions/setup-java@v6.0.1
         with:
-          java-version: 21
+          java-version: 21.0.13
           distribution: liberica
       - name: Cache Maven dependencies
         uses: actions/cache@v6.1.0
@@ -75,6 +75,6 @@ jobs:
       version: ${{ needs.maven-verify.outputs.version }}
       snapshot: true
       skip_version_update: true
-      java_version: 21
+      java_version: "21.0.13"
       java_distribution: liberica
     secrets: inherit
