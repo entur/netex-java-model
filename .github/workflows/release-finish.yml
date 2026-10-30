@@ -31,7 +31,7 @@ jobs:
       base_branch: master
       runner: ubuntu-24.04
       java_version: 11
-      java_distribution: liberica
+      java_distribution: temurin
       version_tag_prefix: v
       artifact_group_id: org.entur
       artifact_ids: netex-java-model
