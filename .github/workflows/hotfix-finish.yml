@@ -95,7 +95,7 @@ jobs:
           sudo apt-get -y install xmlstarlet
 
       - name: JReleaser Release to Maven Central
-        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1.2.2
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1.4.0
         with:
           version: ${{ needs.get-hotfix-version.outputs.version }}
           version_tag_prefix: v
