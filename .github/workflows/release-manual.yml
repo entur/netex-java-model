@@ -35,7 +35,7 @@ jobs:
           ref: ${{ github.event.inputs.git_ref }}
           fetch-depth: 0
 
-      - uses: actions/setup-java@v6.1.0
+      - uses: actions/setup-java@v6.2.0
         with:
           java-version: 21
           distribution: temurin
@@ -60,7 +60,7 @@ jobs:
           echo "Publishing version: $VERSION"
 
       - name: JReleaser Release to Maven Central
-        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1.2.2
+        uses: entur/ror-gha-workflows/.github/actions/jreleaser-release@v1.4.2
         with:
           version: ${{ steps.get_version.outputs.version }}
           version_tag_prefix: v
