@@ -37,7 +37,7 @@ jobs:
 
       - uses: actions/setup-java@v6.1.0
         with:
-          java-version: 21
+          java-version: 21.0.13+9.0.LTS
           distribution: temurin
           cache: maven
 
